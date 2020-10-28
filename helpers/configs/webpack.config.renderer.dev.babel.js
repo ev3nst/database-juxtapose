@@ -259,8 +259,9 @@ export default merge(baseConfig, {
       errors: true,
       errorDetails: true,
       warnings: false,
-      publicPath: false
+      publicPath: false,
     },
+    clientLogLevel: 'error',
     inline: true,
     lazy: false,
     hot: true,
