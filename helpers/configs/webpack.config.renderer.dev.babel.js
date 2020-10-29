@@ -207,7 +207,9 @@ export default merge(baseConfig, {
           manifest: require(manifest),
           sourceType: 'var',
         }),
-
+    new webpack.DefinePlugin({
+      '__REACT_DEVTOOLS_GLOBAL_HOOK__': '({ isDisabled: true })'
+    }),
     new webpack.HotModuleReplacementPlugin({
       multiStep: true,
     }),

@@ -1,12 +1,14 @@
 import { THEME } from '../types';
 
 const INIT_STATE = {
-  isDrawerOpen: false,
+  settingsPath: null,
+  migrationsPath: null,
+  structuresPath: null,
 };
 
 export default (state = INIT_STATE, action: any) => {
   switch (action.type) {
-    case THEME:
+    case SETTINGS_PATH:
       return { ...state, isDrawerOpen: !state.isDrawerOpen };
     default:
       return { ...state };
