@@ -10,7 +10,7 @@ type Props = {
 
 const Root = ({ store }: Props) => (
   <Provider store={store}>
-      <Routes />
+    <Routes />
   </Provider>
 );
 

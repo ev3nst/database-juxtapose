@@ -1,4 +1,21 @@
-import { SAVE_SETTINGS, SET_DEFAULTS, CHANGE_PATH } from '../redux.types';
+import {
+  INITIALIZE_SETTINGS,
+  INITIALIZE_SETTINGS_SUCCESS,
+  SAVE_SETTINGS,
+  SET_DEFAULTS,
+  CHANGE_PATH,
+} from '../redux.types';
+import { UserSettings } from '../../types/settings.types';
+
+interface InitializeSettings {
+  type: typeof INITIALIZE_SETTINGS;
+  payload: null;
+}
+
+interface InitializeSettingsSuccess {
+  type: typeof INITIALIZE_SETTINGS_SUCCESS;
+  payload: { settings: UserSettings };
+}
 
 interface SetDefaultAction {
   type: typeof SET_DEFAULTS;
@@ -19,6 +36,8 @@ interface ChangePathAction {
 }
 
 export type SettingActionTypes =
+  | InitializeSettings
+  | InitializeSettingsSuccess
   | SetDefaultAction
   | SaveSettingsAction
   | ChangePathAction;

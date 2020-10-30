@@ -1,42 +1,51 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { getLogMessage } from '../redux/actions';
-import { Structures } from './partials';
+import { RouteComponentProps } from 'react-router';
+import { initializeSettings } from '../redux/actions';
+import { RootState } from '../redux/store';
+import { SettingPathInterface } from '../types/settings.types';
 import routes from '../utils/routes.json';
 
-class Intro extends Component {
-  componentDidMount() {}
+interface IMapStateToProps {
+  paths: SettingPathInterface;
+  loading: Boolean;
+}
+
+interface IMapDispatchToProps {
+  initializeSettings: typeof initializeSettings;
+}
+
+interface State {}
+
+class Intro extends Component<
+  RouteComponentProps & IMapStateToProps & IMapDispatchToProps,
+  State
+> {
+  componentDidMount() {
+    this.props.initializeSettings();
+  }
 
   render() {
     return (
-      <main>
-        <Structures />
-
-        <div>
-          <Link to={routes.NEW_MIGRATION}>start new migration</Link>
-          <Link to={routes.NEW_STRUCTURE}>create new structure</Link>
-          <Link to={routes.MIGRATION_WIZARD}>migration wizard</Link>
-          <Link to={routes.SETTINGS}>settings</Link>
-        </div>
-
-        <div>
-          <h1>Migrations</h1>
-        </div>
-      </main>
+      <div>
+        <h1>this is intro</h1>
+        <div>Is Loading: {JSON.stringify(this.props.loading)}</div>
+        <div>Data: {JSON.stringify(this.props.paths)}</div>
+      </div>
     );
   }
 }
 
-const mapStateToProps = ({ general }: any) => {
-  const { logMessage } = general;
+const mapStateToProps = ({ settings }: RootState) => {
+  const { loading, paths } = settings;
   return {
-    logMessage,
+    loading,
+    paths,
   };
 };
 
 const mapActionsToProps = {
-  getLogMessage,
+  initializeSettings,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(Intro);

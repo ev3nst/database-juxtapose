@@ -8,7 +8,7 @@ const store = configuredStore();
 
 const AppContainer = process.env.PLAIN_HMR ? Fragment : ReactHotAppContainer;
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const Root = require('./containers/Root').default;
   render(
     <AppContainer>

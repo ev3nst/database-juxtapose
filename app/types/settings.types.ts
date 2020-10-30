@@ -1,5 +1,9 @@
 export type SettingPathInterface = {
-    settings: string;
-    structures: string;
-    migrations: string;
-}
+  userSettings: string;
+  structures: string;
+  migrations: string;
+};
+
+export type UserSettings = {
+  paths: SettingPathInterface;
+};

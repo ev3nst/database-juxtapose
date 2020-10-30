@@ -1,17 +1,23 @@
-import { SAVE_SETTINGS, CHANGE_PATH } from '../redux.types';
-import { SettingPathInterface } from '../../types/settings.types';
+import {
+  INITIALIZE_SETTINGS,
+  INITIALIZE_SETTINGS_SUCCESS,
+  SAVE_SETTINGS,
+  CHANGE_PATH,
+} from '../redux.types';
+import { UserSettings } from '../../types/settings.types';
 import { SettingActionTypes } from './action.types';
 
-export interface SettingsState {
-  paths: SettingPathInterface;
+export interface SettingsState extends UserSettings {
+  loading: Boolean;
 }
 
 const INIT_STATE: SettingsState = {
   paths: {
-    settings: '',
+    userSettings: '',
     structures: '',
     migrations: '',
   },
+  loading: true,
 };
 
 const reducer = (
@@ -19,10 +25,17 @@ const reducer = (
   action: SettingActionTypes
 ): SettingsState => {
   switch (action.type) {
+    case INITIALIZE_SETTINGS:
+      return { ...state, loading: true };
+    case INITIALIZE_SETTINGS_SUCCESS:
+      return {
+        ...state,
+        ...action.payload.settings,
+        loading: false,
+      };
     case SAVE_SETTINGS:
       return { ...state };
     case CHANGE_PATH:
-      console.log(action.payload, 'CHANGE_PATH is CALLED');
       return { ...state };
     default:
       return { ...state };
