@@ -1,5 +1,5 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
-import { LOG_MESSAGE } from '../types';
+import { LOG_MESSAGE } from '../redux.types';
 import { getLogMessageSuccess } from './actions';
 
 // ------------------ TEST LOG MESSAGE --------------------
@@ -19,8 +19,7 @@ function* getLogMessage() {
   try {
     const resp = yield call(getLogMessageAsync);
     yield put(getLogMessageSuccess(resp));
-  } catch (error) {
-  }
+  } catch (error) {}
 }
 export function* watchgetLogMessage() {
   yield takeEvery(LOG_MESSAGE, getLogMessage);

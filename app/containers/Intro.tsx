@@ -1,36 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getLogMessage } from '../redux/actions';
 import { Structures } from './partials';
+import routes from '../utils/routes.json';
 
 class Intro extends Component {
-
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
   render() {
     return (
       <main>
-      <Structures />
-      <div>
-        <button>start new migration</button>
-        <button>create new structure</button>
-        <button>migration wizard</button>
-    <button>settings</button>
-        
-      </div>
-      <div>
-        <h1>Migrations</h1>
-      </div>
+        <Structures />
+
+        <div>
+          <Link to={routes.NEW_MIGRATION}>start new migration</Link>
+          <Link to={routes.NEW_STRUCTURE}>create new structure</Link>
+          <Link to={routes.MIGRATION_WIZARD}>migration wizard</Link>
+          <Link to={routes.SETTINGS}>settings</Link>
+        </div>
+
+        <div>
+          <h1>Migrations</h1>
+        </div>
       </main>
-    )
+    );
   }
 }
 
 const mapStateToProps = ({ general }: any) => {
-  const {
-    logMessage,
-  } = general;
+  const { logMessage } = general;
   return {
     logMessage,
   };

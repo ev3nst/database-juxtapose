@@ -1,16 +1,32 @@
-import { THEME } from '../types';
+import { SAVE_SETTINGS, CHANGE_PATH } from '../redux.types';
+import { SettingPathInterface } from '../../types/settings.types';
+import { SettingActionTypes } from './action.types';
 
-const INIT_STATE = {
-  settingsPath: null,
-  migrationsPath: null,
-  structuresPath: null,
+export interface SettingsState {
+  paths: SettingPathInterface;
+}
+
+const INIT_STATE: SettingsState = {
+  paths: {
+    settings: '',
+    structures: '',
+    migrations: '',
+  },
 };
 
-export default (state = INIT_STATE, action: any) => {
+const reducer = (
+  state: SettingsState = INIT_STATE,
+  action: SettingActionTypes
+): SettingsState => {
   switch (action.type) {
-    case SETTINGS_PATH:
-      return { ...state, isDrawerOpen: !state.isDrawerOpen };
+    case SAVE_SETTINGS:
+      return { ...state };
+    case CHANGE_PATH:
+      console.log(action.payload, 'CHANGE_PATH is CALLED');
+      return { ...state };
     default:
       return { ...state };
   }
 };
+
+export default reducer;

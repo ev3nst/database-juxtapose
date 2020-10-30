@@ -5,7 +5,9 @@ export const LOCALIZED_VALUE_CHANGE = 'LOCALIZED_VALUE_CHANGE_';
 export const GENERAL_ERROR = 'GENERAL_ERROR_';
 
 /* SETTINGS */
-export const THEME = 'THEME';
+export const SAVE_SETTINGS = 'SAVE_SETTINGS';
+export const SET_DEFAULTS = 'SET_DEFAULTS';
+export const CHANGE_PATH = 'CHANGE_PATH';
 
 /* TEST */
 export const LOG_MESSAGE = 'LOG_MESSAGE';

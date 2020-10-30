@@ -1,8 +1,4 @@
-import {
-  VALUE_CHANGE,
-  LOG_MESSAGE,
-  LOG_MESSAGE_SUCCESS
-} from '../types';
+import { VALUE_CHANGE, LOG_MESSAGE, LOG_MESSAGE_SUCCESS } from '../redux.types';
 
 export const valueUpdate = (reducer: string, key: string, value: any) => {
   return {

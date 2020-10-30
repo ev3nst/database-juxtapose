@@ -1,3 +1,7 @@
 {
-  "INTRO": "/"
+  "INTRO": "/",
+  "NEW_MIGRATION": "/new-migration",
+  "NEW_STRUCTURE": "/new-structure",
+  "MIGRATION_WIZARD": "/migration-wizard",
+  "SETTINGS": "/settings"
 }

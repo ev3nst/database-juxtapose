@@ -1,7 +1,7 @@
-import { LOG_MESSAGE, LOG_MESSAGE_SUCCESS } from '../types';
+import { LOG_MESSAGE, LOG_MESSAGE_SUCCESS } from '../redux.types';
 
 export type GeneralState = {
-  logMessage: string,
+  logMessage: string;
 };
 
 const INIT_STATE: GeneralState = {
