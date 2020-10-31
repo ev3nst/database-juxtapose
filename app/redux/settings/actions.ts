@@ -7,11 +7,10 @@ import {
 } from '../redux.types';
 import { SettingActionTypes } from './action.types';
 import { UserSettings } from '../../types/settings.types';
-import { History } from 'history';
 
-export const initializeSettings: ActionCreator<SettingActionTypes> = (history: History) => ({
+export const initializeSettings: ActionCreator<SettingActionTypes> = () => ({
   type: INITIALIZE_SETTINGS,
-  payload: { history },
+  payload: null,
 });
 
 export const initializeSettingsSuccess: ActionCreator<SettingActionTypes> = (

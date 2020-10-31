@@ -6,13 +6,10 @@ import {
   CHANGE_PATH,
 } from '../redux.types';
 import { UserSettings } from '../../types/settings.types';
-import { History } from 'history';
 
 interface InitializeSettings {
   type: typeof INITIALIZE_SETTINGS;
-  payload: {
-    history: History
-  };
+  payload: null;
 }
 
 interface InitializeSettingsSuccess {

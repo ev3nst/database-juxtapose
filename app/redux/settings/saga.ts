@@ -7,7 +7,6 @@ import {
 } from '../../utils/constants';
 import { initializeSettingsSuccess } from './actions';
 import * as fs from 'fs';
-import { History } from 'history';
 
 // ------------------ Configure User Settings --------------------
 async function configureUserSettings() {
@@ -24,11 +23,7 @@ async function configureUserSettings() {
   }
 }
 
-type Params = {
-  payload: { history: History };
-  type: string;
-};
-function* initializeSettings({ payload }: Params) {
+function* initializeSettings() {
   try {
     const resp = yield call(configureUserSettings);
     if (resp !== undefined && resp !== false && resp !== null) {
