@@ -7,6 +7,7 @@ import {
 } from '../../utils/constants';
 import { initializeSettingsSuccess } from './actions';
 import * as fs from 'fs';
+import { History } from 'history';
 
 // ------------------ Configure User Settings --------------------
 async function configureUserSettings() {
@@ -22,16 +23,18 @@ async function configureUserSettings() {
     return defaultConfig;
   }
 }
-function* initializeSettings() {
+
+type Params = {
+  payload: { history: History };
+  type: string;
+};
+function* initializeSettings({ payload }: Params) {
   try {
     const resp = yield call(configureUserSettings);
-    console.log(resp, 'RESPONSE FROM CONFG');
     if (resp !== undefined && resp !== false && resp !== null) {
       yield put(initializeSettingsSuccess(resp));
     }
-  } catch (error) {
-    console.log(error, 'ERROR FROM INIT SET');
-  }
+  } catch (error) {}
 }
 export function* watchinitializeSettings() {
   yield takeEvery(INITIALIZE_SETTINGS, initializeSettings);

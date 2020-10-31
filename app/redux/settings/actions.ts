@@ -7,10 +7,11 @@ import {
 } from '../redux.types';
 import { SettingActionTypes } from './action.types';
 import { UserSettings } from '../../types/settings.types';
+import { History } from 'history';
 
-export const initializeSettings: ActionCreator<SettingActionTypes> = () => ({
+export const initializeSettings: ActionCreator<SettingActionTypes> = (history: History) => ({
   type: INITIALIZE_SETTINGS,
-  payload: null,
+  payload: { history },
 });
 
 export const initializeSettingsSuccess: ActionCreator<SettingActionTypes> = (
@@ -32,9 +33,4 @@ export const changePath: ActionCreator<SettingActionTypes> = (
 export const setDefault: ActionCreator<SettingActionTypes> = () => ({
   type: SET_DEFAULTS,
   payload: null,
-});
-
-export const getLogMessage = (pathKey: string, newPath: string) => ({
-  type: CHANGE_PATH,
-  payload: { pathKey, newPath },
 });

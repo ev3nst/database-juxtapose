@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
+import { RootState } from '../redux/store';
 import routes from '../utils/routes.json';
 import { changePath } from '../redux/actions';
 import { SettingPathInterface } from '../types/settings.types';
-const { app } = require('electron').remote;
-
 const { dialog } = require('electron').remote;
 
 interface IMapStateToProps {
@@ -17,14 +16,10 @@ interface IMapDispatchToProps {
   changePath: typeof changePath;
 }
 
-interface State {}
+type SettingsProps = RouteComponentProps & IMapStateToProps & IMapDispatchToProps;
 
-class Settings extends Component<
-  RouteComponentProps & IMapStateToProps & IMapDispatchToProps,
-  State
-> {
+class Settings extends Component<SettingsProps> {
   componentDidMount() {
-    console.log(app.getPath('userData'));
   }
 
   async onPathChange(key: string) {
@@ -95,15 +90,18 @@ class Settings extends Component<
   }
 }
 
-const mapStateToProps = ({ settings }: any) => ({
-  paths: settings.paths,
-});
+const mapStateToProps = ({ settings }: RootState) : IMapStateToProps => {
+  const { paths } = settings;
+  return {
+    paths,
+  };
+};
 
 const mapActionsToProps = {
   changePath,
 };
 
-export default connect<IMapStateToProps, IMapDispatchToProps>(
+export default connect<IMapStateToProps, IMapDispatchToProps, SettingsProps, RootState>(
   mapStateToProps,
   mapActionsToProps
 )(Settings);
