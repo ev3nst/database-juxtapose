@@ -17,9 +17,8 @@ export const configuredStore = (initialState?: RootState) => {
   sagaMiddleware.run(sagas);
 
   if (process.env.NODE_ENV === 'development' && module.hot) {
-    module.hot.accept(
-      './reducers',
-      () => store.replaceReducer(require('./reducers').default)
+    module.hot.accept('./reducers', () =>
+      store.replaceReducer(require('./reducers').default)
     );
   }
   return store;

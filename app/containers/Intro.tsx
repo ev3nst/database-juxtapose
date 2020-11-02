@@ -16,8 +16,11 @@ class Intro extends Component {
 
         <div>
           <Link to={routes.NEW_MIGRATION}>start new migration</Link>
-          <Link to={routes.NEW_STRUCTURE}>create new structure</Link>
+          <br></br>
+          <Link to={routes.STRUCTURE}>create new structure</Link>
+          <br></br>
           <Link to={routes.MIGRATION_WIZARD}>migration wizard</Link>
+          <br></br>
           <Link to={routes.SETTINGS}>settings</Link>
         </div>
 

@@ -7,12 +7,12 @@ import {
 } from '../redux.types';
 import { UserSettings } from '../../types/settings.types';
 
-interface InitializeSettings {
+interface initSettings {
   type: typeof INITIALIZE_SETTINGS;
   payload: null;
 }
 
-interface InitializeSettingsSuccess {
+interface initSettingsSuccess {
   type: typeof INITIALIZE_SETTINGS_SUCCESS;
   payload: { settings: UserSettings };
 }
@@ -36,8 +36,8 @@ interface ChangePathAction {
 }
 
 export type SettingActionTypes =
-  | InitializeSettings
-  | InitializeSettingsSuccess
+  | initSettings
+  | initSettingsSuccess
   | SetDefaultAction
   | SaveSettingsAction
   | ChangePathAction;

@@ -16,11 +16,12 @@ interface IMapDispatchToProps {
   changePath: typeof changePath;
 }
 
-type SettingsProps = RouteComponentProps & IMapStateToProps & IMapDispatchToProps;
+type SettingsProps = RouteComponentProps &
+  IMapStateToProps &
+  IMapDispatchToProps;
 
 class Settings extends Component<SettingsProps> {
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
   async onPathChange(key: string) {
     const resp = await dialog.showOpenDialog({
@@ -90,7 +91,7 @@ class Settings extends Component<SettingsProps> {
   }
 }
 
-const mapStateToProps = ({ settings }: RootState) : IMapStateToProps => {
+const mapStateToProps = ({ settings }: RootState): IMapStateToProps => {
   const { paths } = settings;
   return {
     paths,
@@ -101,7 +102,12 @@ const mapActionsToProps = {
   changePath,
 };
 
-export default connect<IMapStateToProps, IMapDispatchToProps, SettingsProps, RootState>(
+export default connect<
+  IMapStateToProps,
+  IMapDispatchToProps,
+  SettingsProps,
+  RootState
+>(
   mapStateToProps,
   mapActionsToProps
 )(Settings);

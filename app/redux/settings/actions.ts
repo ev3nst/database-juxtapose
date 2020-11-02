@@ -8,19 +8,19 @@ import {
 import { SettingActionTypes } from './action.types';
 import { UserSettings } from '../../types/settings.types';
 
-export const initializeSettings: ActionCreator<SettingActionTypes> = () => ({
+export const initSettings: ActionCreator<SettingActionTypes> = () => ({
   type: INITIALIZE_SETTINGS,
   payload: null,
 });
 
-export const initializeSettingsSuccess: ActionCreator<SettingActionTypes> = (
+export const initSettingsSuccess: ActionCreator<SettingActionTypes> = (
   settings: UserSettings
 ) => ({
   type: INITIALIZE_SETTINGS_SUCCESS,
   payload: { settings },
 });
 
-initializeSettingsSuccess;
+initSettingsSuccess;
 export const changePath: ActionCreator<SettingActionTypes> = (
   pathKey: string,
   newPath: string

@@ -5,7 +5,7 @@ import {
   SETTINGS_PATH,
   defaultConfig,
 } from '../../utils/constants';
-import { initializeSettingsSuccess } from './actions';
+import { initSettingsSuccess } from './actions';
 import * as fs from 'fs';
 
 // ------------------ Configure User Settings --------------------
@@ -23,18 +23,18 @@ async function configureUserSettings() {
   }
 }
 
-function* initializeSettings() {
+function* initSettings() {
   try {
     const resp = yield call(configureUserSettings);
     if (resp !== undefined && resp !== false && resp !== null) {
-      yield put(initializeSettingsSuccess(resp));
+      yield put(initSettingsSuccess(resp));
     }
   } catch (error) {}
 }
-export function* watchinitializeSettings() {
-  yield takeEvery(INITIALIZE_SETTINGS, initializeSettings);
+export function* watchinitSettings() {
+  yield takeEvery(INITIALIZE_SETTINGS, initSettings);
 }
 
 export default function* rootSaga() {
-  yield all([fork(watchinitializeSettings)]);
+  yield all([fork(watchinitSettings)]);
 }
