@@ -22,7 +22,9 @@
 
 body {
   margin: 0;
-  background-color: #fff;
+  background-color: #000;
+  -webkit-filter: invert(1);
+  filter: invert(1);
 }
 
 /**

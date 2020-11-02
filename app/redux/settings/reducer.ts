@@ -5,15 +5,10 @@ import {
   SAVE_SETTINGS,
   CHANGE_PATH,
 } from '../redux.types';
-import { UserConfig } from '../../types/settings.types';
+import { UserConfig, InteractiveResponder } from '../../types';
 import { SettingActionTypes } from './action.types';
 
-export interface SettingsState extends UserConfig {
-  loading: Boolean;
-  loaded: Boolean;
-  errorState: Boolean;
-  errorMessage: String;
-}
+export interface SettingsState extends UserConfig, InteractiveResponder {}
 
 const INIT_STATE: SettingsState = {
   autoSave: true,

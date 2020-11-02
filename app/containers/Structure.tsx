@@ -3,10 +3,11 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { initStructure, saveStructure } from '../redux/actions';
+import { RootState } from '../redux/store';
 import routes from '../utils/routes.json';
 
 //#region Redux Configuration
-const mapStateToProps = ({ structure }: any) => {
+const mapStateToProps = ({ structure }: RootState) => {
   const { loading, loaded } = structure;
   return { loading, loaded };
 };

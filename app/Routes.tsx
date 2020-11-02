@@ -14,11 +14,15 @@ import {
 
 //#region Redux Configuration
 const mapStateToProps = ({ settings }: RootState) => {
-  const { loading, paths } = settings;
-  return {
+  const {
     loading,
+    loaded,
     paths,
-  };
+    autoSave,
+    errorState,
+    errorMessage,
+  } = settings;
+  return { loading, loaded, paths, autoSave, errorState, errorMessage };
 };
 
 const mapActionsToProps = {
@@ -26,18 +30,20 @@ const mapActionsToProps = {
 };
 
 const connector = connect(mapStateToProps, mapActionsToProps);
-type IProps = ConnectedProps<typeof connector>;
+type IRouteProps = ConnectedProps<typeof connector>;
 //#endregion
 
 // Component
-class Routes extends Component<IProps> {
+class Routes extends Component<IRouteProps> {
   componentDidMount() {
-    if (this.props.loading === true) {
+    if (this.props.loaded === false) {
       this.props.initSettings();
     }
   }
 
   render() {
+    console.log(this.props)
+
     if (this.props.loading === true) {
       return (
         <div>
