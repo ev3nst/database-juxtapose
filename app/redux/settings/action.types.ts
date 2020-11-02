@@ -1,39 +1,39 @@
 import {
   INITIALIZE_SETTINGS,
   INITIALIZE_SETTINGS_SUCCESS,
-  INITIALIZE_SETTINGS_ERROR,
+  INITIALIZE_SETTINGS_FAILED,
   SAVE_SETTINGS,
   SET_DEFAULTS,
   CHANGE_PATH,
 } from '../redux.types';
 import { UserConfig } from '../../types/settings.types';
 
-interface initSettings {
+export interface InitSettings {
   type: typeof INITIALIZE_SETTINGS;
-  payload: { forceNew?: Boolean };
+  payload: null;
 }
 
-interface initSettingsSuccess {
+export interface InitSettingsSuccess {
   type: typeof INITIALIZE_SETTINGS_SUCCESS;
   payload: { settings: UserConfig };
 }
 
-interface initSettingsError {
-  type: typeof INITIALIZE_SETTINGS_ERROR;
+export interface InitSettingsFailed {
+  type: typeof INITIALIZE_SETTINGS_FAILED;
   payload: { message?: String };
 }
 
-interface SetDefaultAction {
+export interface SetDefaultAction {
   type: typeof SET_DEFAULTS;
   payload: null;
 }
 
-interface SaveSettingsAction {
+export interface SaveSettingsAction {
   type: typeof SAVE_SETTINGS;
   payload: null;
 }
 
-interface ChangePathAction {
+export interface ChangePathAction {
   type: typeof CHANGE_PATH;
   payload: {
     pathKey: String;
@@ -42,9 +42,9 @@ interface ChangePathAction {
 }
 
 export type SettingActionTypes =
-  | initSettings
-  | initSettingsSuccess
-  | initSettingsError
+  | InitSettings
+  | InitSettingsSuccess
+  | InitSettingsFailed
   | SetDefaultAction
   | SaveSettingsAction
   | ChangePathAction;

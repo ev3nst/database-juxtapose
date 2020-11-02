@@ -3,8 +3,7 @@ const { app } = require('electron').remote;
 export const APP_NAME = app.getName();
 export const FOLDER_PREFIX = '/' + APP_NAME + '/';
 export const USER_FOLDER = app.getPath('documents') + FOLDER_PREFIX;
-export const CONFIG_PATH =
-  app.getPath('documents') + FOLDER_PREFIX + 'settings.json';
+export const CONFIG_PATH = USER_FOLDER + 'settings.json';
 export const STRUCTURE_AUTOSAVE_FILE = 'structure_autosave.json';
 
 export const defaultConfig = {

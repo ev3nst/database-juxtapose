@@ -3,30 +3,37 @@ import {
   SAVE_STRUCTURE_SUCCESS,
   INITIALIZE_STRUCTURE,
   INITIALIZE_STRUCTURE_SUCCESS,
+  INITIALIZE_STRUCTURE_FAILED,
 } from '../redux.types';
 
-interface initStructure {
+export interface InitStructure {
   type: typeof INITIALIZE_STRUCTURE;
   payload: null;
 }
 
-interface initStructureSuccess {
+export interface InitStructureSuccess {
   type: typeof INITIALIZE_STRUCTURE_SUCCESS;
-  payload: { structure: any };
+  payload: null;
 }
 
-interface saveStructure {
+export interface InitStructureFailed {
+  type: typeof INITIALIZE_STRUCTURE_FAILED;
+  payload: { message?: String };
+}
+
+export interface saveStructure {
   type: typeof SAVE_STRUCTURE;
   payload: { structure: any };
 }
 
-interface saveStructureSuccess {
+export interface saveStructureSuccess {
   type: typeof SAVE_STRUCTURE_SUCCESS;
   payload: null;
 }
 
 export type StructureActionTypes =
-  | initStructure
-  | initStructureSuccess
+  | InitStructure
+  | InitStructureSuccess
+  | InitStructureFailed
   | saveStructure
   | saveStructureSuccess;

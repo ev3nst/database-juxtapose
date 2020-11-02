@@ -1,12 +1,51 @@
+import * as fs from 'fs';
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 import { INITIALIZE_STRUCTURE } from '../redux.types';
-import { USER_FOLDER, defaultConfig } from '../../utils/constants';
-import { initStructureSuccess } from './actions';
-import * as fs from 'fs';
+import {
+  STRUCTURE_AUTOSAVE_FILE,
+} from '../../utils/constants';
+import {
+  initStructureSuccess,
+  initStructureFailed,
+} from '../actions';
+import { UserConfig } from '../../types/settings.types';
 
-// ------------------ Configure User Structure --------------------
+// -------------------- Configure Structure Folder & Files --------------------
+function configureStructureFiles(userConfig: UserConfig) {
+  if (!fs.existsSync(userConfig.paths.structures)) {
+    fs.mkdirSync(userConfig.paths.structures);
+  }
 
-function* initStructure() {}
+  if (!fs.existsSync(userConfig.paths.structures + STRUCTURE_AUTOSAVE_FILE)) {
+    fs.writeFileSync(
+      userConfig.paths.structures + STRUCTURE_AUTOSAVE_FILE,
+      null
+    );
+    return null;
+  }
+
+  const FileContents = fs.readFileSync(
+    userConfig.paths.structures + STRUCTURE_AUTOSAVE_FILE,
+    'utf8'
+  );
+  const data = JSON.parse(FileContents);
+  return data;
+}
+
+type StructurePayload = {
+  payload: {
+    userConfig: UserConfig;
+  };
+  type: string;
+};
+function* initStructure({ payload }: StructurePayload) {
+  try {
+    const response = yield call(configureStructureFiles(payload.userConfig));
+    yield put(initStructureSuccess(response));
+  } catch (error) {
+    yield put(initStructureFailed(error));
+  }
+}
 export function* watchinitStructure() {
   yield takeEvery(INITIALIZE_STRUCTURE, initStructure);
 }

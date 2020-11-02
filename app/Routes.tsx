@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Switch, Route, HashRouter as Router } from 'react-router-dom';
-import { initSettings } from './redux/actions';
+import { initApp } from './redux/actions';
 import { RootState } from './redux/store';
 import routes from './utils/routes.json';
 import {
   Intro,
+  Home,
   NewMigration,
   Structure,
   MigrationWizard,
@@ -13,20 +14,15 @@ import {
 } from './containers';
 
 //#region Redux Configuration
-const mapStateToProps = ({ settings }: RootState) => {
+const mapStateToProps = ({ intro }: RootState) => {
   const {
-    loading,
     loaded,
-    paths,
-    autoSave,
-    errorState,
-    errorMessage,
-  } = settings;
-  return { loading, loaded, paths, autoSave, errorState, errorMessage };
+  } = intro;
+  return { loaded, };
 };
 
 const mapActionsToProps = {
-  initSettings,
+  initApp,
 };
 
 const connector = connect(mapStateToProps, mapActionsToProps);
@@ -37,33 +33,27 @@ type IRouteProps = ConnectedProps<typeof connector>;
 class Routes extends Component<IRouteProps> {
   componentDidMount() {
     if (this.props.loaded === false) {
-      this.props.initSettings();
+      this.props.initApp();
     }
   }
 
   render() {
-    console.log(this.props)
-
-    if (this.props.loading === true) {
+    if(this.props.loaded === true) {
       return (
-        <div>
-          <h1>LOADING !!</h1>
-        </div>
+        <Router>
+          <Switch>
+            <Route path={routes.INTRO} exact component={Home} />
+            <Route path={routes.NEW_MIGRATION} component={NewMigration} />
+            <Route path={routes.STRUCTURE} component={Structure} />
+            <Route path={routes.MIGRATION_WIZARD} component={MigrationWizard} />
+            <Route path={routes.SETTINGS} component={Settings} />
+            <Route path="*" component={Home} />
+          </Switch>
+        </Router>
       );
     }
 
-    return (
-      <Router>
-        <Switch>
-          <Route path={routes.INTRO} exact component={Intro} />
-          <Route path={routes.NEW_MIGRATION} component={NewMigration} />
-          <Route path={routes.STRUCTURE} component={Structure} />
-          <Route path={routes.MIGRATION_WIZARD} component={MigrationWizard} />
-          <Route path={routes.SETTINGS} component={Settings} />
-          <Route path="*" component={Intro} />
-        </Switch>
-      </Router>
-    );
+    return <Intro />;
   }
 }
 

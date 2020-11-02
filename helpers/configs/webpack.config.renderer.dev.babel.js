@@ -260,7 +260,7 @@ export default merge(baseConfig, {
       source: false,
       errors: true,
       errorDetails: true,
-      warnings: false,
+      warnings: true,
       publicPath: false,
     },
     clientLogLevel: 'error',

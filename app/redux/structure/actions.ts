@@ -1,9 +1,10 @@
 import { ActionCreator } from 'redux';
 import {
-  INITIALIZE_STRUCTURE,
-  INITIALIZE_STRUCTURE_SUCCESS,
   SAVE_STRUCTURE,
   SAVE_STRUCTURE_SUCCESS,
+  INITIALIZE_STRUCTURE,
+  INITIALIZE_STRUCTURE_SUCCESS,
+  INITIALIZE_STRUCTURE_FAILED,
 } from '../redux.types';
 import { StructureActionTypes } from './action.types';
 
@@ -12,11 +13,16 @@ export const initStructure: ActionCreator<StructureActionTypes> = () => ({
   payload: null,
 });
 
-export const initStructureSuccess: ActionCreator<StructureActionTypes> = (
-  structure: any
-) => ({
+export const initStructureSuccess: ActionCreator<StructureActionTypes> = () => ({
   type: INITIALIZE_STRUCTURE_SUCCESS,
-  payload: { structure },
+  payload: null,
+});
+
+export const initStructureFailed: ActionCreator<StructureActionTypes> = (
+  message?: String
+) => ({
+  type: INITIALIZE_STRUCTURE_FAILED,
+  payload: { message },
 });
 
 export const saveStructure: ActionCreator<StructureActionTypes> = (
