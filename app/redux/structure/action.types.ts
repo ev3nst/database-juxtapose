@@ -12,12 +12,12 @@ interface initStructure {
 
 interface initStructureSuccess {
   type: typeof INITIALIZE_STRUCTURE_SUCCESS;
-  payload: null;
+  payload: { structure: any };
 }
 
 interface saveStructure {
   type: typeof SAVE_STRUCTURE;
-  payload: null;
+  payload: { structure: any };
 }
 
 interface saveStructureSuccess {

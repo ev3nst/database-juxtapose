@@ -12,14 +12,18 @@ export const initStructure: ActionCreator<StructureActionTypes> = () => ({
   payload: null,
 });
 
-export const initStructureSuccess: ActionCreator<StructureActionTypes> = () => ({
+export const initStructureSuccess: ActionCreator<StructureActionTypes> = (
+  structure: any
+) => ({
   type: INITIALIZE_STRUCTURE_SUCCESS,
-  payload: null,
+  payload: { structure },
 });
 
-export const saveStructure: ActionCreator<StructureActionTypes> = () => ({
+export const saveStructure: ActionCreator<StructureActionTypes> = (
+  structure: any
+) => ({
   type: SAVE_STRUCTURE,
-  payload: null,
+  payload: { structure },
 });
 
 export const saveStructureSuccess: ActionCreator<StructureActionTypes> = () => ({

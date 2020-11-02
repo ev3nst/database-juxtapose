@@ -26,11 +26,11 @@ const mapActionsToProps = {
 };
 
 const connector = connect(mapStateToProps, mapActionsToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
+type IProps = ConnectedProps<typeof connector>;
 //#endregion
 
 // Component
-class Routes extends Component<PropsFromRedux> {
+class Routes extends Component<IProps> {
   componentDidMount() {
     if (this.props.loading === true) {
       this.props.initSettings();

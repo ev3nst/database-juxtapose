@@ -2,22 +2,32 @@ import { ActionCreator } from 'redux';
 import {
   INITIALIZE_SETTINGS,
   INITIALIZE_SETTINGS_SUCCESS,
+  INITIALIZE_SETTINGS_ERROR,
   CHANGE_PATH,
   SET_DEFAULTS,
 } from '../redux.types';
 import { SettingActionTypes } from './action.types';
-import { UserSettings } from '../../types/settings.types';
+import { UserConfig } from '../../types/settings.types';
 
-export const initSettings: ActionCreator<SettingActionTypes> = () => ({
+export const initSettings: ActionCreator<SettingActionTypes> = (
+  forceNew?: Boolean
+) => ({
   type: INITIALIZE_SETTINGS,
-  payload: null,
+  payload: { forceNew },
 });
 
 export const initSettingsSuccess: ActionCreator<SettingActionTypes> = (
-  settings: UserSettings
+  settings: UserConfig
 ) => ({
   type: INITIALIZE_SETTINGS_SUCCESS,
   payload: { settings },
+});
+
+export const initSettingsError: ActionCreator<SettingActionTypes> = (
+  message?: String
+) => ({
+  type: INITIALIZE_SETTINGS_ERROR,
+  payload: { message },
 });
 
 initSettingsSuccess;

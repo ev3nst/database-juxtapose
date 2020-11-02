@@ -4,6 +4,7 @@ export type SettingPathInterface = {
   migrations: string;
 };
 
-export type UserSettings = {
+export type UserConfig = {
+  autoSave: Boolean;
   paths: SettingPathInterface;
 };

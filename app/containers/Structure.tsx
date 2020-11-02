@@ -1,33 +1,41 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
-import { saveStructure } from '../redux/actions';
+import { initStructure, saveStructure } from '../redux/actions';
 import routes from '../utils/routes.json';
 
-interface IMapStateToProps {}
+//#region Redux Configuration
+const mapStateToProps = ({ structure }: any) => {
+  const { loading, loaded } = structure;
+  return { loading, loaded };
+};
 
-interface IMapDispatchToProps {
-  saveStructure: typeof saveStructure;
-}
+const mapActionsToProps = {
+  initStructure,
+  saveStructure,
+};
 
-interface StructureState {
+const connector = connect(mapStateToProps, mapActionsToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type IStructureProps = PropsFromRedux & RouteComponentProps;
+//#endregion
+
+interface IStructureState {
   newContentHeader: string;
   newContentColumn: string;
 }
 
-type StructureProps = RouteComponentProps &
-  IMapStateToProps &
-  IMapDispatchToProps;
-
-class Structure extends Component<StructureProps, StructureState> {
-  state: StructureState = {
+class Structure extends Component<IStructureProps, IStructureState> {
+  state: IStructureState = {
     newContentHeader: '',
     newContentColumn: '',
   };
 
   componentDidMount() {
-    console.log(this.state);
+    if (this.props.loaded !== true) {
+      this.props.initStructure();
+    }
   }
 
   render() {
@@ -76,11 +84,4 @@ class Structure extends Component<StructureProps, StructureState> {
   }
 }
 
-const mapStateToProps = ({ structure }: any) => {
-  // const { test } = structure;
-  return {};
-};
-
-const mapActionsToProps = {};
-
-export default connect(mapStateToProps, mapActionsToProps)(Structure);
+export default connector(Structure);
