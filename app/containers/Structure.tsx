@@ -34,6 +34,7 @@ interface IStructureState {
   selectedHeader: string;
   newContentHeader: string;
   newContentColumn: string;
+  showNotification: Boolean;
 }
 
 class Structure extends Component<IStructureProps, IStructureState> {
@@ -41,12 +42,17 @@ class Structure extends Component<IStructureProps, IStructureState> {
     selectedHeader: '',
     newContentHeader: '',
     newContentColumn: '',
+    showNotification: false,
   };
 
   autosaveID!: NodeJS.Timeout;
+  notificationID!: NodeJS.Timeout;
 
   componentDidMount() {
     this.autosaveID = setInterval(() => {
+      this.setState({
+        showNotification: true,
+      });
       this.props.saveStructure(
         this.props.paths.structures,
         this.props.newStructure == undefined ? {} : this.props.newStructure,
@@ -57,6 +63,17 @@ class Structure extends Component<IStructureProps, IStructureState> {
 
   componentWillUnmount() {
     clearInterval(this.autosaveID);
+    clearInterval(this.notificationID);
+  }
+
+  componentDidUpdate(prevProps: IStructureProps) {
+    if (prevProps.saveLoading !== this.props.saveLoading) {
+      this.notificationID = setTimeout(() => {
+        this.setState({
+          showNotification: false,
+        });
+      }, 1000);
+    }
   }
 
   renderContentHeaders() {
@@ -123,44 +140,45 @@ class Structure extends Component<IStructureProps, IStructureState> {
     header?: string
   ): Boolean {
     let keys: Array<string> = [];
+    const value = label.trim();
 
     // If header is undefined then manipulation is about headers
     if (header === undefined) {
       keys = Object.keys(this.props.newStructure);
       if (
-        (action == 'add' && keys.includes(label)) ||
-        (action == 'remove' && !keys.includes(label))
+        (action == 'add' && keys.includes(value)) ||
+        (action == 'remove' && !keys.includes(value))
       ) {
         console.log(
           this.props.newStructure,
           'Error: [' +
             action +
             '], --> key: ' +
-            label +
+            value +
             ' couldnt be manipulated.'
         );
         return false;
       }
 
-      this.props.manipulateStructureHeader(label, action);
+      this.props.manipulateStructureHeader(value, action);
       return true;
     } else {
       keys = Object.values(this.props.newStructure[header]);
       if (
-        (action == 'add' && keys.includes(label)) ||
-        (action == 'remove' && !keys.includes(label))
+        (action == 'add' && keys.includes(value)) ||
+        (action == 'remove' && !keys.includes(value))
       ) {
         console.log(
           this.props.newStructure[header],
           'Error: [' +
             action +
             '], --> key: ' +
-            label +
+            value +
             ' couldnt be manipulated.'
         );
         return false;
       }
-      this.props.manipulateStructureContent(label, action, header);
+      this.props.manipulateStructureContent(value, action, header);
       return true;
     }
   }
@@ -249,6 +267,18 @@ class Structure extends Component<IStructureProps, IStructureState> {
 
         <hr></hr>
         <Link to={routes.INTRO}>Go Back</Link>
+
+        {this.state.showNotification === true && (
+          <div
+            style={{
+              position: 'absolute',
+              top: 10,
+              right: 25,
+            }}
+          >
+            <b>SAVING....</b>
+          </div>
+        )}
       </div>
     );
   }
