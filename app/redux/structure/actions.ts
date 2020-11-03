@@ -2,11 +2,14 @@ import { ActionCreator } from 'redux';
 import {
   SAVE_STRUCTURE,
   SAVE_STRUCTURE_SUCCESS,
+  SAVE_STRUCTURE_FAILED,
+  MANIPULATE_STRUCTURE_HEADER,
+  MANIPULATE_STRUCTURE_CONTENT,
   INITIALIZE_STRUCTURE,
   INITIALIZE_STRUCTURE_SUCCESS,
   INITIALIZE_STRUCTURE_FAILED,
 } from '../redux.types';
-import { StructureActionTypes } from './action.types';
+import { StructureActionTypes, StructureObjectAction } from './action.types';
 
 export const initStructure: ActionCreator<StructureActionTypes> = (
   path: string
@@ -30,13 +33,39 @@ export const initStructureFailed: ActionCreator<StructureActionTypes> = (
 });
 
 export const saveStructure: ActionCreator<StructureActionTypes> = (
-  structure: any
+  path: string,
+  newStructure: any,
+  isAutosave: Boolean
 ) => ({
   type: SAVE_STRUCTURE,
-  payload: { structure },
+  payload: { path, newStructure, isAutosave },
 });
 
 export const saveStructureSuccess: ActionCreator<StructureActionTypes> = () => ({
   type: SAVE_STRUCTURE_SUCCESS,
   payload: null,
+});
+
+export const saveStructureFailed: ActionCreator<StructureActionTypes> = (
+  message?: string
+) => ({
+  type: SAVE_STRUCTURE_FAILED,
+  payload: { message },
+});
+
+export const manipulateStructureHeader: ActionCreator<StructureActionTypes> = (
+  label: string,
+  action: StructureObjectAction
+) => ({
+  type: MANIPULATE_STRUCTURE_HEADER,
+  payload: { label, action },
+});
+
+export const manipulateStructureContent: ActionCreator<StructureActionTypes> = (
+  header: string,
+  label: string,
+  action: StructureObjectAction
+) => ({
+  type: MANIPULATE_STRUCTURE_CONTENT,
+  payload: { header, label, action },
 });

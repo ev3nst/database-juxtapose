@@ -1,30 +1,28 @@
 import * as fs from 'fs';
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
-import { INITIALIZE_STRUCTURE } from '../redux.types';
+import { INITIALIZE_STRUCTURE, SAVE_STRUCTURE } from '../redux.types';
 import { STRUCTURE_AUTOSAVE_FILE } from '../../utils/constants';
-import { initStructureSuccess, initStructureFailed } from '../actions';
+import {
+  initStructureSuccess,
+  initStructureFailed,
+  saveStructureSuccess,
+  saveStructureFailed,
+} from '../actions';
 
 // -------------------- Configure Structure Folder & Files --------------------
 async function configureStructureFiles(path: string) {
-  try {
-    if (!fs.existsSync(path)) {
-      fs.mkdirSync(path);
-    }
-
-    if (!fs.existsSync(path + STRUCTURE_AUTOSAVE_FILE)) {
-      fs.writeFileSync(path + STRUCTURE_AUTOSAVE_FILE, '{}');
-      return {};
-    }
-
-    const FileContents = fs.readFileSync(
-      path + STRUCTURE_AUTOSAVE_FILE,
-      'utf8'
-    );
-    const data = JSON.parse(FileContents);
-    return data;
-  } catch (error) {
-    return error;
+  if (!fs.existsSync(path)) {
+    fs.mkdirSync(path);
   }
+
+  if (!fs.existsSync(path + STRUCTURE_AUTOSAVE_FILE)) {
+    fs.writeFileSync(path + STRUCTURE_AUTOSAVE_FILE, '{}');
+    return {};
+  }
+
+  const FileContents = fs.readFileSync(path + STRUCTURE_AUTOSAVE_FILE, 'utf8');
+  const data = JSON.parse(FileContents);
+  return data;
 }
 
 type StructurePayload = {
@@ -45,6 +43,47 @@ export function* watchinitStructure() {
   yield takeEvery(INITIALIZE_STRUCTURE, initStructure);
 }
 
+// -------------------- Save New Structure File --------------------
+async function saveStructureFile(
+  path: string,
+  newStructure: any,
+  isAutosave: Boolean
+) {
+  if (isAutosave === true) {
+    fs.writeFileSync(
+      path + STRUCTURE_AUTOSAVE_FILE,
+      JSON.stringify(newStructure)
+    );
+  } else {
+    fs.writeFileSync(path, JSON.stringify(newStructure));
+  }
+}
+
+type NewStructurePayload = {
+  payload: {
+    path: string;
+    newStructure: any;
+    isAutosave: Boolean;
+  };
+  type: string;
+};
+function* saveStructure({ payload }: NewStructurePayload) {
+  try {
+    yield call(
+      saveStructureFile,
+      payload.path,
+      payload.newStructure,
+      payload.isAutosave
+    );
+    yield put(saveStructureSuccess());
+  } catch (error) {
+    yield put(saveStructureFailed(error));
+  }
+}
+export function* watchsaveStructure() {
+  yield takeEvery(SAVE_STRUCTURE, saveStructure);
+}
+
 export default function* rootSaga() {
-  yield all([fork(watchinitStructure)]);
+  yield all([fork(watchinitStructure), fork(watchsaveStructure)]);
 }

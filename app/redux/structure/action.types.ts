@@ -1,10 +1,14 @@
 import {
   SAVE_STRUCTURE,
   SAVE_STRUCTURE_SUCCESS,
+  SAVE_STRUCTURE_FAILED,
+  MANIPULATE_STRUCTURE_HEADER,
+  MANIPULATE_STRUCTURE_CONTENT,
   INITIALIZE_STRUCTURE,
   INITIALIZE_STRUCTURE_SUCCESS,
   INITIALIZE_STRUCTURE_FAILED,
 } from '../redux.types';
+import { StructureObjectAction } from '../../types/structure.types';
 
 export interface InitStructure {
   type: typeof INITIALIZE_STRUCTURE;
@@ -21,19 +25,43 @@ export interface InitStructureFailed {
   payload: { message?: string };
 }
 
-export interface saveStructure {
+export interface SaveStructure {
   type: typeof SAVE_STRUCTURE;
-  payload: { structure: any };
+  payload: { path: string; newStructure: any; isAutosave: Boolean };
 }
 
-export interface saveStructureSuccess {
+export interface SaveStructureSuccess {
   type: typeof SAVE_STRUCTURE_SUCCESS;
   payload: null;
+}
+
+export interface SaveStructureFailed {
+  type: typeof SAVE_STRUCTURE_FAILED;
+  payload: { message?: string };
+}
+
+export interface ManipulateStructureHeader {
+  type: typeof MANIPULATE_STRUCTURE_HEADER;
+  payload: {
+    label: string;
+    action: StructureObjectAction;
+  };
+}
+export interface ManipulateStructureContent {
+  type: typeof MANIPULATE_STRUCTURE_CONTENT;
+  payload: {
+    header: string;
+    label: string;
+    action: StructureObjectAction;
+  };
 }
 
 export type StructureActionTypes =
   | InitStructure
   | InitStructureSuccess
   | InitStructureFailed
-  | saveStructure
-  | saveStructureSuccess;
+  | SaveStructure
+  | SaveStructureSuccess
+  | SaveStructureFailed
+  | ManipulateStructureHeader
+  | ManipulateStructureContent;

@@ -17,3 +17,5 @@ export const defaultConfig = {
     migrations: USER_FOLDER + 'migrations/',
   },
 };
+
+export const INTERVAL_TIMEOUT = 10000;

@@ -31,7 +31,6 @@ const reducer = (
   state: SettingsState = INIT_STATE,
   action: SettingActionTypes
 ): SettingsState => {
-  console.log(action.type, 'ACTION TYPE');
   switch (action.type) {
     case INITIALIZE_SETTINGS_SUCCESS:
       return {

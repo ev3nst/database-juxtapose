@@ -4,20 +4,24 @@ import {
   INITIALIZE_STRUCTURE_FAILED,
   SAVE_STRUCTURE,
   SAVE_STRUCTURE_SUCCESS,
+  MANIPULATE_STRUCTURE_HEADER,
+  MANIPULATE_STRUCTURE_CONTENT,
 } from '../redux.types';
 import { InteractiveResponder } from '../../types';
 import { StructureActionTypes } from './action.types';
 
 export interface StructureState extends InteractiveResponder {
-  structure: any;
+  saveLoading: Boolean;
+  newStructure: any;
 }
 
 const INIT_STATE: StructureState = {
+  saveLoading: false,
   loading: true,
   loaded: false,
   errorState: false,
   errorMessage: '',
-  structure: {},
+  newStructure: {},
 };
 
 const RESET_ERROR = {
@@ -35,8 +39,8 @@ const reducer = (
     case INITIALIZE_STRUCTURE_SUCCESS:
       return {
         ...state,
-        ...action.payload.structure,
         ...RESET_ERROR,
+        newStructure: action.payload.structure,
         loading: false,
         loaded: true,
       };
@@ -53,11 +57,27 @@ const reducer = (
     case SAVE_STRUCTURE:
       return {
         ...state,
-        ...action.payload.structure,
-        loading: true,
+        saveLoading: true,
       };
     case SAVE_STRUCTURE_SUCCESS:
-      return { ...state, loading: false };
+      return { ...state, saveLoading: false };
+    case MANIPULATE_STRUCTURE_HEADER:
+      if (action.payload.action == 'add') {
+        return {
+          ...state,
+          newStructure: {
+            ...state.newStructure,
+            [action.payload.label]: {},
+          },
+        };
+      } else {
+        const headerToRemove = action.payload.label;
+        const {
+          [headerToRemove]: {},
+          ...removedStructure
+        } = state.newStructure;
+        return { ...state, newStructure: removedStructure };
+      }
     default:
       return { ...state };
   }
