@@ -9,7 +9,8 @@ import {
   INITIALIZE_STRUCTURE_SUCCESS,
   INITIALIZE_STRUCTURE_FAILED,
 } from '../redux.types';
-import { StructureActionTypes, StructureObjectAction } from './action.types';
+import { StructureObjectAction } from '../../types/structure.types';
+import { StructureActionTypes } from './action.types';
 
 export const initStructure: ActionCreator<StructureActionTypes> = (
   path: string
@@ -62,10 +63,10 @@ export const manipulateStructureHeader: ActionCreator<StructureActionTypes> = (
 });
 
 export const manipulateStructureContent: ActionCreator<StructureActionTypes> = (
-  header: string,
   label: string,
-  action: StructureObjectAction
+  action: StructureObjectAction,
+  header: string
 ) => ({
   type: MANIPULATE_STRUCTURE_CONTENT,
-  payload: { header, label, action },
+  payload: { label, action, header },
 });

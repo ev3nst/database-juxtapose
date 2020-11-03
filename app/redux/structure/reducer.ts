@@ -67,7 +67,7 @@ const reducer = (
           ...state,
           newStructure: {
             ...state.newStructure,
-            [action.payload.label]: {},
+            [action.payload.label]: [],
           },
         };
       } else {
@@ -77,6 +77,37 @@ const reducer = (
           ...removedStructure
         } = state.newStructure;
         return { ...state, newStructure: removedStructure };
+      }
+    case MANIPULATE_STRUCTURE_CONTENT:
+      if (action.payload.action == 'add') {
+        return {
+          ...state,
+          newStructure: {
+            ...state.newStructure,
+            [action.payload.header]: state.newStructure[
+              action.payload.header
+            ].concat(action.payload.label),
+          },
+        };
+      } else {
+        const indexToRemove = state.newStructure[action.payload.header].indexOf(
+          action.payload.label
+        );
+        return {
+          ...state,
+          newStructure: {
+            ...state.newStructure,
+            [action.payload.header]: [
+              ...state.newStructure[action.payload.header].slice(
+                0,
+                indexToRemove
+              ),
+              ...state.newStructure[action.payload.header].slice(
+                indexToRemove + 1
+              ),
+            ],
+          },
+        };
       }
     default:
       return { ...state };

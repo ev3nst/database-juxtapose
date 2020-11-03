@@ -31,12 +31,14 @@ type IStructureProps = PropsFromRedux & RouteComponentProps;
 //#endregion
 
 interface IStructureState {
+  selectedHeader: string;
   newContentHeader: string;
   newContentColumn: string;
 }
 
 class Structure extends Component<IStructureProps, IStructureState> {
   state: IStructureState = {
+    selectedHeader: '',
     newContentHeader: '',
     newContentColumn: '',
   };
@@ -92,7 +94,22 @@ class Structure extends Component<IStructureProps, IStructureState> {
       );
       if (newStructure[keyToRemove].length > 0) {
         for (let i = 0; i < newStructure[keyToRemove].length; i++) {
-          render.push(<li key={i}>{newStructure[keyToRemove][i]}</li>);
+          render.push(
+            <li key={key + i}>
+              {newStructure[keyToRemove][i]} -
+              <button
+                onClick={() =>
+                  this.VMStructure(
+                    newStructure[keyToRemove][i],
+                    'remove',
+                    keyToRemove
+                  )
+                }
+              >
+                Delete
+              </button>
+            </li>
+          );
         }
       }
     }
@@ -105,9 +122,11 @@ class Structure extends Component<IStructureProps, IStructureState> {
     action: StructureObjectAction,
     header?: string
   ): Boolean {
+    let keys: Array<string> = [];
+
     // If header is undefined then manipulation is about headers
     if (header === undefined) {
-      const keys = Object.keys(this.props.newStructure);
+      keys = Object.keys(this.props.newStructure);
       if (
         (action == 'add' && keys.includes(label)) ||
         (action == 'remove' && !keys.includes(label))
@@ -124,9 +143,26 @@ class Structure extends Component<IStructureProps, IStructureState> {
       }
 
       this.props.manipulateStructureHeader(label, action);
+      return true;
+    } else {
+      keys = Object.values(this.props.newStructure[header]);
+      if (
+        (action == 'add' && keys.includes(label)) ||
+        (action == 'remove' && !keys.includes(label))
+      ) {
+        console.log(
+          this.props.newStructure[header],
+          'Error: [' +
+            action +
+            '], --> key: ' +
+            label +
+            ' couldnt be manipulated.'
+        );
+        return false;
+      }
+      this.props.manipulateStructureContent(label, action, header);
+      return true;
     }
-
-    return true;
   }
 
   render() {
@@ -163,7 +199,16 @@ class Structure extends Component<IStructureProps, IStructureState> {
           <div>
             <label>Sub Content</label>
             <br></br>
-            <select>{this.renderContentHeaders()}</select>
+            <select
+              onChange={(val) => {
+                this.setState({
+                  selectedHeader: val.target.value,
+                });
+              }}
+            >
+              <option value="">Select Header</option>
+              {this.renderContentHeaders()}
+            </select>
             <br></br>
             <input
               type="text"
@@ -175,7 +220,25 @@ class Structure extends Component<IStructureProps, IStructureState> {
               }
             />
           </div>
-          <button type="button">Submit</button>
+          <button
+            disabled={
+              this.state.newContentColumn.length > 0 &&
+              this.state.selectedHeader !== ''
+                ? false
+                : true
+            }
+            type="button"
+            onClick={(event: React.SyntheticEvent<EventTarget>) => {
+              event.preventDefault();
+              this.VMStructure(
+                this.state.newContentColumn,
+                'add',
+                this.state.selectedHeader
+              );
+            }}
+          >
+            Submit
+          </button>
         </form>
         <br></br>
 

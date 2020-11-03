@@ -50,9 +50,9 @@ export interface ManipulateStructureHeader {
 export interface ManipulateStructureContent {
   type: typeof MANIPULATE_STRUCTURE_CONTENT;
   payload: {
-    header: string;
     label: string;
     action: StructureObjectAction;
+    header: string;
   };
 }
 
