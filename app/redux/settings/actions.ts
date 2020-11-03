@@ -22,7 +22,7 @@ export const initSettingsSuccess: ActionCreator<SettingActionTypes> = (
 });
 
 export const initSettingsFailed: ActionCreator<SettingActionTypes> = (
-  message?: String
+  message?: string
 ) => ({
   type: INITIALIZE_SETTINGS_FAILED,
   payload: { message },

@@ -1,23 +1,23 @@
 import {
-  INITIALIZE_STRUCTURE,
-  INITIALIZE_STRUCTURE_SUCCESS,
-  INITIALIZE_STRUCTURE_FAILED,
-  SAVE_STRUCTURE,
-  SAVE_STRUCTURE_SUCCESS,
+  INITIALIZE_MIGRATION,
+  INITIALIZE_MIGRATION_SUCCESS,
+  INITIALIZE_MIGRATION_FAILED,
+  SAVE_MIGRATION,
+  SAVE_MIGRATION_SUCCESS,
 } from '../redux.types';
 import { InteractiveResponder } from '../../types';
-import { StructureActionTypes } from './action.types';
+import { MigrationActionTypes } from './action.types';
 
-export interface StructureState extends InteractiveResponder {
-  structure: any;
+export interface MigrationState extends InteractiveResponder {
+  migration: any;
 }
 
-const INIT_STATE: StructureState = {
+const INIT_STATE: MigrationState = {
   loading: true,
   loaded: false,
   errorState: false,
   errorMessage: '',
-  structure: {},
+  migration: {},
 };
 
 const RESET_ERROR = {
@@ -26,21 +26,21 @@ const RESET_ERROR = {
 };
 
 const reducer = (
-  state: StructureState = INIT_STATE,
-  action: StructureActionTypes
-): StructureState => {
+  state: MigrationState = INIT_STATE,
+  action: MigrationActionTypes
+): MigrationState => {
   switch (action.type) {
-    case INITIALIZE_STRUCTURE:
+    case INITIALIZE_MIGRATION:
       return { ...state, loading: true };
-    case INITIALIZE_STRUCTURE_SUCCESS:
+    case INITIALIZE_MIGRATION_SUCCESS:
       return {
         ...state,
-        ...action.payload.structure,
+        ...action.payload.migration,
         ...RESET_ERROR,
         loading: false,
         loaded: true,
       };
-    case INITIALIZE_STRUCTURE_FAILED:
+    case INITIALIZE_MIGRATION_FAILED:
       return {
         ...INIT_STATE,
         loading: false,
@@ -50,13 +50,13 @@ const reducer = (
           ? action.payload.message.toString()
           : '',
       };
-    case SAVE_STRUCTURE:
+    case SAVE_MIGRATION:
       return {
         ...state,
-        ...action.payload.structure,
+        ...action.payload.migration,
         loading: true,
       };
-    case SAVE_STRUCTURE_SUCCESS:
+    case SAVE_MIGRATION_SUCCESS:
       return { ...state, loading: false };
     default:
       return { ...state };

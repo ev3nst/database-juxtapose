@@ -8,17 +8,17 @@ import {
 
 export interface InitStructure {
   type: typeof INITIALIZE_STRUCTURE;
-  payload: null;
+  payload: { path: string };
 }
 
 export interface InitStructureSuccess {
   type: typeof INITIALIZE_STRUCTURE_SUCCESS;
-  payload: null;
+  payload: { structure: any };
 }
 
 export interface InitStructureFailed {
   type: typeof INITIALIZE_STRUCTURE_FAILED;
-  payload: { message?: String };
+  payload: { message?: string };
 }
 
 export interface saveStructure {

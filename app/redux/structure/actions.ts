@@ -8,18 +8,22 @@ import {
 } from '../redux.types';
 import { StructureActionTypes } from './action.types';
 
-export const initStructure: ActionCreator<StructureActionTypes> = () => ({
+export const initStructure: ActionCreator<StructureActionTypes> = (
+  path: string
+) => ({
   type: INITIALIZE_STRUCTURE,
-  payload: null,
+  payload: { path },
 });
 
-export const initStructureSuccess: ActionCreator<StructureActionTypes> = () => ({
+export const initStructureSuccess: ActionCreator<StructureActionTypes> = (
+  structure: any
+) => ({
   type: INITIALIZE_STRUCTURE_SUCCESS,
-  payload: null,
+  payload: { structure },
 });
 
 export const initStructureFailed: ActionCreator<StructureActionTypes> = (
-  message?: String
+  message?: string
 ) => ({
   type: INITIALIZE_STRUCTURE_FAILED,
   payload: { message },

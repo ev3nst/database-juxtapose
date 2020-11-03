@@ -1,18 +1,21 @@
 import * as fs from 'fs';
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 import { INITIALIZE_SETTINGS } from '../redux.types';
-import { CONFIG_PATH, defaultConfig } from '../../utils/constants';
+import { CONFIG_PATH, USER_FOLDER, defaultConfig } from '../../utils/constants';
 import { initSettingsSuccess, initSettingsFailed } from '../actions';
 import { UserConfig } from '../../types/settings.types';
 
 // -------------------- Configure User Settings --------------------
 async function configureUserConfig(): Promise<UserConfig> {
-  const FileContents = fs.readFileSync(CONFIG_PATH, 'utf8');
   try {
+    const FileContents = fs.readFileSync(CONFIG_PATH, 'utf8');
     const data = JSON.parse(FileContents);
     return data as UserConfig;
   } catch (error) {
-    console.log(error, 'ERR FROM USER CONFIG');
+    if (!fs.existsSync(USER_FOLDER)) {
+      fs.mkdirSync(USER_FOLDER);
+    }
+
     fs.writeFileSync(CONFIG_PATH, JSON.stringify(defaultConfig));
     return defaultConfig;
   }

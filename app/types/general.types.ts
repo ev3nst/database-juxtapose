@@ -1,6 +1,6 @@
 export interface InteractiveResponder {
-    loading: Boolean;
-    loaded: Boolean;
-    errorState: Boolean;
-    errorMessage: String;
+  loading: Boolean;
+  loaded: Boolean;
+  errorState: Boolean;
+  errorMessage: string;
 }

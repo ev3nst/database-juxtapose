@@ -20,7 +20,7 @@ export interface InitSettingsSuccess {
 
 export interface InitSettingsFailed {
   type: typeof INITIALIZE_SETTINGS_FAILED;
-  payload: { message?: String };
+  payload: { message?: string };
 }
 
 export interface SetDefaultAction {
@@ -36,8 +36,8 @@ export interface SaveSettingsAction {
 export interface ChangePathAction {
   type: typeof CHANGE_PATH;
   payload: {
-    pathKey: String;
-    newPath: String;
+    pathKey: string;
+    newPath: string;
   };
 }
 
