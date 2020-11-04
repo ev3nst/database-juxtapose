@@ -15,10 +15,8 @@ import {
 
 //#region Redux Configuration
 const mapStateToProps = ({ intro }: RootState) => {
-  const {
-    loaded,
-  } = intro;
-  return { loaded, };
+  const { loaded } = intro;
+  return { loaded };
 };
 
 const mapActionsToProps = {
@@ -38,7 +36,7 @@ class Routes extends Component<IRouteProps> {
   }
 
   render() {
-    if(this.props.loaded === true) {
+    if (this.props.loaded === true) {
       return (
         <Router>
           <Switch>
