@@ -50,15 +50,19 @@ class Structure extends Component<IStructureProps, IStructureState> {
 
   componentDidMount() {
     this.autosaveID = setInterval(() => {
-      this.setState({
-        showNotification: true,
-      });
-      this.props.saveStructure(
-        this.props.paths.structures,
-        this.props.newStructure == undefined ? {} : this.props.newStructure,
-        true
-      );
+      this.onSaveStructure(true);
     }, INTERVAL_TIMEOUT);
+  }
+
+  onSaveStructure(isAutosave: Boolean = false) {
+    this.setState({
+      showNotification: true,
+    });
+    this.props.saveStructure(
+      this.props.paths.structures,
+      this.props.newStructure == undefined ? {} : this.props.newStructure,
+      isAutosave
+    );
   }
 
   componentWillUnmount() {
@@ -278,6 +282,29 @@ class Structure extends Component<IStructureProps, IStructureState> {
           >
             <b>SAVING....</b>
           </div>
+        )}
+
+        {this.state.showNotification === true ? (
+          <div
+            style={{
+              position: 'absolute',
+              top: 10,
+              right: 25,
+            }}
+          >
+            <b>SAVING....</b>
+          </div>
+        ) : (
+          <button
+            style={{
+              position: 'absolute',
+              top: 10,
+              right: 25,
+            }}
+            onClick={() => this.onSaveStructure(true)}
+          >
+            <b>SAVE</b>
+          </button>
         )}
       </div>
     );
