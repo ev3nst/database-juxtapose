@@ -272,23 +272,11 @@ class Structure extends Component<IProps, IStates> {
         <hr></hr>
         <Link to={routes.INTRO}>Go Back</Link>
 
-        {this.state.showNotification === true && (
-          <div
-            style={{
-              position: 'absolute',
-              top: 10,
-              right: 25,
-            }}
-          >
-            <b>SAVING....</b>
-          </div>
-        )}
-
         {this.state.showNotification === true ? (
           <div
             style={{
               position: 'absolute',
-              top: 10,
+              top: 75,
               right: 25,
             }}
           >
@@ -298,7 +286,7 @@ class Structure extends Component<IProps, IStates> {
           <button
             style={{
               position: 'absolute',
-              top: 10,
+              top: 75,
               right: 25,
             }}
             onClick={() => this.onSaveStructure(true)}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Icon, MenuItemProps } from 'semantic-ui-react';
+import { Menu, Icon } from 'semantic-ui-react';
 import { NavItemProps } from './types';
 
 class NavbarItem extends React.Component<NavItemProps> {
@@ -19,9 +19,7 @@ class NavbarItem extends React.Component<NavItemProps> {
       <Menu.Item
         name={item.route}
         active={activeNavbar === item.route}
-        onClick={(_event: React.MouseEvent, data: MenuItemProps) => {
-          onMenuClick(data.name as string);
-        }}
+        onClick={() => onMenuClick(item.route as string)}
       >
         {item.icon !== undefined && <Icon name={item.icon} />}
         <span>{item.title}</span>
