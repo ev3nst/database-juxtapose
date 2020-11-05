@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { Link } from 'react-router-dom';
 import {
   saveStructure,
   manipulateStructureHeader,
@@ -9,7 +8,6 @@ import {
 } from '../redux/actions';
 import { RootState } from '../redux/store';
 import { INTERVAL_TIMEOUT } from '../utils/constants';
-import routes from '../utils/routes.json';
 import { StructureObjectAction } from '../types/structure.types';
 
 //#region Redux Configuration
@@ -270,7 +268,6 @@ class Structure extends Component<IProps, IStates> {
         </div>
 
         <hr></hr>
-        <Link to={routes.INTRO}>Go Back</Link>
 
         {this.state.showNotification === true ? (
           <div
