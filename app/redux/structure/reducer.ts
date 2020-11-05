@@ -11,7 +11,7 @@ import { InteractiveResponder } from '../../types';
 import { StructureActionTypes } from './action.types';
 
 export interface StructureState extends InteractiveResponder {
-  saveLoading: Boolean;
+  saveLoading: boolean;
   newStructure: any;
 }
 

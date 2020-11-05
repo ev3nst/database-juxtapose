@@ -3,13 +3,16 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { RootState } from '../redux/store';
 import { changePath } from '../redux/actions';
+import { Container, Header, Form, Message } from 'semantic-ui-react';
+
 const { dialog } = require('electron').remote;
 
 //#region Redux Configuration
 const mapStateToProps = ({ settings }: RootState) => {
-  const { paths, autoSave, errorState, errorMessage } = settings;
+  const { paths, autoSave } = settings;
   return {
     paths,
+    autoSave,
   };
 };
 
@@ -28,7 +31,6 @@ class Settings extends Component<ISettingsProps> {
   async onPathChange(key: string) {
     const resp = await dialog.showOpenDialog({
       title: 'THIS IS TITLE',
-      buttonLabel: 'buttonLabel',
       message: 'message prop',
       defaultPath: this.props.paths.structures,
       properties: ['openDirectory', 'createDirectory'],
@@ -39,53 +41,62 @@ class Settings extends Component<ISettingsProps> {
     }
   }
 
+  private pathInfoConfig = {
+      color: 'teal',
+      labelPosition: 'right',
+      icon: 'folder open outline',
+      content: 'Edit',
+    }
+  
+    componentDidUpdate() {
+      
+    console.log(this.props) 
+    }
+
   render() {
     return (
-      <div>
-        <h1>Settings</h1>
-
-        <div>
-          <input
-            style={{ width: '100%' }}
+      <Container>
+        <Header
+          as="h2"
+          content="Application Settings"
+          subheader="User preferences are saved on a static path. Meaning it cannot be changed. When Other path preferences are changed their contents are moved as well."
+        />
+        <Form>
+          <Form.Input
+            fluid readOnly
+            label="Structures Path"
+            value={this.props.paths.structures}
+            action={{
+              ...this.pathInfoConfig,
+              onClick: () => this.onPathChange('structures')
+            }}
+          />
+          <Form.Input
+            fluid readOnly
+            label="Migrations Path"
+            value={this.props.paths.migrations}
+            action={{
+              ...this.pathInfoConfig,
+              onClick: () => this.onPathChange('migrations')
+            }}
+          />
+          <Form.Input required
             disabled
-            type="text"
-            placeholder="settings path..."
+            fluid
+            label="User Preferences"
             value={this.props.paths.userSettings}
           />
-          <br />
-          <button type="button" onClick={() => this.onPathChange('settings')}>
-            change
-          </button>
-        </div>
-        <hr></hr>
-        <div>
-          <input
-            style={{ width: '100%' }}
-            disabled
-            type="text"
-            placeholder="structures path..."
-            value={this.props.paths.structures}
+          <Form.Checkbox label="Auto Save" checked={this.props.autoSave} />
+          <Message
+            info
+            header='Works on content structure and database migration.'
+            list={[
+              'When creating a new structure or migration every minute progress is saved and will be kept until page is manually cleaned via button provided in that page or progress is saved manually by the user.',
+            ]}
           />
-          <br />
-          <button type="button" onClick={() => this.onPathChange('settings')}>
-            change
-          </button>
-        </div>
-        <hr></hr>
-        <div>
-          <input
-            style={{ width: '100%' }}
-            disabled
-            type="text"
-            placeholder="migrations path..."
-            value={this.props.paths.migrations}
-          />
-          <br />
-          <button type="button" onClick={() => this.onPathChange('settings')}>
-            change
-          </button>
-        </div>
-      </div>
+          <Form.Button>Submit</Form.Button>
+        </Form>
+      </Container>
     );
   }
 }

@@ -36,7 +36,7 @@ export const initStructureFailed: ActionCreator<StructureActionTypes> = (
 export const saveStructure: ActionCreator<StructureActionTypes> = (
   path: string,
   newStructure: any,
-  isAutosave: Boolean
+  isAutosave: boolean
 ) => ({
   type: SAVE_STRUCTURE,
   payload: { path, newStructure, isAutosave },

@@ -4,7 +4,7 @@ export type RouteItem = {
   title: string;
   route?: string;
   icon?: SemanticICONS;
-  dropdown?: Boolean;
+  dropdown?: boolean;
   items?: Array<RouteItem>;
 };
 
@@ -20,7 +20,7 @@ export type NavbarProps = {
   navItems: Array<RouteItem>;
 
   /** Show Back Button state. */
-  showBackButton: Boolean;
+  showBackButton: boolean;
 
   /** Callback when clicked on Back Button. */
   onNavigateBack?: () => void;

@@ -5,7 +5,7 @@ import {
   import { IntroActionTypes } from './action.types';
   
   export interface InitAppState {
-      loaded: Boolean;
+      loaded: boolean;
   }
   
   const INIT_STATE: InitAppState = {

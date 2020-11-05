@@ -6,7 +6,7 @@ import NavDropdown from './NavDropdown';
 
 type IProps = {
   navItems: Array<RouteItem>;
-  showBackButton: Boolean;
+  showBackButton: boolean;
   onNavigateBack?: () => void;
   backText?: string;
   backIcon?: SemanticICONS;

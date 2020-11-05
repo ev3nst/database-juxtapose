@@ -5,6 +5,6 @@ export type SettingPathInterface = {
 };
 
 export type UserConfig = {
-  autoSave: Boolean;
+  autoSave: boolean;
   paths: SettingPathInterface;
 };

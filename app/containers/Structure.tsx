@@ -31,7 +31,7 @@ type IStates = {
   selectedHeader: string;
   newContentHeader: string;
   newContentColumn: string;
-  showNotification: Boolean;
+  showNotification: boolean;
 };
 //#endregion
 
@@ -52,7 +52,7 @@ class Structure extends Component<IProps, IStates> {
     }, INTERVAL_TIMEOUT);
   }
 
-  onSaveStructure(isAutosave: Boolean = false) {
+  onSaveStructure(isAutosave: boolean = false) {
     this.setState({
       showNotification: true,
     });
@@ -140,7 +140,7 @@ class Structure extends Component<IProps, IStates> {
     label: string,
     action: StructureObjectAction,
     header?: string
-  ): Boolean {
+  ): boolean {
     let keys: Array<string> = [];
     const value = label.trim();
 

@@ -27,7 +27,7 @@ export interface InitStructureFailed {
 
 export interface SaveStructure {
   type: typeof SAVE_STRUCTURE;
-  payload: { path: string; newStructure: any; isAutosave: Boolean };
+  payload: { path: string; newStructure: any; isAutosave: boolean };
 }
 
 export interface SaveStructureSuccess {

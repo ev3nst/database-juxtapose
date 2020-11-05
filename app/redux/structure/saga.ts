@@ -47,7 +47,7 @@ export function* watchinitStructure() {
 async function saveStructureFile(
   path: string,
   newStructure: any,
-  isAutosave: Boolean
+  isAutosave: boolean
 ) {
   if (isAutosave === true) {
     fs.writeFileSync(
@@ -63,7 +63,7 @@ type NewStructurePayload = {
   payload: {
     path: string;
     newStructure: any;
-    isAutosave: Boolean;
+    isAutosave: boolean;
   };
   type: string;
 };
