@@ -27,18 +27,18 @@ const mapActionsToProps = {
 
 const connector = connect(mapStateToProps, mapActionsToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type IStructureProps = PropsFromRedux & RouteComponentProps;
-//#endregion
+type IProps = PropsFromRedux & RouteComponentProps;
 
-interface IStructureState {
+type IStates = {
   selectedHeader: string;
   newContentHeader: string;
   newContentColumn: string;
   showNotification: Boolean;
-}
+};
+//#endregion
 
-class Structure extends Component<IStructureProps, IStructureState> {
-  state: IStructureState = {
+class Structure extends Component<IProps, IStates> {
+  state: IStates = {
     selectedHeader: '',
     newContentHeader: '',
     newContentColumn: '',
@@ -70,7 +70,7 @@ class Structure extends Component<IStructureProps, IStructureState> {
     clearInterval(this.notificationID);
   }
 
-  componentDidUpdate(prevProps: IStructureProps) {
+  componentDidUpdate(prevProps: IProps) {
     if (prevProps.saveLoading !== this.props.saveLoading) {
       this.notificationID = setTimeout(() => {
         this.setState({

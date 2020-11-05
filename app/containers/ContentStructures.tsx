@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-class Home extends Component {
+class ContentStructures extends Component {
   componentDidMount() {}
 
   render() {
     return (
-      <React.Fragment>asdasda
+      <React.Fragment>
+        <h1>This is Content Structures..</h1>
       </React.Fragment>
     );
   }
@@ -18,4 +19,4 @@ const mapStateToProps = () => {
 
 const mapActionsToProps = {};
 
-export default connect(mapStateToProps, mapActionsToProps)(Home);
+export default connect(mapStateToProps, mapActionsToProps)(ContentStructures);

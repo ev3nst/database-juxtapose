@@ -1,7 +1,9 @@
 {
-  "INTRO": "/",
-  "NEW_MIGRATION": "/new-migration",
-  "STRUCTURE": "/new-structure",
+  "WRAPPER": "/",
+  "CONTENT_STRUCTURES": "/content-structures",
+  "DATABASE_MIGRATIONS": "/database-migrations",
   "MIGRATION_WIZARD": "/migration-wizard",
+  "NEW_MIGRATION": "/new-migration",
+  "NEW_STRUCTURE": "/new-structure",
   "SETTINGS": "/settings"
 }
