@@ -9,8 +9,9 @@ class NavDropdown extends React.Component<NavDropdownProps, NavDropdownStates> {
   }
 
   renderItems(items: Array<RouteItem>): Array<JSX.Element> {
+    const { onMenuClick } = this.props;
     return items.map((item) => (
-      <NavDropdownItem key={item.title} item={item} />
+      <NavDropdownItem key={item.title} item={item} onMenuClick={onMenuClick} />
     ));
   }
 

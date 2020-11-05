@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown, Icon } from 'semantic-ui-react';
+import { Dropdown, Icon, DropdownItemProps } from 'semantic-ui-react';
 import { NavDropdownItemProps, NavDropdownItemStates } from './types';
 
 class NavDropdownItem extends React.Component<
@@ -10,9 +10,13 @@ class NavDropdownItem extends React.Component<
     return false;
   }
   render() {
-    const { item } = this.props;
+    const { item, onMenuClick } = this.props;
     return (
-      <Dropdown.Item>
+      <Dropdown.Item
+        onClick={(_event: React.MouseEvent, data: DropdownItemProps) => {
+          onMenuClick(data.name as string);
+        }}
+      >
         {item.icon !== undefined && <Icon name={item.icon} />}
         <span>{item.title}</span>
       </Dropdown.Item>

@@ -62,6 +62,8 @@ class Wrapper extends React.Component<IProps, IStates> {
         navItems={NavbarItems}
         activeNavbar={activeContainer}
         onMenuClick={this.onNavigate}
+        onNavigateBack={() => this.onNavigate(routes.CONTENT_STRUCTURES)}
+        showBackButton={activeContainer !== routes.CONTENT_STRUCTURES}
       />
     );
   }
