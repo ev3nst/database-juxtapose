@@ -7,12 +7,12 @@ import {
   MANIPULATE_STRUCTURE_HEADER,
   MANIPULATE_STRUCTURE_CONTENT,
 } from '../redux.types';
-import { InteractiveResponder } from '../../types';
+import { InteractiveResponder, StructureItem } from '../../types';
 import { StructureActionTypes } from './action.types';
 
 export interface StructureState extends InteractiveResponder {
   saveLoading: boolean;
-  newStructure: any;
+  newStructure: StructureItem;
 }
 
 const INIT_STATE: StructureState = {
@@ -50,9 +50,7 @@ const reducer = (
         loading: false,
         loaded: false,
         errorState: true,
-        errorMessage: action.payload.message
-          ? action.payload.message.toString()
-          : '',
+        errorMessage: action.payload.message ? action.payload.message.toString() : '',
       };
     case SAVE_STRUCTURE:
       return {
@@ -61,8 +59,8 @@ const reducer = (
       };
     case SAVE_STRUCTURE_SUCCESS:
       return { ...state, saveLoading: false };
-    case MANIPULATE_STRUCTURE_HEADER:
-      if (action.payload.action == 'add') {
+    case MANIPULATE_STRUCTURE_HEADER: {
+      if (action.payload.action === 'add') {
         return {
           ...state,
           newStructure: {
@@ -70,45 +68,40 @@ const reducer = (
             [action.payload.label]: [],
           },
         };
-      } else {
-        const headerToRemove = action.payload.label;
-        const {
-          [headerToRemove]: {},
-          ...removedStructure
-        } = state.newStructure;
-        return { ...state, newStructure: removedStructure };
       }
-    case MANIPULATE_STRUCTURE_CONTENT:
-      if (action.payload.action == 'add') {
+      const headerToRemove = action.payload.label;
+      const {
+        [headerToRemove]: {},
+        ...removedStructure
+      } = state.newStructure;
+      return { ...state, newStructure: removedStructure };
+    }
+    case MANIPULATE_STRUCTURE_CONTENT: {
+      if (action.payload.action === 'add') {
         return {
           ...state,
           newStructure: {
             ...state.newStructure,
-            [action.payload.header]: state.newStructure[
-              action.payload.header
-            ].concat(action.payload.label),
-          },
-        };
-      } else {
-        const indexToRemove = state.newStructure[action.payload.header].indexOf(
-          action.payload.label
-        );
-        return {
-          ...state,
-          newStructure: {
-            ...state.newStructure,
-            [action.payload.header]: [
-              ...state.newStructure[action.payload.header].slice(
-                0,
-                indexToRemove
-              ),
-              ...state.newStructure[action.payload.header].slice(
-                indexToRemove + 1
-              ),
-            ],
+            [action.payload.header]: state.newStructure[action.payload.header].concat(
+              action.payload.label
+            ),
           },
         };
       }
+      const indexToRemove = state.newStructure[action.payload.header].indexOf(
+        action.payload.label
+      );
+      return {
+        ...state,
+        newStructure: {
+          ...state.newStructure,
+          [action.payload.header]: [
+            ...state.newStructure[action.payload.header].slice(0, indexToRemove),
+            ...state.newStructure[action.payload.header].slice(indexToRemove + 1),
+          ],
+        },
+      };
+    }
     default:
       return { ...state };
   }

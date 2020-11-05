@@ -1,7 +1,4 @@
-import {
-  INITIALIZE_APP,
-  INITIALIZE_APP_SUCCESS,
-} from '../redux.types';
+import { INITIALIZE_APP, INITIALIZE_APP_SUCCESS } from '../redux.types';
 
 export interface InitApp {
   type: typeof INITIALIZE_APP;
@@ -13,6 +10,4 @@ export interface InitAppSuccess {
   payload: null;
 }
 
-export type IntroActionTypes =
-  | InitApp
-  | InitAppSuccess
+export type IntroActionTypes = InitApp | InitAppSuccess;

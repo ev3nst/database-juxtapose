@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
+import { Container, Header, Form, Message } from 'semantic-ui-react';
 import { RootState } from '../redux/store';
 import { changePath } from '../redux/actions';
-import { Container, Header, Form, Message } from 'semantic-ui-react';
 
 const { dialog } = require('electron').remote;
 
-//#region Redux Configuration
+// #region Redux Configuration
 const mapStateToProps = ({ settings }: RootState) => {
   const { paths, autoSave } = settings;
   return {
@@ -23,37 +23,32 @@ const mapActionsToProps = {
 const connector = connect(mapStateToProps, mapActionsToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ISettingsProps = PropsFromRedux & RouteComponentProps;
-//#endregion
+// #endregion
 
 class Settings extends Component<ISettingsProps> {
-  componentDidMount() {}
+  private pathInfoConfig = {
+    color: 'teal',
+    labelPosition: 'right',
+    icon: 'folder open outline',
+    content: 'Edit',
+  };
 
   async onPathChange(key: string) {
+    const { paths, changePath: ChangePath } = this.props;
     const resp = await dialog.showOpenDialog({
       title: 'THIS IS TITLE',
       message: 'message prop',
-      defaultPath: this.props.paths.structures,
+      defaultPath: paths.structures,
       properties: ['openDirectory', 'createDirectory'],
     });
 
     if (resp.filePaths[0] !== undefined && resp.filePaths[0] !== null) {
-      this.props.changePath(key, resp.filePaths[0]);
+      ChangePath(key, resp.filePaths[0]);
     }
   }
 
-  private pathInfoConfig = {
-      color: 'teal',
-      labelPosition: 'right',
-      icon: 'folder open outline',
-      content: 'Edit',
-    }
-  
-    componentDidUpdate() {
-      
-    console.log(this.props) 
-    }
-
   render() {
+    const { paths, autoSave } = this.props;
     return (
       <Container>
         <Header
@@ -63,33 +58,36 @@ class Settings extends Component<ISettingsProps> {
         />
         <Form>
           <Form.Input
-            fluid readOnly
+            fluid
+            readOnly
             label="Structures Path"
-            value={this.props.paths.structures}
+            value={paths.structures}
             action={{
               ...this.pathInfoConfig,
-              onClick: () => this.onPathChange('structures')
+              onClick: () => this.onPathChange('structures'),
             }}
           />
           <Form.Input
-            fluid readOnly
+            fluid
+            readOnly
             label="Migrations Path"
-            value={this.props.paths.migrations}
+            value={paths.migrations}
             action={{
               ...this.pathInfoConfig,
-              onClick: () => this.onPathChange('migrations')
+              onClick: () => this.onPathChange('migrations'),
             }}
           />
-          <Form.Input required
+          <Form.Input
+            required
             disabled
             fluid
             label="User Preferences"
-            value={this.props.paths.userSettings}
+            value={paths.userSettings}
           />
-          <Form.Checkbox label="Auto Save" checked={this.props.autoSave} />
+          <Form.Checkbox label="Auto Save" checked={autoSave} />
           <Message
             info
-            header='Works on content structure and database migration.'
+            header="Works on content structure and database migration."
             list={[
               'When creating a new structure or migration every minute progress is saved and will be kept until page is manually cleaned via button provided in that page or progress is saved manually by the user.',
             ]}

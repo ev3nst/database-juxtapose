@@ -8,7 +8,7 @@ type Props = {
   store: Store;
 };
 
-const Root = ({ store }: Props) => (
+const Root = ({ store }: Props): JSX.Element => (
   <Provider store={store}>
     <Routes />
   </Provider>

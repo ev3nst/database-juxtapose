@@ -1,0 +1,50 @@
+{
+  "extends": [
+    "airbnb-typescript",
+    "prettier",
+    "prettier/react",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended",
+    "eslint-config-prettier"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json",
+    "createDefaultProgram": true
+  },
+  "rules": {
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars-experimental": "error",
+    "import/no-extraneous-dependencies": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "global-require": 0,
+    "no-empty-pattern": "off",
+    "prefer-destructuring": [
+      "error",
+      {
+        "object": true,
+        "array": false
+      }
+    ],
+    "import/no-unresolved": "off",
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "trailingComma": "es5",
+        "singleQuote": true,
+        "printWidth": 90
+      }
+    ],
+    "react/prop-types": 0,
+    "react/jsx-no-bind": 0
+  },
+  "plugins": ["prettier"]
+}

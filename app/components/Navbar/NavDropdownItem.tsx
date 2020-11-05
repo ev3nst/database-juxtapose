@@ -9,6 +9,7 @@ class NavDropdownItem extends React.Component<
   shouldComponentUpdate() {
     return false;
   }
+
   render() {
     const { item, onMenuClick } = this.props;
     return (

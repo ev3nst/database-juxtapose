@@ -5,37 +5,22 @@ import routes from '../utils/routes.json';
 import { NavbarItems } from '../utils/constants';
 import Navbar from '../components/Navbar';
 
-//#region Redux Configuration
+// #region Redux Configuration
 type IProps = {} & RouteComponentProps;
 
 type IStates = {
   activeContainer: string;
 };
-//#endregion
+// #endregion
 
 // Component
 class Wrapper extends React.Component<IProps, IStates> {
-  state: IStates = {
-    activeContainer: routes.CONTENT_STRUCTURES,
-  };
+  constructor(props: IProps) {
+    super(props);
 
-  onNavigate = (container: string) => {
-    const { activeContainer } = this.state;
-
-    if (activeContainer !== container) {
-      const { history } = this.props;
-      this.setState({
-        activeContainer: container,
-      });
-      history.push(container);
-    }
-  };
-
-  shouldComponentUpdate(_nextProps: IProps, prevState: IStates) {
-    if (this.state.activeContainer !== prevState.activeContainer) {
-      return true;
-    }
-    return false;
+    this.state = {
+      activeContainer: routes.CONTENT_STRUCTURES,
+    };
   }
 
   componentDidMount() {
@@ -54,8 +39,27 @@ class Wrapper extends React.Component<IProps, IStates> {
     }
   }
 
+  shouldComponentUpdate(_nextProps: IProps, prevState: IStates) {
+    const { activeContainer } = this.state;
+    if (activeContainer !== prevState.activeContainer) {
+      return true;
+    }
+    return false;
+  }
+
+  onNavigate = (container: string) => {
+    const { activeContainer } = this.state;
+
+    if (activeContainer !== container) {
+      const { history } = this.props;
+      this.setState({
+        activeContainer: container,
+      });
+      history.push(container);
+    }
+  };
+
   render() {
-    console.log('WRAPPER RENDERED');
     const { activeContainer } = this.state;
     return (
       <Navbar

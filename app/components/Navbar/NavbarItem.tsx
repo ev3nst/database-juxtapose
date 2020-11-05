@@ -4,10 +4,8 @@ import { NavItemProps } from './types';
 
 class NavbarItem extends React.Component<NavItemProps> {
   shouldComponentUpdate(nextProps: NavItemProps) {
-    if (
-      nextProps.activeNavbar == this.props.item.route ||
-      this.props.activeNavbar == this.props.item.route
-    ) {
+    const { item, activeNavbar } = this.props;
+    if (nextProps.activeNavbar === item.route || activeNavbar === item.route) {
       return true;
     }
     return false;

@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 import { INITIALIZE_STRUCTURE, SAVE_STRUCTURE } from '../redux.types';
+import { StructureItem } from '../../types';
 import { STRUCTURE_AUTOSAVE_FILE } from '../../utils/constants';
 import {
   initStructureSuccess,
@@ -44,16 +45,9 @@ export function* watchinitStructure() {
 }
 
 // -------------------- Save New Structure File --------------------
-async function saveStructureFile(
-  path: string,
-  newStructure: any,
-  isAutosave: boolean
-) {
+async function saveStructureFile(path: string, newStructure: any, isAutosave: boolean) {
   if (isAutosave === true) {
-    fs.writeFileSync(
-      path + STRUCTURE_AUTOSAVE_FILE,
-      JSON.stringify(newStructure)
-    );
+    fs.writeFileSync(path + STRUCTURE_AUTOSAVE_FILE, JSON.stringify(newStructure));
   } else {
     fs.writeFileSync(path, JSON.stringify(newStructure));
   }
@@ -62,19 +56,14 @@ async function saveStructureFile(
 type NewStructurePayload = {
   payload: {
     path: string;
-    newStructure: any;
+    newStructure: StructureItem;
     isAutosave: boolean;
   };
   type: string;
 };
 function* saveStructure({ payload }: NewStructurePayload) {
   try {
-    yield call(
-      saveStructureFile,
-      payload.path,
-      payload.newStructure,
-      payload.isAutosave
-    );
+    yield call(saveStructureFile, payload.path, payload.newStructure, payload.isAutosave);
     yield put(saveStructureSuccess());
   } catch (error) {
     yield put(saveStructureFailed(error));

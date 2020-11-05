@@ -7,19 +7,13 @@ const sagaMiddleware = createSagaMiddleware();
 const middlewares = [sagaMiddleware];
 export type RootState = ReturnType<typeof reducers>;
 
-export const configuredStore = (initialState?: RootState) => {
+export const configuredStore = (initialState?: RootState): unknown => {
   // Create Store
-  const store = createStore(
-    reducers,
-    initialState,
-    compose(applyMiddleware(...middlewares))
-  );
+  const store = createStore(reducers, initialState, compose(applyMiddleware(...middlewares)));
   sagaMiddleware.run(sagas);
 
   if (process.env.NODE_ENV === 'development' && module.hot) {
-    module.hot.accept('./reducers', () =>
-      store.replaceReducer(require('./reducers').default)
-    );
+    module.hot.accept('./reducers', () => store.replaceReducer(require('./reducers').default));
   }
   return store;
 };

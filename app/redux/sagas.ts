@@ -3,6 +3,6 @@ import settingsSagas from './settings/saga';
 import structureSagas from './structure/saga';
 import migrationSagas from './migration/saga';
 
-export default function* rootSaga(/* getState */) {
+export default function* rootSaga() {
   yield all([settingsSagas(), structureSagas(), migrationSagas()]);
 }

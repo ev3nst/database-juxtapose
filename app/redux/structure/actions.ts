@@ -9,18 +9,16 @@ import {
   INITIALIZE_STRUCTURE_SUCCESS,
   INITIALIZE_STRUCTURE_FAILED,
 } from '../redux.types';
-import { StructureObjectAction } from '../../types/structure.types';
+import { StructureObjectAction, StructureItem } from '../../types';
 import { StructureActionTypes } from './action.types';
 
-export const initStructure: ActionCreator<StructureActionTypes> = (
-  path: string
-) => ({
+export const initStructure: ActionCreator<StructureActionTypes> = (path: string) => ({
   type: INITIALIZE_STRUCTURE,
   payload: { path },
 });
 
 export const initStructureSuccess: ActionCreator<StructureActionTypes> = (
-  structure: any
+  structure: StructureItem
 ) => ({
   type: INITIALIZE_STRUCTURE_SUCCESS,
   payload: { structure },
@@ -35,7 +33,7 @@ export const initStructureFailed: ActionCreator<StructureActionTypes> = (
 
 export const saveStructure: ActionCreator<StructureActionTypes> = (
   path: string,
-  newStructure: any,
+  newStructure: Record<string, never>,
   isAutosave: boolean
 ) => ({
   type: SAVE_STRUCTURE,

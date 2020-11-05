@@ -4,7 +4,8 @@ import { InteractiveResponder } from '../types';
 
 const Responder: React.FunctionComponent<InteractiveResponder> = (props) => {
   const { t } = useTranslation();
-  if (props.errorState === true) {
+  const { errorState } = props;
+  if (errorState === true) {
     return (
       <div>
         <h5>{t('errors.unexpected_error')}</h5>
@@ -12,7 +13,7 @@ const Responder: React.FunctionComponent<InteractiveResponder> = (props) => {
     );
   }
 
-  return <React.Fragment></React.Fragment>;
+  return <></>;
 };
 
 export default Responder;

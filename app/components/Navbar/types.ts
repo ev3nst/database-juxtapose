@@ -8,7 +8,7 @@ export type RouteItem = {
   items?: Array<RouteItem>;
 };
 
-//#region Navbar Item
+// #region Navbar Item
 export type NavbarProps = {
   /** Callback when clicked on Navbar Item. */
   onMenuClick: (title: string) => void;
@@ -31,13 +31,9 @@ export type NavbarProps = {
   /** Optional Back Button Icon. */
   backIcon?: SemanticICONS;
 };
+// #endregion
 
-export type NavbarStates = {
-  activeTab: string;
-};
-//#endregion
-
-//#region Navbar Item
+// #region Navbar Item
 export type NavItemProps = {
   item: RouteItem;
   onMenuClick: (title: string) => void;
@@ -45,22 +41,22 @@ export type NavItemProps = {
 };
 
 export type NavItemStates = {};
-//#endregion
+// #endregion
 
-//#region Navbar Dropdown
+// #region Navbar Dropdown
 export type NavDropdownProps = {
   item: RouteItem;
   onMenuClick: (title: string) => void;
 };
 
 export type NavDropdownStates = {};
-//#endregion
+// #endregion
 
-//#region Navbar Dropdown Item
+// #region Navbar Dropdown Item
 export type NavDropdownItemProps = {
   item: RouteItem;
   onMenuClick: (title: string) => void;
 };
 
 export type NavDropdownItemStates = {};
-//#endregion
+// #endregion

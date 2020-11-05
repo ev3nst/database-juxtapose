@@ -8,7 +8,7 @@ import {
   INITIALIZE_STRUCTURE_SUCCESS,
   INITIALIZE_STRUCTURE_FAILED,
 } from '../redux.types';
-import { StructureObjectAction } from '../../types/structure.types';
+import { StructureObjectAction, StructureItem } from '../../types';
 
 export interface InitStructure {
   type: typeof INITIALIZE_STRUCTURE;
@@ -17,7 +17,7 @@ export interface InitStructure {
 
 export interface InitStructureSuccess {
   type: typeof INITIALIZE_STRUCTURE_SUCCESS;
-  payload: { structure: any };
+  payload: { structure: StructureItem };
 }
 
 export interface InitStructureFailed {
@@ -27,7 +27,7 @@ export interface InitStructureFailed {
 
 export interface SaveStructure {
   type: typeof SAVE_STRUCTURE;
-  payload: { path: string; newStructure: any; isAutosave: boolean };
+  payload: { path: string; newStructure: StructureItem; isAutosave: boolean };
 }
 
 export interface SaveStructureSuccess {

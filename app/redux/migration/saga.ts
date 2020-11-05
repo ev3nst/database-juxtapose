@@ -16,10 +16,7 @@ async function configureMigrationFiles(path: string) {
       return {};
     }
 
-    const FileContents = fs.readFileSync(
-      path + MIGRATION_AUTOSAVE_FILE,
-      'utf8'
-    );
+    const FileContents = fs.readFileSync(path + MIGRATION_AUTOSAVE_FILE, 'utf8');
     const data = JSON.parse(FileContents);
     return data;
   } catch (error) {

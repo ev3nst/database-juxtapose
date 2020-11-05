@@ -14,7 +14,7 @@ class MigrationWizard extends Component<RouteComponentProps> {
   }
 }
 
-const mapStateToProps = ({ migration_wizard }: any) => {
+const mapStateToProps = () => {
   // const { test } = migration_wizard;
   return {};
 };

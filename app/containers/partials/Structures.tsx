@@ -1,13 +1,10 @@
 import React, { FunctionComponent } from 'react';
 
-type StructureListProps = {
-}
+type StructureListProps = {};
 
 const StructureList: FunctionComponent<StructureListProps> = () => (
   <div>
-    <h1>
-      Structures !!
-    </h1>
+    <h1>Structures !!</h1>
   </div>
 );
 

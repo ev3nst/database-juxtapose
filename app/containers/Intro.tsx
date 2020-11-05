@@ -8,7 +8,7 @@ import {
 } from '../redux/actions';
 import { RootState } from '../redux/store';
 
-//#region Redux Configuration
+// #region Redux Configuration
 const mapStateToProps = ({ settings, structure, migration }: RootState) => {
   return {
     errors: {
@@ -52,21 +52,22 @@ const mapActionsToProps = {
 
 const connector = connect(mapStateToProps, mapActionsToProps);
 type IIntroProps = ConnectedProps<typeof connector>;
-//#endregion
+// #endregion
 
 class Intro extends Component<IIntroProps> {
   componentDidMount() {
-    this.props.initSettings();
+    const { initSettings: InitSettings } = this.props;
+    InitSettings();
   }
 
   componentDidUpdate(prevProps: IIntroProps) {
-    const { initStates } = this.props;
+    const { initStates, paths, initAppSuccess: InitAppSuccess } = this.props;
     if (
-      prevProps.initStates.settings.loaded == false &&
+      prevProps.initStates.settings.loaded === false &&
       initStates.settings.loaded === true
     ) {
-      this.props.initStructure(this.props.paths.structures);
-      this.props.initMigration(this.props.paths.migrations);
+      InitAppSuccess(paths.structures);
+      InitAppSuccess(paths.migrations);
     }
 
     if (
@@ -74,7 +75,7 @@ class Intro extends Component<IIntroProps> {
       initStates.structure.loaded === true &&
       initStates.migration.loaded === true
     ) {
-      this.props.initAppSuccess();
+      InitAppSuccess();
     }
   }
 
@@ -82,16 +83,12 @@ class Intro extends Component<IIntroProps> {
     const { initStates } = this.props;
     const statesToRender = [];
 
-    let key: keyof typeof initStates;
-    for (key in initStates) {
+    const keys = Object.keys(initStates);
+    for (let i = 0; i < keys.length; i += 1) {
+      const key = keys[i] as keyof typeof initStates;
       statesToRender.push(
         <li key={key}>
-          <strong>{key}:</strong> -{' '}
-          {initStates[key].loading === true
-            ? '[Loading..]'
-            : initStates[key].loaded === true
-            ? '[OK]'
-            : '[FAILED]'}
+          <strong>{key}:</strong> {initStates[key].loaded === true ? '[OK]' : '[FAILED]'}
         </li>
       );
     }
@@ -108,13 +105,14 @@ class Intro extends Component<IIntroProps> {
     const { errors } = this.props;
     const errorsToRender = [];
 
-    let key: keyof typeof errors;
-    for (key in errors) {
+    const keys = Object.keys(errors);
+    for (let i = 0; i < keys.length; i += 1) {
+      const key = keys[i] as keyof typeof errors;
       errorsToRender.push(
         <div key={key}>
           <strong>{key}:</strong> - {errors[key].state === true ? 'ERR' : ''}
           <p>{errors[key].message !== null ? errors[key].message : ''}</p>
-          <hr></hr>
+          <hr />
         </div>
       );
     }

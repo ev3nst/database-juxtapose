@@ -21,12 +21,12 @@ export interface InitMigrationFailed {
   payload: { message?: string };
 }
 
-export interface saveMigration {
+export interface SaveMigration {
   type: typeof SAVE_MIGRATION;
   payload: { migration: any };
 }
 
-export interface saveMigrationSuccess {
+export interface SaveMigrationSuccess {
   type: typeof SAVE_MIGRATION_SUCCESS;
   payload: null;
 }
@@ -35,5 +35,5 @@ export type MigrationActionTypes =
   | InitMigration
   | InitMigrationSuccess
   | InitMigrationFailed
-  | saveMigration
-  | saveMigrationSuccess;
+  | SaveMigration
+  | SaveMigrationSuccess;

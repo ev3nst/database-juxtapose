@@ -20,10 +20,7 @@ if (process.env.NODE_ENV === 'production') {
   sourceMapSupport.install();
 }
 
-if (
-  process.env.NODE_ENV === 'development' ||
-  process.env.DEBUG_PROD === 'true'
-) {
+if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
   app.allowRendererProcessReuse = true;
   process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true';
   require('electron-debug')();
@@ -46,8 +43,7 @@ const createWindow = async () => {
     minHeight: 400,
     icon: getAssetPath('icon.png'),
     webPreferences:
-      (process.env.NODE_ENV === 'development' ||
-        process.env.E2E_BUILD === 'true') &&
+      (process.env.NODE_ENV === 'development' || process.env.E2E_BUILD === 'true') &&
       process.env.ERB_SECURE !== 'true'
         ? {
             nodeIntegration: true,
@@ -97,7 +93,6 @@ app.on('window-all-closed', () => {
 });
 
 if (process.env.E2E_BUILD === 'true') {
-  // eslint-disable-next-line promise/catch-or-return
   app.whenReady().then(createWindow);
 } else {
   app.on('ready', createWindow);

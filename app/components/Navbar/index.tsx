@@ -1,6 +1,6 @@
 import React from 'react';
-import { NavbarProps, NavbarStates, RouteItem } from './types';
 import { Menu, Icon, SemanticICONS } from 'semantic-ui-react';
+import { NavbarProps, RouteItem } from './types';
 import NavbarItem from './NavbarItem';
 import NavDropdown from './NavDropdown';
 
@@ -10,13 +10,9 @@ type IProps = {
   onNavigateBack?: () => void;
   backText?: string;
   backIcon?: SemanticICONS;
-};
+} & NavbarProps;
 
-class Navbar extends React.PureComponent<NavbarProps & IProps, NavbarStates> {
-  state: NavbarStates = {
-    activeTab: this.props.activeNavbar,
-  };
-
+class Navbar extends React.PureComponent<IProps> {
   renderBackButton(): JSX.Element {
     const { onNavigateBack, backText, backIcon } = this.props;
     return (
@@ -24,9 +20,9 @@ class Navbar extends React.PureComponent<NavbarProps & IProps, NavbarStates> {
         key="back"
         position="right"
         onClick={() => {
-          onNavigateBack !== undefined
-            ? onNavigateBack()
-            : console.log('Should implement onNavigateBack prop.');
+          if (onNavigateBack !== undefined) {
+            onNavigateBack();
+          }
         }}
       >
         <Icon name={backIcon ?? 'remove'} />
@@ -41,16 +37,15 @@ class Navbar extends React.PureComponent<NavbarProps & IProps, NavbarStates> {
       const key = item.title;
       if (item.dropdown !== undefined && item.dropdown === true) {
         return <NavDropdown key={key} item={item} onMenuClick={onMenuClick} />;
-      } else {
-        return (
-          <NavbarItem
-            key={key}
-            item={item}
-            onMenuClick={onMenuClick}
-            activeNavbar={activeNavbar}
-          />
-        );
       }
+      return (
+        <NavbarItem
+          key={key}
+          item={item}
+          onMenuClick={onMenuClick}
+          activeNavbar={activeNavbar}
+        />
+      );
     });
 
     if (showBackButton === true) {

@@ -6,9 +6,9 @@ class ContentStructures extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <>
         <h1>This is Content Structures..</h1>
-      </React.Fragment>
+      </>
     );
   }
 }

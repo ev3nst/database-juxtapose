@@ -46,9 +46,7 @@ const reducer = (
         loading: false,
         loaded: false,
         errorState: true,
-        errorMessage: action.payload.message
-          ? action.payload.message.toString()
-          : '',
+        errorMessage: action.payload.message ? action.payload.message.toString() : '',
       };
     case SAVE_SETTINGS:
       return { ...state };

@@ -14,8 +14,8 @@ import {
   Settings,
 } from './containers';
 
-//#region Redux Configuration
-const mapStateToProps = ({ intro }: RootState) => {
+// #region Redux Configuration
+const mapStateToProps = ({ intro }: RootState): any => {
   const { loaded } = intro;
   return { loaded };
 };
@@ -26,51 +26,46 @@ const mapActionsToProps = {
 
 const connector = connect(mapStateToProps, mapActionsToProps);
 type IProps = ConnectedProps<typeof connector>;
-
-type IStates = {};
-//#endregion
+// #endregion
 
 // Component
-class Routes extends React.Component<IProps, IStates> {
-  componentDidMount() {
-    if (this.props.loaded === false) {
-      this.props.initApp();
+class Routes extends React.Component<IProps> {
+  componentDidMount(): void {
+    const { initApp: InitApp, loaded } = this.props;
+
+    if (loaded === false) {
+      InitApp();
     }
   }
 
-  shouldComponentUpdate(nextProps: IProps) {
-    if (this.props.loaded !== nextProps.loaded) {
+  shouldComponentUpdate(nextProps: IProps): boolean {
+    const { loaded } = this.props;
+    if (loaded !== nextProps.loaded) {
       return true;
     }
     return false;
   }
 
-  render() {
-    if (this.props.loaded === true) {
+  render(): JSX.Element {
+    const { loaded } = this.props;
+    if (loaded === true) {
       return (
-        <React.Fragment>
+        <>
           <Router>
             <Route path={routes.WRAPPER} component={Wrapper} />
             <Switch>
-              <Route
-                path={routes.CONTENT_STRUCTURES}
-                component={ContentStructures}
-              />
+              <Route path={routes.CONTENT_STRUCTURES} component={ContentStructures} />
               <Route path={routes.NEW_MIGRATION} component={NewMigration} />
               <Route path={routes.NEW_STRUCTURE} component={Structure} />
-              <Route
-                path={routes.MIGRATION_WIZARD}
-                component={MigrationWizard}
-              />
+              <Route path={routes.MIGRATION_WIZARD} component={MigrationWizard} />
               <Route path={routes.SETTINGS} component={Settings} />
               <Route path="*" component={ContentStructures} />
             </Switch>
           </Router>
-        </React.Fragment>
+        </>
       );
-    } else {
-      return <Intro />;
     }
+    return <Intro />;
   }
 }
 

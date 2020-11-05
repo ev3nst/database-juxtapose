@@ -1,8 +1,5 @@
 import { ActionCreator } from 'redux';
-import {
-  INITIALIZE_APP,
-  INITIALIZE_APP_SUCCESS,
-} from '../redux.types';
+import { INITIALIZE_APP, INITIALIZE_APP_SUCCESS } from '../redux.types';
 import { IntroActionTypes } from './action.types';
 
 export const initApp: ActionCreator<IntroActionTypes> = () => ({
