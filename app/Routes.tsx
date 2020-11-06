@@ -48,7 +48,7 @@ class Routes extends React.Component<IProps> {
 
   render(): JSX.Element {
     const { loaded } = this.props;
-    if (loaded === true) {
+    if (loaded === 2) {
       return (
         <>
           <Router>
