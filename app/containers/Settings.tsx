@@ -3,21 +3,24 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Container, Header, Form, Message } from 'semantic-ui-react';
 import { RootState } from '../redux/store';
-import { changePath } from '../redux/actions';
+import { valueUpdate, changePath, saveSettings } from '../redux/actions';
 
 const { dialog } = require('electron').remote;
 
 // #region Redux Configuration
 const mapStateToProps = ({ settings }: RootState) => {
-  const { paths, autoSave } = settings;
+  const { paths, newPaths, autoSave } = settings;
   return {
+    newPaths,
     paths,
     autoSave,
   };
 };
 
 const mapActionsToProps = {
+  valueUpdate,
   changePath,
+  saveSettings,
 };
 
 const connector = connect(mapStateToProps, mapActionsToProps);
@@ -48,7 +51,13 @@ class Settings extends Component<ISettingsProps> {
   }
 
   render() {
-    const { paths, autoSave } = this.props;
+    const {
+      paths,
+      newPaths,
+      autoSave,
+      valueUpdate: ValueUpdate,
+      saveSettings: SaveSettings,
+    } = this.props;
     return (
       <Container>
         <Header
@@ -56,12 +65,12 @@ class Settings extends Component<ISettingsProps> {
           content="Application Settings"
           subheader="User preferences are saved on a static path. Meaning it cannot be changed. When Other path preferences are changed their contents are moved as well."
         />
-        <Form>
+        <Form onSubmit={SaveSettings}>
           <Form.Input
             fluid
             readOnly
             label="Structures Path"
-            value={paths.structures}
+            value={newPaths.structures !== '' ? newPaths.structures : paths.structures}
             action={{
               ...this.pathInfoConfig,
               onClick: () => this.onPathChange('structures'),
@@ -71,7 +80,7 @@ class Settings extends Component<ISettingsProps> {
             fluid
             readOnly
             label="Migrations Path"
-            value={paths.migrations}
+            value={newPaths.migrations !== '' ? newPaths.migrations : paths.migrations}
             action={{
               ...this.pathInfoConfig,
               onClick: () => this.onPathChange('migrations'),
@@ -84,7 +93,12 @@ class Settings extends Component<ISettingsProps> {
             label="User Preferences"
             value={paths.userSettings}
           />
-          <Form.Checkbox label="Auto Save" checked={autoSave} />
+          <Form.Checkbox
+            name="autosave"
+            label="Auto Save"
+            checked={autoSave}
+            onChange={() => ValueUpdate('SETTINGS', 'autoSave', !autoSave)}
+          />
           <Message
             info
             header="Works on content structure and database migration."
@@ -92,7 +106,7 @@ class Settings extends Component<ISettingsProps> {
               'When creating a new structure or migration every minute progress is saved and will be kept until page is manually cleaned via button provided in that page or progress is saved manually by the user.',
             ]}
           />
-          <Form.Button>Submit</Form.Button>
+          <Form.Button type="submit">Submit</Form.Button>
         </Form>
       </Container>
     );

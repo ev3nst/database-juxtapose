@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
+import { all, call, fork, put, takeLatest, takeEvery } from 'redux-saga/effects';
 import { INITIALIZE_MIGRATION } from '../redux.types';
 import { MIGRATION_AUTOSAVE_FILE } from '../../utils/constants';
 import { initMigrationSuccess, initMigrationFailed } from '../actions';

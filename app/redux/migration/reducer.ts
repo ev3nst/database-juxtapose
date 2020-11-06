@@ -7,22 +7,17 @@ import {
 } from '../redux.types';
 import { InteractiveResponder } from '../../types';
 import { MigrationActionTypes } from './action.types';
+import { LOADING, ERROR, INITIALIZES } from '../../utils/constants';
 
 export interface MigrationState extends InteractiveResponder {
   migration: any;
 }
 
 const INIT_STATE: MigrationState = {
-  loading: true,
-  loaded: false,
-  errorState: false,
-  errorMessage: '',
+  ...ERROR,
+  ...LOADING,
+  ...INITIALIZES,
   migration: {},
-};
-
-const RESET_ERROR = {
-  errorState: false,
-  errorMessage: '',
 };
 
 const reducer = (
@@ -36,17 +31,26 @@ const reducer = (
       return {
         ...state,
         ...action.payload.migration,
-        ...RESET_ERROR,
-        loading: false,
-        loaded: true,
+        initLoading: {
+          loading: false,
+          loaded: true,
+        },
+        initError: {
+          errorState: false,
+          errorMessage: '',
+        },
       };
     case INITIALIZE_MIGRATION_FAILED:
       return {
         ...INIT_STATE,
-        loading: false,
-        loaded: false,
-        errorState: true,
-        errorMessage: action.payload.message ? action.payload.message.toString() : '',
+        initLoading: {
+          loading: false,
+          loaded: false,
+        },
+        initError: {
+          errorState: true,
+          errorMessage: action.payload.message ? action.payload.message.toString() : '',
+        },
       };
     case SAVE_MIGRATION:
       return {

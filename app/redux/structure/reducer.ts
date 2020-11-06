@@ -9,24 +9,17 @@ import {
 } from '../redux.types';
 import { InteractiveResponder, StructureItem } from '../../types';
 import { StructureActionTypes } from './action.types';
+import { LOADING, ERROR, INITIALIZES } from '../../utils/constants';
 
 export interface StructureState extends InteractiveResponder {
-  saveLoading: boolean;
   newStructure: StructureItem;
 }
 
 const INIT_STATE: StructureState = {
-  saveLoading: false,
-  loading: true,
-  loaded: false,
-  errorState: false,
-  errorMessage: '',
+  ...ERROR,
+  ...LOADING,
+  ...INITIALIZES,
   newStructure: {},
-};
-
-const RESET_ERROR = {
-  errorState: false,
-  errorMessage: '',
 };
 
 const reducer = (
@@ -39,26 +32,35 @@ const reducer = (
     case INITIALIZE_STRUCTURE_SUCCESS:
       return {
         ...state,
-        ...RESET_ERROR,
         newStructure: action.payload.structure,
-        loading: false,
-        loaded: true,
+        initLoading: {
+          loading: false,
+          loaded: true,
+        },
+        initError: {
+          errorState: false,
+          errorMessage: '',
+        },
       };
     case INITIALIZE_STRUCTURE_FAILED:
       return {
         ...INIT_STATE,
-        loading: false,
-        loaded: false,
-        errorState: true,
-        errorMessage: action.payload.message ? action.payload.message.toString() : '',
+        initLoading: {
+          loading: false,
+          loaded: false,
+        },
+        initError: {
+          errorState: true,
+          errorMessage: action.payload.message ? action.payload.message.toString() : '',
+        },
       };
     case SAVE_STRUCTURE:
       return {
         ...state,
-        saveLoading: true,
+        loading: true,
       };
     case SAVE_STRUCTURE_SUCCESS:
-      return { ...state, saveLoading: false };
+      return { ...state, loading: false };
     case MANIPULATE_STRUCTURE_HEADER: {
       if (action.payload.action === 'add') {
         return {

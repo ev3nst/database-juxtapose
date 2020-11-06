@@ -1,1 +1,7 @@
-@import '~semantic-ui-css/semantic.css';
+@import '~semantic-ui-css/semantic.min.css';
+
+/* Loading spinner fix when in list. https://github.com/Semantic-Org/Semantic-UI/issues/6717 */
+.ui.list > .item > i.icon {
+  padding-right: 0 !important;
+  vertical-align: middle !important;
+}

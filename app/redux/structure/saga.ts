@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
+import { all, call, fork, put, takeLatest, takeEvery } from 'redux-saga/effects';
 import { INITIALIZE_STRUCTURE, SAVE_STRUCTURE } from '../redux.types';
 import { StructureItem } from '../../types';
 import { STRUCTURE_AUTOSAVE_FILE } from '../../utils/constants';
@@ -70,7 +70,7 @@ function* saveStructure({ payload }: NewStructurePayload) {
   }
 }
 export function* watchsaveStructure() {
-  yield takeEvery(SAVE_STRUCTURE, saveStructure);
+  yield takeLatest(SAVE_STRUCTURE, saveStructure);
 }
 
 export default function* rootSaga() {

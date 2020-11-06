@@ -15,7 +15,7 @@ import {
 } from './containers';
 
 // #region Redux Configuration
-const mapStateToProps = ({ intro }: RootState): any => {
+const mapStateToProps = ({ intro }: RootState) => {
   const { loaded } = intro;
   return { loaded };
 };
@@ -48,7 +48,7 @@ class Routes extends React.Component<IProps> {
 
   render(): JSX.Element {
     const { loaded } = this.props;
-    if (loaded === true) {
+    if (loaded === 2) {
       return (
         <>
           <Router>

@@ -12,9 +12,9 @@ import { StructureObjectAction } from '../types/structure.types';
 
 // #region Redux Configuration
 const mapStateToProps = ({ structure, settings }: RootState) => {
-  const { saveLoading, loading, loaded, newStructure } = structure;
+  const { loading, loaded, newStructure } = structure;
   const { paths } = settings;
-  return { saveLoading, loading, loaded, newStructure, paths };
+  return { loading, loaded, newStructure, paths };
 };
 
 const mapActionsToProps = {
@@ -58,8 +58,8 @@ class Structure extends Component<IProps, IStates> {
   }
 
   componentDidUpdate(prevProps: IProps) {
-    const { saveLoading } = this.props;
-    if (prevProps.saveLoading !== saveLoading) {
+    const { loading } = this.props;
+    if (prevProps.loading !== loading) {
       this.notificationID = setTimeout(() => {
         this.setState({
           showNotification: false,
