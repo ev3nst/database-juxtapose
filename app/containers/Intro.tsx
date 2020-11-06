@@ -52,7 +52,7 @@ type IStates = {
 // #endregion
 
 class Intro extends Component<IProps, IStates> {
-  private progressInterval = 2000;
+  private progressInterval = 250;
 
   private transitionInterval = 500;
 
@@ -113,10 +113,10 @@ class Intro extends Component<IProps, IStates> {
 
     if (this.checkIfLoaded() && introLoaded !== true) {
       // eslint-disable-next-line react/no-did-update-set-state
-      // this.setState({ isInit: false });
+      this.setState({ isInit: false });
       setTimeout(() => {
         InitAppSuccess();
-      }, this.progressInterval);
+      }, this.transitionInterval);
     }
   }
 
@@ -250,8 +250,8 @@ class Intro extends Component<IProps, IStates> {
                 <List.Content>
                   <List.Header>Settings</List.Header>
                   <List.Description>
-                    {errors.migration.errorMessage !== ''
-                      ? errors.migration.errorMessage
+                    {errors.settings.errorMessage !== ''
+                      ? errors.settings.errorMessage
                       : 'Gathering user preferences...'}
                   </List.Description>
                 </List.Content>
@@ -267,8 +267,8 @@ class Intro extends Component<IProps, IStates> {
                 <List.Content>
                   <List.Header>Structures</List.Header>
                   <List.Description>
-                    {errors.migration.errorMessage !== ''
-                      ? errors.migration.errorMessage
+                    {errors.structure.errorMessage !== ''
+                      ? errors.structure.errorMessage
                       : 'Checking structures folder and its contents...'}
                   </List.Description>
                 </List.Content>
