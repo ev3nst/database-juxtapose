@@ -14,7 +14,7 @@ type IStates = {
 // #endregion
 
 // Component
-class Wrapper extends React.Component<IProps, IStates> {
+class NavigationWrapper extends React.Component<IProps, IStates> {
   constructor(props: IProps) {
     super(props);
 
@@ -79,4 +79,4 @@ const mapStateToProps = () => {
 
 const mapActionsToProps = {};
 
-export default connect(mapStateToProps, mapActionsToProps)(Wrapper);
+export default connect(mapStateToProps, mapActionsToProps)(NavigationWrapper);

@@ -6,7 +6,7 @@ import { RootState } from './redux/store';
 import routes from './utils/routes.json';
 import {
   Intro,
-  Wrapper,
+  NavigationWrapper,
   ContentStructures,
   NewMigration,
   Structure,
@@ -53,9 +53,9 @@ class Routes extends React.Component<IProps> {
     if (loaded === true) {
       return (
         <>
-          <NotificationContainer />
+          <NotificationContainer transitionDuration={200} />
           <Router>
-            <Route path={routes.WRAPPER} component={Wrapper} />
+            <Route path={routes.WRAPPER} component={NavigationWrapper} />
             <Switch>
               <Route path={routes.CONTENT_STRUCTURES} component={ContentStructures} />
               <Route path={routes.NEW_MIGRATION} component={NewMigration} />
