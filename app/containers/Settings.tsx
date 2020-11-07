@@ -1,20 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Container, Header, Form, Message } from 'semantic-ui-react';
 import { RootState } from '../redux/store';
 import { valueUpdate, changePath, saveSettings } from '../redux/actions';
-import { NotificationManager } from '../components/Notification';
 
 const { dialog } = require('electron').remote;
 
 // #region Redux Configuration
 const mapStateToProps = ({ settings }: RootState) => {
-  const { paths, newPaths, autoSave } = settings;
+  const { paths, newPaths, autoSave, loading, errorState, errorMessage } = settings;
   return {
     newPaths,
     paths,
     autoSave,
+    loading,
+    errorState,
+    errorMessage,
   };
 };
 
@@ -29,7 +31,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ISettingsProps = PropsFromRedux & RouteComponentProps;
 // #endregion
 
-class Settings extends Component<ISettingsProps> {
+class Settings extends React.Component<ISettingsProps> {
   private pathInfoConfig = {
     color: 'teal',
     labelPosition: 'right',
@@ -66,16 +68,7 @@ class Settings extends Component<ISettingsProps> {
           content="Application Settings"
           subheader="User preferences are saved on a static path. Meaning it cannot be changed. When Other path preferences are changed their contents are moved as well."
         />
-        <Form
-          onSubmit={() => {
-            NotificationManager.notificate({
-              type: 'warning',
-              title: 'this title',
-              message: 'asdasd',
-              timeOut: 2500,
-            });
-          }}
-        >
+        <Form onSubmit={SaveSettings}>
           <Form.Input
             fluid
             readOnly

@@ -1,6 +1,6 @@
 import * as fs from 'fs';
-import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
-import { INITIALIZE_SETTINGS } from '../redux.types';
+import { all, call, fork, put, takeLatest, takeEvery } from 'redux-saga/effects';
+import { INITIALIZE_SETTINGS, SAVE_SETTINGS } from '../redux.types';
 import { CONFIG_PATH, USER_FOLDER, defaultConfig } from '../../utils/constants';
 import {
   initSettingsSuccess,
@@ -9,6 +9,7 @@ import {
   saveSettingsFailed,
 } from '../actions';
 import { UserConfig } from '../../types/settings.types';
+import { NotificationManager } from '../../components/Notification';
 
 // -------------------- Configure User Settings --------------------
 async function configureUserConfig(): Promise<UserConfig> {
@@ -55,15 +56,23 @@ async function saveSettingsAsync(): Promise<UserConfig> {
 
 function* saveSettings() {
   try {
-    // const response = yield call(saveSettingsAsync);
+    const response = yield call(saveSettingsAsync);
     // yield put(saveSettingsSuccess(response));
+
+    NotificationManager.notificate({
+      type: 'error',
+      title: 'Error',
+      message: 'this is error message',
+      timeOut: 2500,
+    });
+
     yield put(saveSettingsFailed('this is error message'));
   } catch (error) {
     yield put(saveSettingsFailed(error));
   }
 }
 export function* watchsaveSettings() {
-  yield takeLatest(INITIALIZE_SETTINGS, saveSettings);
+  yield takeEvery(SAVE_SETTINGS, saveSettings);
 }
 
 export default function* rootSaga() {

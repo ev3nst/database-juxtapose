@@ -29,8 +29,8 @@ class NotificationManager extends EventEmitter {
   notificate({ type, message, title, timeOut }: NotificationInstance) {
     this.create({
       type,
-      message,
       title,
+      message,
       timeOut,
     });
   }

@@ -68,6 +68,12 @@ const reducer = (
       return {
         ...state,
         ...ERROR,
+        loading: true,
+      };
+    case SAVE_SETTINGS_SUCCESS:
+      return {
+        ...state,
+        ...ERROR,
         paths: {
           ...state.paths,
           structures:
@@ -76,12 +82,15 @@ const reducer = (
               ? state.newPaths.structures
               : state.paths.structures,
         },
-        loading: true,
+        loading: false,
       };
-    case SAVE_SETTINGS_SUCCESS:
-      return { ...state, ...ERROR, loading: false };
     case SAVE_SETTINGS_FAILED:
-      return { ...state, loading: false };
+      return {
+        ...state,
+        loading: false,
+        errorState: true,
+        errorMessage: action.payload.message,
+      };
     case CHANGE_PATH:
       return {
         ...state,

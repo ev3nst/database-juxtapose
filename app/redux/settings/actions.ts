@@ -52,7 +52,7 @@ export const saveSettingsSuccess: ActionCreator<SettingActionTypes> = (
 });
 
 export const saveSettingsFailed: ActionCreator<SettingActionTypes> = (
-  message?: string
+  message: string
 ) => ({
   type: SAVE_SETTINGS_FAILED,
   payload: { message },

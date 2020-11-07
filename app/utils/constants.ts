@@ -66,7 +66,7 @@ export const NavbarItems: Array<RouteItem> = [
 
 // Init values for generic redux state
 export const LOADING: PageLoading = {
-  loading: true,
+  loading: false,
   loaded: false,
 };
 export const ERROR: PageError = {

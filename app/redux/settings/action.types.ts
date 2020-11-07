@@ -48,7 +48,7 @@ export interface SaveSettingsSuccess {
 
 export interface SaveSettingsFailed {
   type: typeof SAVE_SETTINGS_FAILED;
-  payload: { message?: string };
+  payload: { message: string };
 }
 
 export interface ChangePathAction {
