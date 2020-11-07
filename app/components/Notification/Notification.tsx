@@ -39,7 +39,7 @@ class Notification extends React.Component<NotificationProps, IState> {
     }
   };
 
-  requestHide = (item: NotificationInstance) => {
+  requestHide = (item: NotificationInstance): number => {
     const { onRequestHide } = this.props;
 
     return setTimeout(() => {
@@ -50,7 +50,7 @@ class Notification extends React.Component<NotificationProps, IState> {
     }, item.timeOut);
   };
 
-  render() {
+  render(): JSX.Element {
     const { item, transitionDuration } = this.props;
     const { showTransition } = this.state;
     const TitleElem = item.title ? <h4 className="title">{item.title}</h4> : null;

@@ -44,7 +44,7 @@ class NotificationContainer extends React.Component<
     }, transitionDuration);
   };
 
-  render() {
+  render(): JSX.Element {
     const { notifications } = this.state;
     const { transitionDuration } = this.props;
     return (

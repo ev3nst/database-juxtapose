@@ -20,7 +20,6 @@ export type NotificationHide = (notification: NotificationInstance) => void;
 
 export type NotificationContainerProps = {
   transitionDuration: number;
-  leaveTimeout: number;
 };
 
 export type NotificationContainerStates = {
