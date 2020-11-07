@@ -14,6 +14,8 @@ import {
   Settings,
 } from './containers';
 
+import { NotificationContainer } from './components/Notification';
+
 // #region Redux Configuration
 const mapStateToProps = ({ intro }: RootState) => {
   const { loaded } = intro;
@@ -51,6 +53,7 @@ class Routes extends React.Component<IProps> {
     if (loaded === true) {
       return (
         <>
+          <NotificationContainer />
           <Router>
             <Route path={routes.WRAPPER} component={Wrapper} />
             <Switch>

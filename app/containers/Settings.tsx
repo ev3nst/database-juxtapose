@@ -4,6 +4,7 @@ import { RouteComponentProps } from 'react-router';
 import { Container, Header, Form, Message } from 'semantic-ui-react';
 import { RootState } from '../redux/store';
 import { valueUpdate, changePath, saveSettings } from '../redux/actions';
+import { NotificationManager } from '../components/Notification';
 
 const { dialog } = require('electron').remote;
 
@@ -65,7 +66,17 @@ class Settings extends Component<ISettingsProps> {
           content="Application Settings"
           subheader="User preferences are saved on a static path. Meaning it cannot be changed. When Other path preferences are changed their contents are moved as well."
         />
-        <Form onSubmit={SaveSettings}>
+        <Form
+          onSubmit={() => {
+            console.log('ON SUBMIT');
+
+            NotificationManager.notificate({
+              title: 'this title',
+              message: 'asdasd',
+              timeOut: 5500,
+            });
+          }}
+        >
           <Form.Input
             fluid
             readOnly
