@@ -1,15 +1,19 @@
 import React from 'react';
 import NotificationManager from './NotificationManager';
-import Notifications from './Notifications';
-import { NotificationContainerProps, NotificationContainerStates } from './types';
+import Notification from './Notification';
+import {
+  NotificationContainerProps,
+  NotificationInstance,
+  NotificationContainerStates,
+  NotificationUpdate,
+} from './types';
 
 class NotificationContainer extends React.Component<
   NotificationContainerProps,
   NotificationContainerStates
 > {
   static defaultProps = {
-    enterTimeout: 400,
-    leaveTimeout: 400,
+    transitionDuration: 200,
   };
 
   constructor(props: NotificationContainerProps) {
@@ -25,25 +29,46 @@ class NotificationContainer extends React.Component<
     NotificationManager.removeChangeListener(this.handleStoreChange);
   };
 
-  handleStoreChange = (notifications: any) => {
+  handleStoreChange: NotificationUpdate = (
+    notifications: Array<NotificationInstance>
+  ) => {
     this.setState({
       notifications,
     });
   };
 
-  handleRequestHide = (notification: any) => {
-    NotificationManager.remove(notification);
+  handleRequestHide = (notification: NotificationInstance) => {
+    const { transitionDuration } = this.props;
+    setTimeout(() => {
+      NotificationManager.remove(notification);
+    }, transitionDuration);
   };
 
   render() {
     const { notifications } = this.state;
-    const { enterTimeout } = this.props;
+    const { transitionDuration } = this.props;
     return (
-      <Notifications
-        enterTimeout={enterTimeout}
-        notifications={notifications}
-        onRequestHide={this.handleRequestHide}
-      />
+      <div
+        style={{
+          position: 'absolute',
+          top: 50,
+          right: 50,
+          zIndex: 9999,
+          width: 200,
+        }}
+      >
+        {notifications.map((notification) => {
+          const key = notification.id || new Date().getTime();
+          return (
+            <Notification
+              key={key}
+              item={notification}
+              transitionDuration={transitionDuration}
+              onRequestHide={this.handleRequestHide}
+            />
+          );
+        })}
+      </div>
     );
   }
 }

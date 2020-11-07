@@ -1,27 +1,34 @@
 export type NotificationTypes = 'info' | 'warning' | 'success' | 'error';
 
-export type NotificationHide = (notifications?: Array<any>) => void;
-
-export interface NotificationProps {
+export interface NotificationInstance {
   id?: string;
   type: NotificationTypes;
-  title: string | JSX.Element | null;
+  title: string;
   message?: string;
   timeOut?: number;
-  onRequestHide: NotificationHide;
 }
 
+export interface NotificationProps {
+  item: NotificationInstance;
+  onRequestHide: NotificationHide;
+  transitionDuration?: number;
+}
+
+export type NotificationUpdate = (notifications: Array<NotificationInstance>) => void;
+
+export type NotificationHide = (notification: NotificationInstance) => void;
+
 export type NotificationContainerProps = {
-  enterTimeout: number;
+  transitionDuration: number;
   leaveTimeout: number;
 };
 
 export type NotificationContainerStates = {
-  notifications: Array<any>;
+  notifications: Array<NotificationInstance>;
 };
 
 export interface NotificationsProps {
-  notifications: Array<any>;
-  enterTimeout: number;
+  notifications: Array<NotificationProps>;
+  transitionDuration: number;
   onRequestHide: NotificationHide;
 }

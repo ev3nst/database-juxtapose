@@ -1,6 +1,6 @@
-import Notifications from './Notifications';
+import Notification from './Notification';
 import NotificationContainer from './NotificationContainer';
 import NotificationManager from './NotificationManager';
 
-export { Notifications, NotificationContainer, NotificationManager };
-export default Notifications;
+export { Notification, NotificationContainer, NotificationManager };
+export default Notification;

@@ -68,12 +68,11 @@ class Settings extends Component<ISettingsProps> {
         />
         <Form
           onSubmit={() => {
-            console.log('ON SUBMIT');
-
             NotificationManager.notificate({
+              type: 'warning',
               title: 'this title',
               message: 'asdasd',
-              timeOut: 5500,
+              timeOut: 2500,
             });
           }}
         >

@@ -1,6 +1,6 @@
 /* eslint-disable no-bitwise */
 import { EventEmitter } from 'events';
-import { NotificationTypes, NotificationHide } from './types';
+import { NotificationInstance, NotificationUpdate } from './types';
 
 const createUUID = (): string => {
   const pattern = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
@@ -9,14 +9,6 @@ const createUUID = (): string => {
     const v = c === 'x' ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
-};
-
-export type NotificationInstance = {
-  id?: string;
-  type: NotificationTypes;
-  title: string;
-  message?: string;
-  timeOut?: number;
 };
 
 class NotificationManager extends EventEmitter {
@@ -54,11 +46,11 @@ class NotificationManager extends EventEmitter {
     this.emit('change', this.listNotify);
   }
 
-  addChangeListener(callback: NotificationHide) {
+  addChangeListener(callback: NotificationUpdate) {
     this.addListener('change', callback);
   }
 
-  removeChangeListener(callback: NotificationHide) {
+  removeChangeListener(callback: NotificationUpdate) {
     this.removeListener('change', callback);
   }
 }

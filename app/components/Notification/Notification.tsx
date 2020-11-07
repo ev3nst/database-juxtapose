@@ -1,24 +1,35 @@
 import React from 'react';
-import { Message } from 'semantic-ui-react';
-import { NotificationProps, NotificationTypes } from './types';
+import { Message, Transition } from 'semantic-ui-react';
+import { NotificationProps, NotificationInstance } from './types';
 
-class Notification extends React.PureComponent<NotificationProps> {
+export type IState = {
+  showTransition: boolean;
+};
+
+class Notification extends React.Component<NotificationProps, IState> {
   notificationTimer!: number;
 
-  static defaultProps = {
-    type: 'info' as NotificationTypes,
-    title: '',
-    message: '',
-    timeOut: 5000,
-    onClick: () => {},
-    onRequestHide: () => {},
-    customClassName: '',
-  };
+  constructor(props: NotificationProps) {
+    super(props);
+
+    this.state = {
+      showTransition: true,
+    };
+  }
+
+  shouldComponentUpdate(_nextProps: NotificationProps, prevState: IState) {
+    const { showTransition } = this.state;
+    if (prevState.showTransition !== showTransition) {
+      return true;
+    }
+
+    return false;
+  }
 
   componentDidMount = () => {
-    const { timeOut } = this.props;
-    if (timeOut !== 0) {
-      this.notificationTimer = setTimeout(this.requestHide, timeOut);
+    const { item } = this.props;
+    if (item.timeOut !== undefined && item.timeOut !== 0) {
+      this.notificationTimer = this.requestHide(item);
     }
   };
 
@@ -28,25 +39,39 @@ class Notification extends React.PureComponent<NotificationProps> {
     }
   };
 
-  requestHide = () => {
+  requestHide = (item: NotificationInstance) => {
     const { onRequestHide } = this.props;
-    onRequestHide();
+
+    return setTimeout(() => {
+      this.setState({
+        showTransition: false,
+      });
+      setTimeout(() => onRequestHide(item));
+    }, item.timeOut);
   };
 
   render() {
-    const { type, message } = this.props;
-    let { title } = this.props;
-    title = title ? <h4 className="title">{title}</h4> : null;
+    const { item, transitionDuration } = this.props;
+    const { showTransition } = this.state;
+    const TitleElem = item.title ? <h4 className="title">{item.title}</h4> : null;
+
     return (
-      <Message
-        info={type === 'info'}
-        warning={type === 'warning'}
-        success={type === 'success'}
-        onClick={this.requestHide}
+      <Transition
+        animation="scale"
+        visible={showTransition}
+        duration={transitionDuration}
       >
-        <Message.Header>{title}</Message.Header>
-        <p>{message}</p>
-      </Message>
+        <Message
+          info={item.type === 'info'}
+          warning={item.type === 'warning'}
+          success={item.type === 'success'}
+          error={item.type === 'error'}
+          onClick={this.requestHide}
+        >
+          <Message.Header>{TitleElem}</Message.Header>
+          <p>{item.message}</p>
+        </Message>
+      </Transition>
     );
   }
 }
