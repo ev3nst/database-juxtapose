@@ -1,6 +1,6 @@
 import { RouteItem } from '../components/Navbar';
 import routes from './routes.json';
-import { Initializes, Error, Loading } from '../types';
+import { Initializes, PageError, PageLoading } from '../types';
 
 const { app } = require('electron').remote;
 
@@ -65,11 +65,11 @@ export const NavbarItems: Array<RouteItem> = [
 ];
 
 // Init values for generic redux state
-export const LOADING: Loading = {
+export const LOADING: PageLoading = {
   loading: true,
   loaded: false,
 };
-export const ERROR: Error = {
+export const ERROR: PageError = {
   errorState: false,
   errorMessage: '',
 };

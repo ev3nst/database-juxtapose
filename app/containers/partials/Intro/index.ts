@@ -1,2 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-export * from './ProgressList';
+export * from './types';
+export { default as ProgressPercentage } from './ProgressPercentage';
+export { default as ProgressList } from './ProgressList';

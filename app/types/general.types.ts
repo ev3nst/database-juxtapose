@@ -1,16 +1,16 @@
-export type Loading = {
+export type PageLoading = {
   loading: boolean;
   loaded: boolean;
 };
 
-export type Error = {
+export type PageError = {
   errorState: boolean;
   errorMessage: string;
 };
 
 export type Initializes = {
-  initError: Error;
-  initLoading: Loading;
+  initError: PageError;
+  initLoading: PageLoading;
 };
 
-export type InteractiveResponder = Loading & Error & Initializes;
+export type InteractiveResponder = PageLoading & PageError & Initializes;

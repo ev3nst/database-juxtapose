@@ -1,21 +1,8 @@
 import React from 'react';
+import { Segment, Header, List, SemanticICONS, SemanticCOLORS } from 'semantic-ui-react';
+import { IntroProgressProps } from './types';
 
-import { Segment, Header, List, SemanticICONS } from 'semantic-ui-react';
-
-type IProps = {
-  errors: {
-    settings: string;
-    structure: string;
-    migration: string;
-  };
-  initStates: {
-    settings: boolean;
-    structure: boolean;
-    migration: boolean;
-  };
-};
-
-class ProgressList extends React.PureComponent<IProps> {
+class ProgressList extends React.PureComponent<IntroProgressProps> {
   resolveIconName(key: string): SemanticICONS {
     const { initStates, errors } = this.props;
     const typedKey = key as keyof typeof initStates;
@@ -47,6 +34,7 @@ class ProgressList extends React.PureComponent<IProps> {
   }
 
   render() {
+    const { initStates, errors } = this.props;
     return (
       <>
         <Header as="h3" content="Progress" />
