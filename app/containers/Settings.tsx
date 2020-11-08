@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { Container, Header, Form, Message } from 'semantic-ui-react';
+import { Container, Header, Form, Message, Icon, Popup } from 'semantic-ui-react';
 import { RootState } from '../redux/store';
 import { valueUpdate, changePath, saveSettings } from '../redux/actions';
+import { USER_FOLDER } from '../utils/constants';
 
 const { dialog } = require('electron').remote;
 
@@ -66,13 +67,28 @@ class Settings extends React.Component<ISettingsProps> {
         <Header
           as="h2"
           content="Application Settings"
-          subheader="User preferences are saved on a static path. Meaning it cannot be changed. When Other path preferences are changed their contents are moved as well."
+          subheader="User preferences are saved on a static path. Meaning it cannot be changed. When other path preferences are changed their contents are moved as well."
         />
         <Form>
           <Form.Input
             fluid
             readOnly
-            label="Structures Path"
+            label={{
+              children: (
+                <div>
+                  Structures Path &nbsp;
+                  <Popup
+                    mouseEnterDelay={400}
+                    content="Folder where all structure files are stored. When changed backup zip is created at application folder before moving all contents."
+                    trigger={
+                      <span>
+                        <Icon name="info circle" />
+                      </span>
+                    }
+                  />
+                </div>
+              ),
+            }}
             value={newPaths.structures !== '' ? newPaths.structures : paths.structures}
             action={{
               ...this.pathInfoConfig,
@@ -82,13 +98,29 @@ class Settings extends React.Component<ISettingsProps> {
           <Form.Input
             fluid
             readOnly
-            label="Migrations Path"
+            label={{
+              children: (
+                <div>
+                  Migrations Path &nbsp;
+                  <Popup
+                    mouseEnterDelay={400}
+                    content="Folder where all migration files are stored. When changed backup zip is created at application folder before moving all contents."
+                    trigger={
+                      <span>
+                        <Icon name="info circle" />
+                      </span>
+                    }
+                  />
+                </div>
+              ),
+            }}
             value={newPaths.migrations !== '' ? newPaths.migrations : paths.migrations}
             action={{
               ...this.pathInfoConfig,
               onClick: () => this.onPathChange('migrations'),
             }}
           />
+
           <Form.Input
             required
             disabled
@@ -104,11 +136,12 @@ class Settings extends React.Component<ISettingsProps> {
           />
           <Message
             info
-            header="Works on content structure and database migration."
+            header="Works on Content Structure & Database Migration"
             list={[
               'When creating a new structure or migration every minute progress is saved and will be kept until page is manually cleaned via button provided in that page or progress is saved manually by the user.',
             ]}
           />
+
           <Form.Button
             type="button"
             onClick={() => {
