@@ -49,7 +49,7 @@ class Settings extends React.Component<ISettingsProps> {
     });
 
     if (resp.filePaths[0] !== undefined && resp.filePaths[0] !== null) {
-      ChangePath(key, resp.filePaths[0]);
+      ChangePath(key, `${resp.filePaths[0]}\\`);
     }
   }
 
@@ -68,7 +68,7 @@ class Settings extends React.Component<ISettingsProps> {
           content="Application Settings"
           subheader="User preferences are saved on a static path. Meaning it cannot be changed. When Other path preferences are changed their contents are moved as well."
         />
-        <Form onSubmit={SaveSettings}>
+        <Form>
           <Form.Input
             fluid
             readOnly
@@ -109,7 +109,20 @@ class Settings extends React.Component<ISettingsProps> {
               'When creating a new structure or migration every minute progress is saved and will be kept until page is manually cleaned via button provided in that page or progress is saved manually by the user.',
             ]}
           />
-          <Form.Button type="submit">Submit</Form.Button>
+          <Form.Button
+            type="button"
+            onClick={() => {
+              SaveSettings(
+                {
+                  paths,
+                  autoSave,
+                },
+                newPaths
+              );
+            }}
+          >
+            Submit
+          </Form.Button>
         </Form>
       </Container>
     );

@@ -8,7 +8,7 @@ import {
   saveSettingsSuccess,
   saveSettingsFailed,
 } from '../actions';
-import { UserConfig } from '../../types/settings.types';
+import { UserConfig, SettingPathInterface } from '../../types';
 import { NotificationManager } from '../../components/Notification';
 
 // -------------------- Configure User Settings --------------------
@@ -39,24 +39,34 @@ export function* watchinitSettings() {
   yield takeLatest(INITIALIZE_SETTINGS, initSettings);
 }
 
-async function saveSettingsAsync(): Promise<UserConfig> {
-  try {
-    const FileContents = fs.readFileSync(CONFIG_PATH, 'utf8');
-    const data = JSON.parse(FileContents);
-    return data as UserConfig;
-  } catch (error) {
-    if (!fs.existsSync(USER_FOLDER)) {
-      fs.mkdirSync(USER_FOLDER);
+type SaveSettingsPayload = {
+  settings: UserConfig;
+  newPaths: SettingPathInterface;
+};
+async function saveSettingsAsync({ settings, newPaths }: SaveSettingsPayload) {
+  const keys = Object.keys(settings.paths);
+  for (let i = 0; i < keys.length; i += 1) {
+    const pathKey = keys[i] as keyof typeof settings.paths;
+    if (
+      keys[i] !== 'userSettings' &&
+      newPaths[pathKey] !== '' &&
+      settings.paths[pathKey] !== newPaths[pathKey]
+    ) {
     }
-
-    fs.writeFileSync(CONFIG_PATH, JSON.stringify(defaultConfig));
-    return defaultConfig;
   }
+
+  /*
+  fs.readdirSync(settings.paths[pathKey]).forEach((file) => {
+    if (file.includes('_autosave.json') === false) {
+      fs.renameSync(settings.paths[pathKey] + file, newPaths[pathKey] + file);
+    }
+  });
+*/
 }
 
-function* saveSettings() {
+function* saveSettings({ payload }: { payload: SaveSettingsPayload; type: string }) {
   try {
-    const response = yield call(saveSettingsAsync);
+    const response = yield call(saveSettingsAsync, payload);
     // yield put(saveSettingsSuccess(response));
 
     NotificationManager.notificate({

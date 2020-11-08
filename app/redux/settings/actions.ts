@@ -10,7 +10,7 @@ import {
   SAVE_SETTINGS_FAILED,
 } from '../redux.types';
 import { SettingActionTypes } from './action.types';
-import { UserConfig } from '../../types/settings.types';
+import { UserConfig, SettingPathInterface } from '../../types';
 
 export const initSettings: ActionCreator<SettingActionTypes> = () => ({
   type: INITIALIZE_SETTINGS,
@@ -39,9 +39,12 @@ export const changePath: ActionCreator<SettingActionTypes> = (
   payload: { pathKey, newPath },
 });
 
-export const saveSettings: ActionCreator<SettingActionTypes> = () => ({
+export const saveSettings: ActionCreator<SettingActionTypes> = (
+  settings: UserConfig,
+  newPaths: SettingPathInterface
+) => ({
   type: SAVE_SETTINGS,
-  payload: null,
+  payload: { settings, newPaths },
 });
 
 export const saveSettingsSuccess: ActionCreator<SettingActionTypes> = (

@@ -9,7 +9,7 @@ import {
   CHANGE_PATH,
   VALUE_CHANGE_SETTINGS,
 } from '../redux.types';
-import { UserConfig } from '../../types/settings.types';
+import { UserConfig, SettingPathInterface } from '../../types';
 
 export interface ValueChangeSettigns {
   type: typeof VALUE_CHANGE_SETTINGS;
@@ -38,7 +38,10 @@ export interface SetDefaultAction {
 
 export interface SaveSettingsAction {
   type: typeof SAVE_SETTINGS;
-  payload: null;
+  payload: {
+    settings: UserConfig;
+    newPaths: SettingPathInterface;
+  };
 }
 
 export interface SaveSettingsSuccess {
