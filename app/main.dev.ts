@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
-  app.allowRendererProcessReuse = true;
+  app.allowRendererProcessReuse = false;
   process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true';
   require('electron-debug')();
 }
