@@ -80,11 +80,7 @@ class Settings extends React.Component<ISettingsProps> {
                   <Popup
                     mouseEnterDelay={400}
                     content="Folder where all structure files are stored. When changed backup zip is created at application folder before moving all contents."
-                    trigger={
-                      <span>
-                        <Icon name="info circle" />
-                      </span>
-                    }
+                    trigger={<Icon name="info circle" />}
                   />
                 </div>
               ),
@@ -105,11 +101,7 @@ class Settings extends React.Component<ISettingsProps> {
                   <Popup
                     mouseEnterDelay={400}
                     content="Folder where all migration files are stored. When changed backup zip is created at application folder before moving all contents."
-                    trigger={
-                      <span>
-                        <Icon name="info circle" />
-                      </span>
-                    }
+                    trigger={<Icon name="info circle" />}
                   />
                 </div>
               ),
