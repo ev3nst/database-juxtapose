@@ -21,7 +21,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
-  app.allowRendererProcessReuse = false;
   process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true';
   require('electron-debug')();
 }
@@ -47,8 +46,10 @@ const createWindow = async () => {
       process.env.ERB_SECURE !== 'true'
         ? {
             nodeIntegration: true,
+            enableRemoteModule: true,
           }
         : {
+            enableRemoteModule: true,
             preload: path.join(__dirname, 'dist/renderer.prod.js'),
           },
   });

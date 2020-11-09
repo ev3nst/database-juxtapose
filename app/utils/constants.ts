@@ -1,13 +1,12 @@
+import { remote } from 'electron';
 import { RouteItem } from '../components/Navbar';
 import routes from './routes.json';
 import { Initializes, PageError, PageLoading } from '../types';
 
-const { app } = require('electron').remote;
-
-export const APP_NAME = app.getName();
+export const APP_NAME = remote.app.getName();
 
 export const FOLDER_PREFIX = `\\${APP_NAME}\\`;
-export const USER_FOLDER = app.getPath('documents') + FOLDER_PREFIX;
+export const USER_FOLDER = remote.app.getPath('documents') + FOLDER_PREFIX;
 export const CONFIG_PATH = `${USER_FOLDER}settings.json`;
 
 export const STRUCTURE_AUTOSAVE_FILE = 'structure_autosave.json';
@@ -23,6 +22,7 @@ export const defaultConfig = {
 };
 
 export const INTERVAL_TIMEOUT = 10000;
+export const NOTIFICATION_TIMEOUT = 2500;
 
 export const NavbarItems: Array<RouteItem> = [
   {

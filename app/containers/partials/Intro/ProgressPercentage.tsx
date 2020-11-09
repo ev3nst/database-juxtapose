@@ -3,7 +3,7 @@ import { Progress } from 'semantic-ui-react';
 import { IntroProgressProps } from './types';
 
 class ProgressPercentage extends React.PureComponent<IntroProgressProps> {
-  checkIfLoaded = () => {
+  checkIfLoaded(): boolean {
     const { initStates } = this.props;
 
     return (
@@ -11,9 +11,9 @@ class ProgressPercentage extends React.PureComponent<IntroProgressProps> {
       initStates.structure.loaded === true &&
       initStates.migration.loaded === true
     );
-  };
+  }
 
-  resolveProgress() {
+  resolveProgress(): JSX.Element {
     const { initStates, errors } = this.props;
 
     if (this.checkIfLoaded()) {
@@ -50,7 +50,7 @@ class ProgressPercentage extends React.PureComponent<IntroProgressProps> {
     return <Progress percent={loadingPercentage} progress active color="teal" />;
   }
 
-  render() {
+  render(): JSX.Element {
     return this.resolveProgress();
   }
 }

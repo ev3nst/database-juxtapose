@@ -33,7 +33,7 @@ class ProgressList extends React.PureComponent<IntroProgressProps> {
     return 'black';
   }
 
-  render() {
+  render(): JSX.Element {
     const { initStates, errors } = this.props;
     return (
       <>

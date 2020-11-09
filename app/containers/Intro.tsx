@@ -1,6 +1,7 @@
+import { remote } from 'electron';
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Container, Header, Transition } from 'semantic-ui-react';
+import { Container, Header, Transition, Message, Button } from 'semantic-ui-react';
 import {
   initSettings,
   initStructure,
@@ -69,24 +70,12 @@ class Intro extends Component<IProps> {
   }
 
   componentDidUpdate(prevProps: IProps) {
-    const {
-      introLoaded,
-      initStates,
-      paths,
-      initAppSuccess: InitAppSuccess,
-      initStructure: InitStructure,
-      initMigration: InitMigration,
-    } = this.props;
+    const { introLoaded, initStates, initAppSuccess: InitAppSuccess } = this.props;
     if (
       prevProps.initStates.settings.loaded === false &&
       initStates.settings.loaded === true
     ) {
-      setTimeout(() => {
-        InitStructure(paths.structures);
-        setTimeout(() => {
-          InitMigration(paths.migrations);
-        }, this.progressInterval);
-      }, this.progressInterval);
+      this.onInit();
     }
 
     if (this.checkIfLoaded() && introLoaded !== true) {
@@ -94,6 +83,20 @@ class Intro extends Component<IProps> {
         InitAppSuccess();
       }, this.transitionInterval);
     }
+  }
+
+  onInit() {
+    const {
+      paths,
+      initStructure: InitStructure,
+      initMigration: InitMigration,
+    } = this.props;
+    setTimeout(() => {
+      InitStructure(paths.structures);
+      setTimeout(() => {
+        InitMigration(paths.migrations);
+      }, this.progressInterval);
+    }, this.progressInterval);
   }
 
   checkIfLoaded = () => {
@@ -106,6 +109,47 @@ class Intro extends Component<IProps> {
     );
   };
 
+  renderCorruptedData(): JSX.Element {
+    const { errors, paths } = this.props;
+
+    return (
+      <Transition
+        visible={
+          errors.settings.errorState === false &&
+          (errors.structure.errorState === true || errors.migration.errorState === true)
+        }
+        animation="scale"
+        duration={this.transitionInterval}
+      >
+        <>
+          <Message
+            error
+            floating
+            header="Failed to initialize"
+            list={[
+              `User settings file contains corrupted data. If you want to reset this file to default press Reset button below or retry the initialization. This action will not restore migration and structure files. Settings file can be fixed manually at ${paths.userSettings}`,
+            ]}
+          />
+          <Button.Group>
+            <Button onClick={() => window.location.reload()}>Retry</Button>
+            <Button.Or />
+            <Button
+              onClick={() => {
+                const { initSettings: InitSettings } = this.props;
+
+                InitSettings(true);
+                window.location.reload();
+              }}
+              color="black"
+            >
+              Reset
+            </Button>
+          </Button.Group>
+        </>
+      </Transition>
+    );
+  }
+
   render() {
     const { initStates, errors } = this.props;
     return (
@@ -114,7 +158,7 @@ class Intro extends Component<IProps> {
         animation="scale"
         duration={this.transitionInterval}
       >
-        <Container style={{ marginTop: 50 }}>
+        <Container style={{ paddingTop: 40 }}>
           <Header
             as="h1"
             content="App is initializing..."
@@ -122,6 +166,7 @@ class Intro extends Component<IProps> {
           />
           <ProgressPercentage errors={errors} initStates={initStates} />
           <ProgressList errors={errors} initStates={initStates} />
+          {this.renderCorruptedData()}
         </Container>
       </Transition>
     );

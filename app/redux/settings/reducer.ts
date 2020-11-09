@@ -61,7 +61,7 @@ const reducer = (
         },
         initError: {
           errorState: true,
-          errorMessage: action.payload.message ? action.payload.message.toString() : '',
+          errorMessage: action.payload.message ? action.payload.message : '',
         },
       };
     case SAVE_SETTINGS:

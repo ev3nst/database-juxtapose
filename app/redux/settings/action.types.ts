@@ -7,6 +7,7 @@ import {
   SAVE_SETTINGS_FAILED,
   SET_DEFAULTS,
   CHANGE_PATH,
+  CHANGE_PATH_SUCCESS,
   VALUE_CHANGE_SETTINGS,
 } from '../redux.types';
 import { UserConfig, SettingPathInterface } from '../../types';
@@ -18,7 +19,7 @@ export interface ValueChangeSettigns {
 
 export interface InitSettings {
   type: typeof INITIALIZE_SETTINGS;
-  payload: null;
+  payload: { forceReset?: boolean };
 }
 
 export interface InitSettingsSuccess {
@@ -62,6 +63,14 @@ export interface ChangePathAction {
   };
 }
 
+export interface ChangePathSuccess {
+  type: typeof CHANGE_PATH_SUCCESS;
+  payload: {
+    pathKey: string;
+    newPath: string;
+  };
+}
+
 export type SettingActionTypes =
   | InitSettings
   | InitSettingsSuccess
@@ -71,4 +80,5 @@ export type SettingActionTypes =
   | SaveSettingsSuccess
   | SaveSettingsFailed
   | ChangePathAction
+  | ChangePathSuccess
   | ValueChangeSettigns;

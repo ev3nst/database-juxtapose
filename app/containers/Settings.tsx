@@ -1,12 +1,21 @@
+import { remote } from 'electron';
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { Container, Header, Form, Message, Icon, Popup } from 'semantic-ui-react';
+import {
+  Container,
+  Header,
+  Form,
+  Button,
+  Message,
+  Icon,
+  Popup,
+  Dimmer,
+  Loader,
+} from 'semantic-ui-react';
 import { RootState } from '../redux/store';
 import { valueUpdate, changePath, saveSettings } from '../redux/actions';
-import { USER_FOLDER } from '../utils/constants';
-
-const { dialog } = require('electron').remote;
+import { CONFIG_PATH, USER_FOLDER } from '../utils/constants';
 
 // #region Redux Configuration
 const mapStateToProps = ({ settings }: RootState) => {
@@ -42,26 +51,32 @@ class Settings extends React.Component<ISettingsProps> {
 
   async onPathChange(key: string) {
     const { paths, changePath: ChangePath } = this.props;
-    const resp = await dialog.showOpenDialog({
+    const pathKey = key as keyof typeof paths;
+    const resp = await remote.dialog.showOpenDialog({
       title: 'THIS IS TITLE',
       message: 'message prop',
-      defaultPath: paths.structures,
-      properties: ['openDirectory', 'createDirectory'],
+      defaultPath: USER_FOLDER,
+      properties: ['openDirectory', 'createDirectory', 'dontAddToRecent'],
     });
-
-    if (resp.filePaths[0] !== undefined && resp.filePaths[0] !== null) {
-      ChangePath(key, `${resp.filePaths[0]}\\`);
+    if (
+      resp.filePaths[0] !== undefined &&
+      resp.filePaths[0] !== null &&
+      paths[pathKey] !== `${resp.filePaths[0]}\\`
+    ) {
+      ChangePath(pathKey, `${resp.filePaths[0]}\\`);
     }
   }
 
   render() {
     const {
+      loading,
       paths,
       newPaths,
       autoSave,
       valueUpdate: ValueUpdate,
       saveSettings: SaveSettings,
     } = this.props;
+
     return (
       <Container>
         <Header
@@ -134,20 +149,34 @@ class Settings extends React.Component<ISettingsProps> {
             ]}
           />
 
-          <Form.Button
+          <Button
+            icon="save"
+            content="Submit"
+            floated="left"
             type="button"
+            loading={loading}
             onClick={() => {
               SaveSettings(
                 {
-                  paths,
+                  paths: {
+                    ...paths,
+                  },
                   autoSave,
                 },
                 newPaths
               );
             }}
-          >
-            Submit
-          </Form.Button>
+          />
+
+          <Button
+            icon="repeat"
+            content="Reset"
+            floated="right"
+            loading={loading}
+            onClick={() => {
+              console.log('on reset');
+            }}
+          />
         </Form>
       </Container>
     );

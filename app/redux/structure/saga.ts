@@ -11,19 +11,37 @@ import {
 } from '../actions';
 
 // -------------------- Configure Structure Folder & Files --------------------
-async function configureStructureFiles(path: string) {
-  if (!fs.existsSync(path)) {
-    fs.mkdirSync(path);
-  }
+type ReturnInitStructure = {
+  status: boolean;
+  data?: any;
+  error?: any;
+};
+async function configureStructureFiles(path: string): Promise<ReturnInitStructure> {
+  try {
+    if (!fs.existsSync(path)) {
+      fs.mkdirSync(path);
+    }
 
-  if (!fs.existsSync(path + STRUCTURE_AUTOSAVE_FILE)) {
-    fs.writeFileSync(path + STRUCTURE_AUTOSAVE_FILE, '{}');
-    return {};
-  }
+    if (!fs.existsSync(path + STRUCTURE_AUTOSAVE_FILE)) {
+      fs.writeFileSync(path + STRUCTURE_AUTOSAVE_FILE, '{}');
+      return {
+        status: true,
+        data: {},
+      };
+    }
 
-  const FileContents = fs.readFileSync(path + STRUCTURE_AUTOSAVE_FILE, 'utf8');
-  const data = JSON.parse(FileContents);
-  return data;
+    const FileContents = fs.readFileSync(path + STRUCTURE_AUTOSAVE_FILE, 'utf8');
+    const data = JSON.parse(FileContents);
+    if (data !== undefined || data !== null || data !== '') {
+      return {
+        status: true,
+        data,
+      };
+    }
+    return { status: false, error: 'Corrupted json.' };
+  } catch (error) {
+    return { status: false, error: error.toString() };
+  }
 }
 
 type StructurePayload = {
@@ -35,9 +53,14 @@ type StructurePayload = {
 function* initStructure({ payload }: StructurePayload) {
   try {
     const response = yield call(configureStructureFiles, payload.path);
-    yield put(initStructureSuccess(response));
+    if (response.status === true) {
+      yield put(initStructureSuccess(response.data));
+      return;
+    }
+
+    yield put(initStructureFailed(response.error));
   } catch (error) {
-    yield put(initStructureFailed(error));
+    yield put(initStructureFailed(error.toString()));
   }
 }
 export function* watchinitStructure() {

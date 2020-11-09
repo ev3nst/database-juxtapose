@@ -1,6 +1,7 @@
 import { ActionCreator } from 'redux';
 import {
   CHANGE_PATH,
+  CHANGE_PATH_SUCCESS,
   SET_DEFAULTS,
   INITIALIZE_SETTINGS,
   INITIALIZE_SETTINGS_SUCCESS,
@@ -12,9 +13,11 @@ import {
 import { SettingActionTypes } from './action.types';
 import { UserConfig, SettingPathInterface } from '../../types';
 
-export const initSettings: ActionCreator<SettingActionTypes> = () => ({
+export const initSettings: ActionCreator<SettingActionTypes> = (
+  forceReset?: boolean
+) => ({
   type: INITIALIZE_SETTINGS,
-  payload: null,
+  payload: { forceReset },
 });
 
 export const initSettingsSuccess: ActionCreator<SettingActionTypes> = (
@@ -36,6 +39,14 @@ export const changePath: ActionCreator<SettingActionTypes> = (
   newPath: string
 ) => ({
   type: CHANGE_PATH,
+  payload: { pathKey, newPath },
+});
+
+export const changePathSuccess: ActionCreator<SettingActionTypes> = (
+  pathKey: string,
+  newPath: string
+) => ({
+  type: CHANGE_PATH_SUCCESS,
   payload: { pathKey, newPath },
 });
 
