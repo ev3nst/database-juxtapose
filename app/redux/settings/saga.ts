@@ -1,6 +1,11 @@
 import fs from 'fs';
-import { all, call, fork, put, takeLatest, takeEvery } from 'redux-saga/effects';
-import { CHANGE_PATH, INITIALIZE_SETTINGS, SAVE_SETTINGS } from '../redux.types';
+import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
+import {
+  CANCEL_SETTINGS,
+  CHANGE_PATH,
+  INITIALIZE_SETTINGS,
+  SAVE_SETTINGS,
+} from '../redux.types';
 import {
   CONFIG_PATH,
   USER_FOLDER,
@@ -12,6 +17,7 @@ import {
   initSettingsFailed,
   saveSettingsSuccess,
   saveSettingsFailed,
+  cancelSettingsSuccess,
   changePathSuccess,
 } from '../actions';
 import { UserConfig, SettingPathInterface } from '../../types';
@@ -22,7 +28,30 @@ import {
   checkIfDirectoryEmpty,
 } from '../../utils/functions';
 
-// -------------------- Configure User Settings --------------------
+async function getUserSettings(): Promise<UserConfig> {
+  const FileContents = fs.readFileSync(CONFIG_PATH, 'utf8');
+  return JSON.parse(FileContents) as UserConfig;
+}
+
+// -------------------- Cancel Settings --------------------
+function* cancelSettings() {
+  try {
+    const response = yield call(getUserSettings);
+    yield put(cancelSettingsSuccess(response));
+  } catch (error) {
+    NotificationManager.notificate({
+      type: 'error',
+      title: 'Settings',
+      message: 'There was an error while trying to read user settings files.',
+      timeOut: NOTIFICATION_TIMEOUT,
+    });
+  }
+}
+export function* watchcancelSettings() {
+  yield takeEvery(CANCEL_SETTINGS, cancelSettings);
+}
+
+// -------------------- Reset Settings --------------------
 async function resetSettings(): Promise<UserConfig> {
   if (!fs.existsSync(USER_FOLDER)) {
     fs.mkdirSync(USER_FOLDER);
@@ -32,24 +61,19 @@ async function resetSettings(): Promise<UserConfig> {
   return defaultConfig;
 }
 
+// -------------------- Initialize Settings --------------------
 async function configureUserConfig(forceReset: boolean = false): Promise<UserConfig> {
   try {
     if (forceReset === true) {
       return resetSettings();
     }
-    const FileContents = fs.readFileSync(CONFIG_PATH, 'utf8');
-    const data = JSON.parse(FileContents) as UserConfig;
-    return data as UserConfig;
+    return getUserSettings();
   } catch (error) {
     return resetSettings();
   }
 }
 
-type InitSettingsPayload = {
-  forceReset?: boolean;
-};
-
-function* initSettings({ payload }: { payload: InitSettingsPayload; type: string }) {
+function* initSettings({ payload }: { payload: { forceReset?: boolean }; type: string }) {
   try {
     const response = yield call(configureUserConfig, payload.forceReset);
 
@@ -71,52 +95,23 @@ function* initSettings({ payload }: { payload: InitSettingsPayload; type: string
   }
 }
 export function* watchinitSettings() {
-  yield takeLatest(INITIALIZE_SETTINGS, initSettings);
+  yield takeEvery(INITIALIZE_SETTINGS, initSettings);
 }
 
-type ChangePathPayload = {
-  pathKey: string;
-  newPath: string;
-};
-function* changePath({ payload }: { payload: ChangePathPayload; type: string }) {
-  try {
-    const isEmpty = yield call(checkIfDirectoryEmpty, payload.newPath);
-    if (isEmpty === true) {
-      yield put(changePathSuccess(payload.pathKey, payload.newPath));
-    } else {
-      NotificationManager.notificate({
-        type: 'error',
-        title: 'Error',
-        message: 'Selected folder is not empty.',
-        timeOut: NOTIFICATION_TIMEOUT,
-      });
-    }
-  } catch (error) {
-    NotificationManager.notificate({
-      type: 'error',
-      title: 'Error',
-      message: 'Unexpected error. Selected folder could not be checked.',
-      timeOut: NOTIFICATION_TIMEOUT,
-    });
-  }
-}
-
-export function* watchchangePath() {
-  yield takeEvery(CHANGE_PATH, changePath);
-}
-
-type SaveSettingsPayload = {
-  settings: UserConfig;
-  newPaths: SettingPathInterface;
-};
-
-function* saveSettings({ payload }: { payload: SaveSettingsPayload; type: string }) {
+// -------------------- Save Settings --------------------
+function* saveSettings({
+  payload,
+}: {
+  payload: { settings: UserConfig; newPaths: SettingPathInterface };
+  type: string;
+}) {
   const { settings, newPaths } = payload;
   try {
     const foldersToMove = [];
     const keys = Object.keys(settings.paths);
     for (let i = 0; i < keys.length; i += 1) {
       const pathKey = keys[i] as keyof typeof settings.paths;
+
       if (
         keys[i] !== 'userSettings' &&
         newPaths[pathKey] !== '' &&
@@ -166,7 +161,7 @@ function* saveSettings({ payload }: { payload: SaveSettingsPayload; type: string
       timeOut: NOTIFICATION_TIMEOUT,
     });
 
-    yield put(saveSettingsSuccess());
+    yield put(saveSettingsSuccess(settings));
   } catch (error) {
     NotificationManager.notificate({
       type: 'error',
@@ -181,6 +176,44 @@ export function* watchsaveSettings() {
   yield takeEvery(SAVE_SETTINGS, saveSettings);
 }
 
+// -------------------- Change Path --------------------
+function* changePath({
+  payload,
+}: {
+  payload: { pathKey: string; newPath: string };
+  type: string;
+}) {
+  try {
+    const isEmpty = yield call(checkIfDirectoryEmpty, payload.newPath);
+    if (isEmpty === true) {
+      yield put(changePathSuccess(payload.pathKey, payload.newPath));
+    } else {
+      NotificationManager.notificate({
+        type: 'error',
+        title: 'Error',
+        message: 'Selected folder is not empty.',
+        timeOut: NOTIFICATION_TIMEOUT,
+      });
+    }
+  } catch (error) {
+    NotificationManager.notificate({
+      type: 'error',
+      title: 'Error',
+      message: 'Unexpected error. Selected folder could not be checked.',
+      timeOut: NOTIFICATION_TIMEOUT,
+    });
+  }
+}
+
+export function* watchchangePath() {
+  yield takeEvery(CHANGE_PATH, changePath);
+}
+
 export default function* rootSaga() {
-  yield all([fork(watchinitSettings), fork(watchsaveSettings), fork(watchchangePath)]);
+  yield all([
+    fork(watchinitSettings),
+    fork(watchsaveSettings),
+    fork(watchcancelSettings),
+    fork(watchchangePath),
+  ]);
 }

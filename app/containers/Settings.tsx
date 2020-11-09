@@ -13,8 +13,8 @@ import {
   Confirm,
 } from 'semantic-ui-react';
 import { RootState } from '../redux/store';
-import { valueUpdate, changePath, saveSettings } from '../redux/actions';
-import { USER_FOLDER } from '../utils/constants';
+import { valueUpdate, changePath, saveSettings, cancelSettings } from '../redux/actions';
+import { USER_FOLDER, defaultConfig } from '../utils/constants';
 
 // #region Redux Configuration
 const mapStateToProps = ({ settings }: RootState) => {
@@ -33,6 +33,7 @@ const mapActionsToProps = {
   valueUpdate,
   changePath,
   saveSettings,
+  cancelSettings,
 };
 
 const connector = connect(mapStateToProps, mapActionsToProps);
@@ -60,7 +61,8 @@ class Settings extends React.Component<ISettingsProps, IStates> {
   }
 
   componentWillUnmount() {
-    console.log('will unmount');
+    const { cancelSettings: CancelSettings } = this.props;
+    CancelSettings();
   }
 
   async onPathChange(key: string) {
@@ -80,6 +82,37 @@ class Settings extends React.Component<ISettingsProps, IStates> {
       ChangePath(pathKey, `${resp.filePaths[0]}\\`);
     }
   }
+
+  onResetConfirm = () => {
+    const {
+      paths,
+      changePath: ChangePath,
+      valueUpdate: ValueUpdate,
+      saveSettings: SaveSettings,
+    } = this.props;
+
+    const rawSettings = {
+      paths: {
+        ...paths,
+      },
+      autoSave: defaultConfig.autoSave,
+    };
+
+    const pathKeys = Object.keys(defaultConfig.paths);
+    for (let i = 0; i < pathKeys.length; i += 1) {
+      const pathKey = pathKeys[i] as keyof typeof defaultConfig.paths;
+      if (
+        pathKeys[i] !== 'userSettings' &&
+        defaultConfig.paths[pathKey] !== paths[pathKey]
+      ) {
+        ChangePath(pathKey, defaultConfig.paths[pathKey]);
+      }
+    }
+
+    ValueUpdate('SETTINGS', 'autoSave', defaultConfig.autoSave);
+    SaveSettings(rawSettings, defaultConfig.paths);
+    this.setState({ resetConfirm: false });
+  };
 
   render() {
     const {
@@ -198,10 +231,7 @@ class Settings extends React.Component<ISettingsProps, IStates> {
           header="Reset Settings"
           content="This will reset settings to their defaults."
           onCancel={() => this.setState({ resetConfirm: false })}
-          onConfirm={() => {
-            console.log('on reset');
-            this.setState({ resetConfirm: false });
-          }}
+          onConfirm={this.onResetConfirm}
         />
       </Container>
     );

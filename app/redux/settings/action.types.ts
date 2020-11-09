@@ -5,10 +5,11 @@ import {
   SAVE_SETTINGS,
   SAVE_SETTINGS_SUCCESS,
   SAVE_SETTINGS_FAILED,
-  SET_DEFAULTS,
+  CANCEL_SETTINGS,
   CHANGE_PATH,
   CHANGE_PATH_SUCCESS,
   VALUE_CHANGE_SETTINGS,
+  CANCEL_SETTINGS_SUCCESS,
 } from '../redux.types';
 import { UserConfig, SettingPathInterface } from '../../types';
 
@@ -30,11 +31,6 @@ export interface InitSettingsSuccess {
 export interface InitSettingsFailed {
   type: typeof INITIALIZE_SETTINGS_FAILED;
   payload: { message?: string };
-}
-
-export interface SetDefaultAction {
-  type: typeof SET_DEFAULTS;
-  payload: null;
 }
 
 export interface SaveSettingsAction {
@@ -71,14 +67,26 @@ export interface ChangePathSuccess {
   };
 }
 
+export interface CancelSettingsAction {
+  type: typeof CANCEL_SETTINGS;
+  payload: null;
+}
+
+export interface CancelSettingsSuccess {
+  type: typeof CANCEL_SETTINGS_SUCCESS;
+  payload: { settings: UserConfig };
+}
+
 export type SettingActionTypes =
   | InitSettings
   | InitSettingsSuccess
   | InitSettingsFailed
-  | SetDefaultAction
+  | CancelSettingsAction
   | SaveSettingsAction
   | SaveSettingsSuccess
   | SaveSettingsFailed
   | ChangePathAction
   | ChangePathSuccess
-  | ValueChangeSettigns;
+  | ValueChangeSettigns
+  | CancelSettingsAction
+  | CancelSettingsSuccess;

@@ -2,13 +2,14 @@ import { ActionCreator } from 'redux';
 import {
   CHANGE_PATH,
   CHANGE_PATH_SUCCESS,
-  SET_DEFAULTS,
   INITIALIZE_SETTINGS,
   INITIALIZE_SETTINGS_SUCCESS,
   INITIALIZE_SETTINGS_FAILED,
   SAVE_SETTINGS,
   SAVE_SETTINGS_SUCCESS,
   SAVE_SETTINGS_FAILED,
+  CANCEL_SETTINGS,
+  CANCEL_SETTINGS_SUCCESS,
 } from '../redux.types';
 import { SettingActionTypes } from './action.types';
 import { UserConfig, SettingPathInterface } from '../../types';
@@ -72,7 +73,14 @@ export const saveSettingsFailed: ActionCreator<SettingActionTypes> = (
   payload: { message },
 });
 
-export const setDefault: ActionCreator<SettingActionTypes> = () => ({
-  type: SET_DEFAULTS,
+export const cancelSettings: ActionCreator<SettingActionTypes> = () => ({
+  type: CANCEL_SETTINGS,
   payload: null,
+});
+
+export const cancelSettingsSuccess: ActionCreator<SettingActionTypes> = (
+  settings: UserConfig
+) => ({
+  type: CANCEL_SETTINGS_SUCCESS,
+  payload: { settings },
 });

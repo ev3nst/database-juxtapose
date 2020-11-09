@@ -6,6 +6,7 @@ import {
   SAVE_SETTINGS,
   SAVE_SETTINGS_SUCCESS,
   SAVE_SETTINGS_FAILED,
+  CANCEL_SETTINGS_SUCCESS,
 } from '../redux.types';
 import { UserConfig, InteractiveResponder, SettingPathInterface } from '../../types';
 import { SettingActionTypes } from './action.types';
@@ -81,7 +82,13 @@ const reducer = (
             state.newPaths.structures !== state.paths.structures
               ? state.newPaths.structures
               : state.paths.structures,
+          migrations:
+            state.newPaths.migrations !== '' &&
+            state.newPaths.migrations !== state.paths.migrations
+              ? state.newPaths.migrations
+              : state.paths.migrations,
         },
+        autoSave: action.payload.settings.autoSave,
         loading: false,
       };
     case SAVE_SETTINGS_FAILED:
@@ -99,6 +106,13 @@ const reducer = (
           ...state.newPaths,
           [action.payload.pathKey]: action.payload.newPath,
         },
+      };
+    case CANCEL_SETTINGS_SUCCESS:
+      return {
+        ...state,
+        paths: action.payload.settings.paths,
+        autoSave: action.payload.settings.autoSave,
+        newPaths: { ...INIT_STATE.newPaths },
       };
     default:
       return { ...state };
