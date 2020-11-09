@@ -10,12 +10,11 @@ import {
   Message,
   Icon,
   Popup,
-  Dimmer,
-  Loader,
+  Confirm,
 } from 'semantic-ui-react';
 import { RootState } from '../redux/store';
 import { valueUpdate, changePath, saveSettings } from '../redux/actions';
-import { CONFIG_PATH, USER_FOLDER } from '../utils/constants';
+import { USER_FOLDER } from '../utils/constants';
 
 // #region Redux Configuration
 const mapStateToProps = ({ settings }: RootState) => {
@@ -39,15 +38,30 @@ const mapActionsToProps = {
 const connector = connect(mapStateToProps, mapActionsToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ISettingsProps = PropsFromRedux & RouteComponentProps;
+type IStates = {
+  resetConfirm: boolean;
+};
 // #endregion
 
-class Settings extends React.Component<ISettingsProps> {
+class Settings extends React.Component<ISettingsProps, IStates> {
   private pathInfoConfig = {
     color: 'teal',
     labelPosition: 'right',
     icon: 'folder open outline',
     content: 'Edit',
   };
+
+  constructor(props: ISettingsProps) {
+    super(props);
+
+    this.state = {
+      resetConfirm: false,
+    };
+  }
+
+  componentWillUnmount() {
+    console.log('will unmount');
+  }
 
   async onPathChange(key: string) {
     const { paths, changePath: ChangePath } = this.props;
@@ -76,6 +90,7 @@ class Settings extends React.Component<ISettingsProps> {
       valueUpdate: ValueUpdate,
       saveSettings: SaveSettings,
     } = this.props;
+    const { resetConfirm } = this.state;
 
     return (
       <Container>
@@ -170,14 +185,24 @@ class Settings extends React.Component<ISettingsProps> {
 
           <Button
             icon="repeat"
-            content="Reset"
+            content="Reset To Defaults"
             floated="right"
             loading={loading}
-            onClick={() => {
-              console.log('on reset');
-            }}
+            onClick={() => this.setState({ resetConfirm: true })}
           />
         </Form>
+        <Confirm
+          centered
+          dimmer="inverted"
+          open={resetConfirm}
+          header="Reset Settings"
+          content="This will reset settings to their defaults."
+          onCancel={() => this.setState({ resetConfirm: false })}
+          onConfirm={() => {
+            console.log('on reset');
+            this.setState({ resetConfirm: false });
+          }}
+        />
       </Container>
     );
   }

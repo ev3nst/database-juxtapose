@@ -82,7 +82,7 @@ function* changePath({ payload }: { payload: ChangePathPayload; type: string }) 
   try {
     const isEmpty = yield call(checkIfDirectoryEmpty, payload.newPath);
     if (isEmpty === true) {
-      yield put(changePathSuccess(payload));
+      yield put(changePathSuccess(payload.pathKey, payload.newPath));
     } else {
       NotificationManager.notificate({
         type: 'error',

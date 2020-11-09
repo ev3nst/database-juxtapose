@@ -49,7 +49,7 @@ class Navbar extends React.PureComponent<NavbarProps> {
   render() {
     const { navItems } = this.props;
 
-    return <Menu>{this.renderNavItems(navItems)}</Menu>;
+    return <Menu style={{ marginTop: 0 }}>{this.renderNavItems(navItems)}</Menu>;
   }
 }
 

@@ -1,9 +1,9 @@
 import {
   INITIALIZE_SETTINGS_SUCCESS,
   INITIALIZE_SETTINGS_FAILED,
-  SAVE_SETTINGS,
-  CHANGE_PATH,
   VALUE_CHANGE_SETTINGS,
+  CHANGE_PATH_SUCCESS,
+  SAVE_SETTINGS,
   SAVE_SETTINGS_SUCCESS,
   SAVE_SETTINGS_FAILED,
 } from '../redux.types';
@@ -91,7 +91,7 @@ const reducer = (
         errorState: true,
         errorMessage: action.payload.message,
       };
-    case CHANGE_PATH:
+    case CHANGE_PATH_SUCCESS:
       return {
         ...state,
         ...ERROR,
