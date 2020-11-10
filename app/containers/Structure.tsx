@@ -4,11 +4,11 @@ import { RouteComponentProps } from 'react-router';
 import {
   saveStructure,
   manipulateStructureHeader,
-  manipulateStructureContent,
+  manipulateStructureField,
 } from '../redux/actions';
+import { Preview, FieldForm, HeaderForm } from './partials/structure';
 import { RootState } from '../redux/store';
 import { INTERVAL_TIMEOUT } from '../utils/constants';
-import { StructureObjectAction } from '../types/structure.types';
 
 // #region Redux Configuration
 const mapStateToProps = ({ structure, settings }: RootState) => {
@@ -20,7 +20,7 @@ const mapStateToProps = ({ structure, settings }: RootState) => {
 const mapActionsToProps = {
   saveStructure,
   manipulateStructureHeader,
-  manipulateStructureContent,
+  manipulateStructureField,
 };
 
 const connector = connect(mapStateToProps, mapActionsToProps);
@@ -28,9 +28,6 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type IProps = PropsFromRedux & RouteComponentProps;
 
 type IStates = {
-  selectedHeader: string;
-  newContentHeader: string;
-  newContentColumn: string;
   showNotification: boolean;
 };
 // #endregion
@@ -44,9 +41,6 @@ class Structure extends Component<IProps, IStates> {
     super(props);
 
     this.state = {
-      selectedHeader: '',
-      newContentHeader: '',
-      newContentColumn: '',
       showNotification: false,
     };
   }
@@ -85,176 +79,70 @@ class Structure extends Component<IProps, IStates> {
     );
   }
 
-  VMStructure(label: string, action: StructureObjectAction, header?: string): boolean {
-    const {
-      newStructure,
-      manipulateStructureContent: ManipulateStructureContent,
-    } = this.props;
-    let keys: Array<string> = [];
-    const value = label.trim();
-
-    // If header is undefined then manipulation is about headers
-    if (header === undefined) {
-      keys = Object.keys(newStructure);
-      if (
-        (action === 'add' && keys.includes(value)) ||
-        (action === 'remove' && !keys.includes(value))
-      ) {
-        return false;
-      }
-
-      ManipulateStructureContent(value, action);
-      return true;
-    }
-    keys = Object.values(newStructure[header]);
-    if (
-      (action === 'add' && keys.includes(value)) ||
-      (action === 'remove' && !keys.includes(value))
-    ) {
-      return false;
-    }
-    ManipulateStructureContent(value, action, header);
-    return true;
-  }
-
-  renderContentHeaders() {
+  getStructureHeaders = (): Array<string> => {
     const { newStructure } = this.props;
-    const render = [];
+    return Object.keys(newStructure);
+  };
 
-    const keys = Object.keys(newStructure);
-    for (let i = 0; i < keys.length; i += 1) {
-      render.push(
-        <option key={keys[i]} value={keys[i]}>
-          {keys[i]}
-        </option>
-      );
-    }
-    return render;
-  }
-
-  renderStructure() {
+  getStructureFields = (whichHeader: string): Array<string> => {
     const { newStructure } = this.props;
-    const render = [];
+    return Object.values(newStructure[whichHeader]);
+  };
 
-    const keys = Object.keys(newStructure);
-    for (let i = 0; i < keys.length; i += 1) {
-      const keyToRemove = keys[i];
-      render.push(
-        <div key={keyToRemove}>
-          <h4>
-            {keyToRemove} -
-            <button type="button" onClick={() => this.VMStructure(keyToRemove, 'remove')}>
-              Delete ({keyToRemove as string})
-            </button>
-          </h4>
-        </div>
-      );
-      if (newStructure[keyToRemove].length > 0) {
-        for (let index = 0; index < newStructure[keyToRemove].length; index += 1) {
-          render.push(
-            <li key={keyToRemove + index}>
-              {newStructure[keyToRemove][index]} -
-              <button
-                type="button"
-                onClick={() =>
-                  this.VMStructure(
-                    newStructure[keyToRemove][index],
-                    'remove',
-                    keyToRemove
-                  )
-                }
-              >
-                Delete
-              </button>
-            </li>
-          );
-        }
-      }
+  onNewHeader = (newHeader: string): void => {
+    const { manipulateStructureHeader: ManipulateStructureHeader } = this.props;
+
+    const headers = this.getStructureHeaders();
+    if (!headers.includes(newHeader)) {
+      ManipulateStructureHeader(newHeader, 'add');
     }
+  };
 
-    return render;
-  }
+  onRemoveHeader = (removeHeader: string): void => {
+    const { manipulateStructureHeader: ManipulateStructureHeader } = this.props;
+
+    const headers = this.getStructureHeaders();
+    if (headers.includes(removeHeader)) {
+      ManipulateStructureHeader(removeHeader, 'remove');
+    }
+  };
+
+  onNewField = (newField: string, selectedHeader: string): void => {
+    const { manipulateStructureField: ManipulateStructureField } = this.props;
+
+    const fields = this.getStructureFields(selectedHeader);
+    if (!fields.includes(newField)) {
+      ManipulateStructureField(newField, selectedHeader, 'add');
+    }
+  };
+
+  onRemoveField = (removeField: string, whichHeader: string): void => {
+    const { manipulateStructureField: ManipulateStructureField } = this.props;
+
+    const fields = this.getStructureFields(whichHeader);
+    if (fields.includes(removeField)) {
+      ManipulateStructureField(removeField, whichHeader, 'remove');
+    }
+  };
 
   render() {
-    const {
-      newContentHeader,
-      newContentColumn,
-      selectedHeader,
-      showNotification,
-    } = this.state;
+    const { newStructure } = this.props;
+    const { showNotification } = this.state;
 
     return (
       <div>
         <h1>New Structure</h1>
-        <form>
-          <div>
-            <h5>New Content</h5>
-            <input
-              type="text"
-              value={newContentHeader}
-              onChange={(val) =>
-                this.setState({
-                  newContentHeader: val.target.value,
-                })
-              }
-            />
-          </div>
-          <button
-            disabled={!(newContentHeader.length > 0)}
-            type="button"
-            onClick={(event: React.SyntheticEvent<EventTarget>) => {
-              event.preventDefault();
-              this.VMStructure(newContentHeader, 'add');
-            }}
-          >
-            Submit
-          </button>
-        </form>
-        <hr />
-        <form>
-          <div>
-            <h5>Sub Content</h5>
-            <br />
-            <select
-              onChange={(val) => {
-                this.setState({
-                  selectedHeader: val.target.value,
-                });
-              }}
-            >
-              <option value="">Select Header</option>
-              {this.renderContentHeaders()}
-            </select>
-            <br />
-            <input
-              type="text"
-              value={newContentColumn}
-              onChange={(val) =>
-                this.setState({
-                  newContentColumn: val.target.value,
-                })
-              }
-            />
-          </div>
-          <button
-            disabled={!(newContentColumn.length > 0 && selectedHeader !== '')}
-            type="button"
-            onClick={(event: React.SyntheticEvent<EventTarget>) => {
-              event.preventDefault();
-              this.VMStructure(newContentColumn, 'add', selectedHeader);
-            }}
-          >
-            Submit
-          </button>
-        </form>
-        <br />
 
-        <div>
-          <h2>New Structure:</h2>
-          {this.renderStructure()}
-        </div>
-
-        <hr />
+        <HeaderForm onNewHeader={this.onNewHeader} />
+        <FieldForm
+          onNewField={this.onNewField}
+          structureHeaders={this.getStructureHeaders()}
+        />
+        <Preview
+          onRemoveHeader={this.onRemoveHeader}
+          onRemoveField={this.onRemoveField}
+          newStructure={newStructure}
+        />
 
         {showNotification === true ? (
           <div

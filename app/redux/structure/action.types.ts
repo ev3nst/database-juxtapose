@@ -3,7 +3,7 @@ import {
   SAVE_STRUCTURE_SUCCESS,
   SAVE_STRUCTURE_FAILED,
   MANIPULATE_STRUCTURE_HEADER,
-  MANIPULATE_STRUCTURE_CONTENT,
+  MANIPULATE_STRUCTURE_FIELD,
   INITIALIZE_STRUCTURE,
   INITIALIZE_STRUCTURE_SUCCESS,
   INITIALIZE_STRUCTURE_FAILED,
@@ -48,7 +48,7 @@ export interface ManipulateStructureHeader {
   };
 }
 export interface ManipulateStructureContent {
-  type: typeof MANIPULATE_STRUCTURE_CONTENT;
+  type: typeof MANIPULATE_STRUCTURE_FIELD;
   payload: {
     label: string;
     action: StructureObjectAction;

@@ -4,7 +4,7 @@ import {
   SAVE_STRUCTURE_SUCCESS,
   SAVE_STRUCTURE_FAILED,
   MANIPULATE_STRUCTURE_HEADER,
-  MANIPULATE_STRUCTURE_CONTENT,
+  MANIPULATE_STRUCTURE_FIELD,
   INITIALIZE_STRUCTURE,
   INITIALIZE_STRUCTURE_SUCCESS,
   INITIALIZE_STRUCTURE_FAILED,
@@ -60,11 +60,11 @@ export const manipulateStructureHeader: ActionCreator<StructureActionTypes> = (
   payload: { label, action },
 });
 
-export const manipulateStructureContent: ActionCreator<StructureActionTypes> = (
+export const manipulateStructureField: ActionCreator<StructureActionTypes> = (
   label: string,
-  action: StructureObjectAction,
-  header: string
+  header: string,
+  action: StructureObjectAction
 ) => ({
-  type: MANIPULATE_STRUCTURE_CONTENT,
-  payload: { label, action, header },
+  type: MANIPULATE_STRUCTURE_FIELD,
+  payload: { label, header, action },
 });

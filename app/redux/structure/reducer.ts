@@ -5,7 +5,7 @@ import {
   SAVE_STRUCTURE,
   SAVE_STRUCTURE_SUCCESS,
   MANIPULATE_STRUCTURE_HEADER,
-  MANIPULATE_STRUCTURE_CONTENT,
+  MANIPULATE_STRUCTURE_FIELD,
 } from '../redux.types';
 import { InteractiveResponder, StructureItem } from '../../types';
 import { StructureActionTypes } from './action.types';
@@ -78,7 +78,7 @@ const reducer = (
       } = state.newStructure;
       return { ...state, newStructure: removedStructure };
     }
-    case MANIPULATE_STRUCTURE_CONTENT: {
+    case MANIPULATE_STRUCTURE_FIELD: {
       if (action.payload.action === 'add') {
         return {
           ...state,

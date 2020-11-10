@@ -1,4 +1,3 @@
-import { remote } from 'electron';
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Container, Header, Transition, Message, Button } from 'semantic-ui-react';
@@ -8,7 +7,7 @@ import {
   initMigration,
   initAppSuccess,
 } from '../redux/actions';
-import { ProgressPercentage, ProgressList } from './partials/Intro';
+import { ProgressPercentage, ProgressList } from './partials/intro';
 import { RootState } from '../redux/store';
 
 // #region Redux Configuration
