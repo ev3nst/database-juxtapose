@@ -9,6 +9,7 @@ import {
 } from '../redux/actions';
 import { ProgressPercentage, ProgressList } from './partials/intro';
 import { RootState } from '../redux/store';
+import { defaultConfig } from '../utils/constants';
 
 // #region Redux Configuration
 const mapStateToProps = ({ settings, structure, migration, intro }: RootState) => {

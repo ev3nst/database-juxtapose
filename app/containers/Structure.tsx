@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
+import { Container, Form, Button, Header, Segment } from 'semantic-ui-react';
 import {
   saveStructure,
   manipulateStructureHeader,
@@ -130,44 +131,46 @@ class Structure extends Component<IProps, IStates> {
     const { showNotification } = this.state;
 
     return (
-      <div>
-        <h1>New Structure</h1>
+      <Container>
+        <Segment
+          style={{
+            paddingLeft: 0,
+            paddingRight: 0,
+          }}
+          basic
+          clearing
+        >
+          <Header as="h2" floated="left">
+            New Structure
+          </Header>
+          <Header as="h2" floated="right">
+            <Button
+              loading={showNotification}
+              basic
+              color="black"
+              onClick={() => this.onSaveStructure(true)}
+            >
+              SAVE
+            </Button>
+          </Header>
+        </Segment>
 
-        <HeaderForm onNewHeader={this.onNewHeader} />
-        <FieldForm
-          onNewField={this.onNewField}
-          structureHeaders={this.getStructureHeaders()}
-        />
+        <Form>
+          <Form.Group widths="equal">
+            <HeaderForm onNewHeader={this.onNewHeader} />
+            <FieldForm
+              onNewField={this.onNewField}
+              structureHeaders={this.getStructureHeaders()}
+            />
+          </Form.Group>
+        </Form>
+
         <Preview
           onRemoveHeader={this.onRemoveHeader}
           onRemoveField={this.onRemoveField}
           newStructure={newStructure}
         />
-
-        {showNotification === true ? (
-          <div
-            style={{
-              position: 'absolute',
-              top: 75,
-              right: 25,
-            }}
-          >
-            <b>SAVING....</b>
-          </div>
-        ) : (
-          <button
-            type="button"
-            style={{
-              position: 'absolute',
-              top: 75,
-              right: 25,
-            }}
-            onClick={() => this.onSaveStructure(true)}
-          >
-            <b>SAVE</b>
-          </button>
-        )}
-      </div>
+      </Container>
     );
   }
 }

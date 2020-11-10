@@ -1,4 +1,5 @@
 import React from 'react';
+import { Form } from 'semantic-ui-react';
 import { HeaderFormProps, HeaderFormStates } from './types';
 
 class HeaderForm extends React.Component<HeaderFormProps, HeaderFormStates> {
@@ -22,36 +23,32 @@ class HeaderForm extends React.Component<HeaderFormProps, HeaderFormStates> {
     return false;
   }
 
-  render(): JSX.Element {
+  onEnter() {
+    const { newHeader } = this.state;
     const { onNewHeader } = this.props;
+    if (newHeader.length !== 0) {
+      onNewHeader(newHeader);
+      this.setState({
+        newHeader: '',
+      });
+    }
+  }
+
+  render(): JSX.Element {
     const { newHeader } = this.state;
     return (
-      <form>
-        <div>
-          <h5>New Content</h5>
-          <input
-            type="text"
-            value={newHeader}
-            onChange={(val) =>
-              this.setState({
-                newHeader: val.target.value,
-              })
-            }
-          />
-        </div>
-        <button
-          disabled={newHeader.length === 0}
-          type="button"
-          onClick={() => {
-            onNewHeader(newHeader);
-            this.setState({
-              newHeader: '',
-            });
-          }}
-        >
-          Submit
-        </button>
-      </form>
+      <Form.Input
+        fluid
+        label="New Header"
+        value={newHeader}
+        placeholder="New Header"
+        onChange={(val) =>
+          this.setState({
+            newHeader: val.target.value,
+          })
+        }
+        onKeyUp={(e: React.KeyboardEvent) => (e.key === 'Enter' ? this.onEnter() : null)}
+      />
     );
   }
 }

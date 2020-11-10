@@ -1,4 +1,5 @@
 import { remote } from 'electron';
+import { SemanticCOLORS } from 'semantic-ui-react';
 import { RouteItem } from '../components/Navbar';
 import routes from './routes.json';
 import { Initializes, PageError, PageLoading } from '../types';
@@ -77,3 +78,18 @@ export const INITIALIZES: Initializes = {
   initError: ERROR,
   initLoading: LOADING,
 };
+
+export const COLORS: Array<SemanticCOLORS> = [
+  'red',
+  'orange',
+  'yellow',
+  'olive',
+  'green',
+  'teal',
+  'blue',
+  'violet',
+  'purple',
+  'pink',
+  'brown',
+  'grey',
+];

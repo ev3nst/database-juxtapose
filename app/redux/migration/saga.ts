@@ -25,11 +25,20 @@ async function configureMigrationFiles(path: string): Promise<ReturnInitMigratio
     }
 
     const FileContents = fs.readFileSync(path + MIGRATION_AUTOSAVE_FILE, 'utf8');
-    const data = JSON.parse(FileContents);
-    if (data !== undefined || data !== null || data !== '') {
+    try {
+      const data = JSON.parse(FileContents);
+      if (data !== undefined || data !== null || data !== '') {
+        return {
+          status: true,
+          data,
+        };
+      }
+    } catch (error) {
+      // json error
+      fs.writeFileSync(path + MIGRATION_AUTOSAVE_FILE, '{}');
       return {
         status: true,
-        data,
+        data: {},
       };
     }
     return { status: false, error: 'Corrupted json.' };

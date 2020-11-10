@@ -1,4 +1,5 @@
 import React from 'react';
+import { Form } from 'semantic-ui-react';
 import { FieldFormProps, FieldFormStates } from './types';
 
 class FieldForm extends React.Component<FieldFormProps, FieldFormStates> {
@@ -24,61 +25,55 @@ class FieldForm extends React.Component<FieldFormProps, FieldFormStates> {
     return false;
   }
 
-  renderHeaderOptions(): JSX.Element[] {
+  onEnter() {
+    const { selectedHeader, newField } = this.state;
+    const { onNewField } = this.props;
+    if (selectedHeader !== undefined && selectedHeader.length !== 0) {
+      onNewField(newField, selectedHeader);
+      this.setState({
+        newField: '',
+      });
+    }
+  }
+
+  getHeaderOptions() {
     const { structureHeaders } = this.props;
-    return structureHeaders.map((header: string) => (
-      <option key={header} value={header}>
-        {header}
-      </option>
-    ));
+    return structureHeaders.map((header: string) => {
+      return { key: header, text: header, value: header };
+    });
   }
 
   render(): JSX.Element {
-    const { onNewField } = this.props;
-    const { newField, selectedHeader } = this.state;
+    const { newField } = this.state;
     return (
-      <form>
-        <div>
-          <h5>Sub Content</h5>
-          <br />
-          <select
-            onChange={(val) => {
-              this.setState({
-                selectedHeader: val.target.value,
-              });
-            }}
-          >
-            <option value="">Select Header</option>
-            {this.renderHeaderOptions()}
-          </select>
-          <br />
-          <input
-            type="text"
-            value={newField}
-            onChange={(val) =>
-              this.setState({
-                newField: val.target.value,
-              })
-            }
-          />
-        </div>
-        <button
-          disabled={
-            selectedHeader === undefined ||
-            newField.length === 0 ||
-            selectedHeader.length === 0
-          }
-          type="button"
-          onClick={() => {
-            onNewField(newField, String(selectedHeader));
+      <>
+        <Form.Select
+          fluid
+          label="Select Header"
+          options={this.getHeaderOptions()}
+          placeholder="Select Header"
+          onChange={(_e, { value }) => {
             this.setState({
-              newField: '',
+              selectedHeader: String(value),
             });
           }}
-        >
-          Submit
-        </button>
-      </form>
+        />
+
+        <Form.Input
+          fluid
+          label="New Field"
+          value={newField}
+          placeholder="New Field"
+          onChange={(val) =>
+            this.setState({
+              newField: val.target.value,
+            })
+          }
+          onKeyUp={(e: React.KeyboardEvent) =>
+            e.key === 'Enter' ? this.onEnter() : null
+          }
+        />
+      </>
     );
   }
 }
