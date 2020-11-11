@@ -39,14 +39,14 @@ const mapActionsToProps = {
 
 const connector = connect(mapStateToProps, mapActionsToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type ISettingsProps = PropsFromRedux & RouteComponentProps;
+type IProps = PropsFromRedux & RouteComponentProps;
 type IStates = {
   resetConfirm: boolean;
   darkMode: boolean;
 };
 // #endregion
 
-class Settings extends React.Component<ISettingsProps, IStates> {
+class Settings extends React.Component<IProps, IStates> {
   private pathInfoConfig = {
     color: 'teal',
     labelPosition: 'right',
@@ -54,7 +54,7 @@ class Settings extends React.Component<ISettingsProps, IStates> {
     content: 'Edit',
   };
 
-  constructor(props: ISettingsProps) {
+  constructor(props: IProps) {
     super(props);
 
     this.state = {

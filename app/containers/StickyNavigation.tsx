@@ -17,12 +17,12 @@ type IStates = {
 // #endregion
 
 // Component
-class NavigationWrapper extends React.Component<IProps, IStates> {
+class StickyNavigation extends React.Component<IProps, IStates> {
   constructor(props: IProps) {
     super(props);
 
     this.state = {
-      activeContainer: routes.CONTENT_STRUCTURES,
+      activeContainer: routes.STRUCTURE,
     };
   }
 
@@ -34,7 +34,7 @@ class NavigationWrapper extends React.Component<IProps, IStates> {
       location.pathname === '/' ||
       Object.values(routes).indexOf(location.pathname) === -1
     ) {
-      this.onNavigate(routes.CONTENT_STRUCTURES);
+      this.onNavigate(routes.STRUCTURE);
     } else if (activeContainer !== location.pathname) {
       this.setState({
         activeContainer: location.pathname,
@@ -72,8 +72,6 @@ class NavigationWrapper extends React.Component<IProps, IStates> {
           navItems={NavbarItems}
           activeNavbar={activeContainer}
           onMenuClick={this.onNavigate}
-          onNavigateBack={() => this.onNavigate(routes.CONTENT_STRUCTURES)}
-          showBackButton={activeContainer !== routes.CONTENT_STRUCTURES}
         />
       </Sticky>
     );
@@ -86,4 +84,4 @@ const mapStateToProps = () => {
 
 const mapActionsToProps = {};
 
-export default connect(mapStateToProps, mapActionsToProps)(NavigationWrapper);
+export default connect(mapStateToProps, mapActionsToProps)(StickyNavigation);

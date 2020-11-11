@@ -20,7 +20,7 @@ export type NavbarProps = {
   navItems: Array<RouteItem>;
 
   /** Show Back Button state. */
-  showBackButton: boolean;
+  showBackButton?: boolean;
 
   /** Callback when clicked on Back Button. */
   onNavigateBack?: () => void;

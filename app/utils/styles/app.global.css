@@ -31,10 +31,18 @@
   color: #222;
 }
 
+.uppercase {
+  text-transform: uppercase;
+}
+
 .ui.ui.ui.ui.text.loader.loading-notification {
   position: fixed;
   top: 92%;
   left: 94%;
+}
+
+.ui.inverted.segment > .ui.inverted.header.muted-subheader .sub.header {
+  color: #999999;
 }
 
 /* Loading spinner fix when in list. https://github.com/Semantic-Org/Semantic-UI/issues/6717 */
@@ -44,9 +52,6 @@
 }
 
 /* Checkbox Slider Inverted Support */
-/*--------------
-     Inverted
----------------*/
 .inverted .slider.checkbox label,
 .inverted .slider.checkbox + label {
   color: #888 !important;

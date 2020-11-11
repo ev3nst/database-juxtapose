@@ -5,15 +5,7 @@ import { Ref } from 'semantic-ui-react';
 import { initApp } from './redux/actions';
 import { RootState } from './redux/store';
 import routes from './utils/routes.json';
-import {
-  Intro,
-  NavigationWrapper,
-  DataStructures,
-  NewMigration,
-  Structure,
-  MigrationWizard,
-  Settings,
-} from './containers';
+import { Intro, StickyNavigation, Structure, Wizard, Settings } from './containers';
 
 import { NotificationContainer } from './components/Notification';
 
@@ -64,14 +56,11 @@ class Routes extends React.Component<IProps> {
           <>
             <NotificationContainer transitionDuration={200} />
             <Router>
-              <Route path={routes.WRAPPER} component={NavigationWrapper} />
+              <Route path={routes.WRAPPER} component={StickyNavigation} />
               <Switch>
-                <Route path={routes.CONTENT_STRUCTURES} component={DataStructures} />
-                <Route path={routes.NEW_MIGRATION} component={NewMigration} />
-                <Route path={routes.NEW_STRUCTURE} component={Structure} />
-                <Route path={routes.MIGRATION_WIZARD} component={MigrationWizard} />
+                <Route path={routes.STRUCTURE} component={Structure} />
+                <Route path={routes.WIZARD} component={Wizard} />
                 <Route path={routes.SETTINGS} component={Settings} />
-                <Route path="*" component={DataStructures} />
               </Switch>
             </Router>
           </>

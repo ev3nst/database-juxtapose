@@ -1,9 +1,7 @@
 {
   "WRAPPER": "/",
-  "CONTENT_STRUCTURES": "/content-structures",
-  "DATABASE_MIGRATIONS": "/database-migrations",
-  "MIGRATION_WIZARD": "/migration-wizard",
-  "NEW_MIGRATION": "/new-migration",
-  "NEW_STRUCTURE": "/new-structure",
+  "STRUCTURE": "/structure",
+  "MIGRATION": "/migration",
+  "WIZARD": "/wizard",
   "SETTINGS": "/settings"
 }

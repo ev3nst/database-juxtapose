@@ -29,35 +29,18 @@ export const NOTIFICATION_TIMEOUT = 2500;
 
 export const NavbarItems: Array<RouteItem> = [
   {
-    title: 'CREATE NEW',
-    icon: 'add',
-    dropdown: true,
-    items: [
-      {
-        title: 'Content Structure',
-        route: routes.NEW_STRUCTURE,
-        icon: 'file alternate outline',
-      },
-      {
-        title: 'Database Migration',
-        route: routes.NEW_MIGRATION,
-        icon: 'file code outline',
-      },
-    ],
-  },
-  {
-    title: 'Content Structures',
-    route: routes.CONTENT_STRUCTURES,
+    title: 'Structures',
+    route: routes.STRUCTURE,
     icon: 'list alternate outline',
   },
   {
-    title: 'Database Migrations',
-    route: routes.DATABASE_MIGRATIONS,
+    title: 'Migrations',
+    route: routes.MIGRATION,
     icon: 'object ungroup outline',
   },
   {
-    title: 'Migration Wizard',
-    route: routes.MIGRATION_WIZARD,
+    title: 'Wizard',
+    route: routes.WIZARD,
     icon: 'wizard',
   },
   {

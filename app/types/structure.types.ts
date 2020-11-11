@@ -1,4 +1,4 @@
 export type StructureObjectAction = 'add' | 'remove';
-export interface StructureItem {
+export interface StructureObject {
   [key: string]: Array<string>;
 }

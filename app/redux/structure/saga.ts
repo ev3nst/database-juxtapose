@@ -1,33 +1,43 @@
 import * as fs from 'fs';
 import { all, call, fork, put, takeLatest, takeEvery } from 'redux-saga/effects';
-import { INITIALIZE_STRUCTURE, SAVE_STRUCTURE } from '../redux.types';
-import { StructureItem, SagaAsyncReturn } from '../../types';
+import { CHANGE_STRUCTURE, INITIALIZE_STRUCTURE, SAVE_STRUCTURE } from '../redux.types';
+import { StructureObject, SagaAsyncReturn } from '../../types';
 import { STRUCTURE_AUTOSAVE_FILE, PAGINATION_LIMIT } from '../../utils/constants';
 import {
   initStructureSuccess,
   initStructureFailed,
   saveStructureSuccess,
   saveStructureFailed,
+  changeStructureSuccess,
+  changeStructureFailed,
 } from '../actions';
 
 // -------------------- Configure Structure Folder & Files --------------------
 async function getStructureFolder(
   path: string,
-  page?: number = 1
+  page: number = 0
 ): Promise<SagaAsyncReturn> {
   try {
     if (!fs.existsSync(path)) {
       fs.mkdirSync(path);
     }
 
+    const offset = page * PAGINATION_LIMIT;
+
+    let index = 0;
     const structures: Array<string> = [];
     fs.readdirSync(path).forEach((file) => {
       if (file.substr(file.length - 5) === '.json') {
-        structures.push(file);
+        index += 1;
+        if (offset + PAGINATION_LIMIT === index) {
+          return;
+        }
+        if (offset < index && file !== STRUCTURE_AUTOSAVE_FILE) {
+          structures.push(file.replace('.json', ''));
+        }
       }
     });
-
-    return { status: false, data: structures };
+    return { status: true, data: structures, error: '' };
   } catch (error) {
     return { status: false, error: error.toString() };
   }
@@ -43,6 +53,7 @@ async function getStructureFile(
       return {
         status: true,
         data: {},
+        error: '',
       };
     }
 
@@ -53,6 +64,7 @@ async function getStructureFile(
         return {
           status: true,
           data,
+          error: '',
         };
       }
     } catch (error) {
@@ -61,6 +73,7 @@ async function getStructureFile(
       return {
         status: true,
         data: {},
+        error: '',
       };
     }
     return { status: false, error: 'Corrupted json.' };
@@ -84,12 +97,14 @@ function* initStructure({ payload }: StructurePayload) {
       STRUCTURE_AUTOSAVE_FILE
     );
 
-    if (autosaveFile.status === true) {
-      yield put(initStructureSuccess(autosaveFile.data, structureList));
+    if (autosaveFile.status === true && structureList.status === true) {
+      yield put(initStructureSuccess(autosaveFile.data, structureList.data));
       return;
     }
 
-    yield put(initStructureFailed(autosaveFile.error));
+    yield put(
+      initStructureFailed(`Errors: 1. ${autosaveFile.error} 2.${structureList.error}`)
+    );
   } catch (error) {
     yield put(initStructureFailed(error.toString()));
   }
@@ -116,7 +131,7 @@ async function saveStructureFile(
 type NewStructurePayload = {
   payload: {
     path: string;
-    dataStructure: StructureItem;
+    dataStructure: StructureObject;
     isAutosave: boolean;
     fileName?: string;
   };
@@ -140,6 +155,37 @@ export function* watchsaveStructure() {
   yield takeLatest(SAVE_STRUCTURE, saveStructure);
 }
 
+// -------------------- Change Current Working Structure File --------------------
+type ChangeStructurePayload = {
+  payload: {
+    path: string;
+    structureFile: string;
+  };
+  type: string;
+};
+function* changeStructure({ payload }: ChangeStructurePayload) {
+  try {
+    const structureResponse = yield call(
+      getStructureFile,
+      payload.path,
+      payload.structureFile
+    );
+    if (structureResponse.status === true) {
+      yield put(changeStructureSuccess(structureResponse.data, payload.structureFile));
+    }
+    yield put(changeStructureFailed(structureResponse.error));
+  } catch (error) {
+    yield put(changeStructureFailed(error.toString()));
+  }
+}
+export function* watchchangeStructure() {
+  yield takeLatest(CHANGE_STRUCTURE, changeStructure);
+}
+
 export default function* rootSaga() {
-  yield all([fork(watchinitStructure), fork(watchsaveStructure)]);
+  yield all([
+    fork(watchinitStructure),
+    fork(watchsaveStructure),
+    fork(watchchangeStructure),
+  ]);
 }

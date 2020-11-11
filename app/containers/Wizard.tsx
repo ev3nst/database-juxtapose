@@ -4,7 +4,7 @@ import { RouteComponentProps } from 'react-router';
 import { Grid, Header } from 'semantic-ui-react';
 import { DARK_MODE } from '../utils/constants';
 
-class MigrationWizard extends Component<RouteComponentProps> {
+class Wizard extends Component<RouteComponentProps> {
   componentDidMount() {}
 
   render() {
@@ -27,4 +27,4 @@ const mapStateToProps = () => {
 
 const mapActionsToProps = {};
 
-export default connect(mapStateToProps, mapActionsToProps)(MigrationWizard);
+export default connect(mapStateToProps, mapActionsToProps)(Wizard);
