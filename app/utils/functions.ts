@@ -22,7 +22,7 @@ export function zipDirectory(
   });
 }
 
-type MoveToNewPath = {
+export type MoveToNewPath = {
   oldPath: string;
   newPath: string;
 };

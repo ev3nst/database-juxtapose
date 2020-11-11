@@ -17,7 +17,7 @@ export interface InitStructure {
 
 export interface InitStructureSuccess {
   type: typeof INITIALIZE_STRUCTURE_SUCCESS;
-  payload: { structure: StructureItem };
+  payload: { structure: StructureItem; allStructures: Array<any> };
 }
 
 export interface InitStructureFailed {
@@ -27,12 +27,17 @@ export interface InitStructureFailed {
 
 export interface SaveStructure {
   type: typeof SAVE_STRUCTURE;
-  payload: { path: string; newStructure: StructureItem; isAutosave: boolean };
+  payload: {
+    path: string;
+    dataStructure: StructureItem;
+    isAutosave: boolean;
+    fileName?: string;
+  };
 }
 
 export interface SaveStructureSuccess {
   type: typeof SAVE_STRUCTURE_SUCCESS;
-  payload: null;
+  payload: { isAutosave: boolean; fileName?: string };
 }
 
 export interface SaveStructureFailed {

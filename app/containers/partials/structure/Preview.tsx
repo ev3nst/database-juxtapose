@@ -6,11 +6,11 @@ import { PreviewProps } from './types';
 
 class Preview extends React.PureComponent<PreviewProps> {
   resolveStructureFields(key: string): JSX.Element {
-    const { newStructure, onRemoveField, inverted } = this.props;
+    const { dataStructure, onRemoveField, inverted } = this.props;
 
     return (
       <List selection verticalAlign="middle" inverted={inverted}>
-        {newStructure[key].map((item) => (
+        {dataStructure[key].map((item) => (
           <List.Item key={item}>
             <List.Icon
               name="file outline"
@@ -22,7 +22,7 @@ class Preview extends React.PureComponent<PreviewProps> {
                 <List.Content floated="right">
                   <Icon
                     size="small"
-                    color="brown"
+                    color={inverted === true ? 'olive' : 'brown'}
                     name="chevron down"
                     onClick={() => console.log('go down')}
                   />
@@ -31,7 +31,7 @@ class Preview extends React.PureComponent<PreviewProps> {
                       marginLeft: 5,
                     }}
                     size="small"
-                    color="brown"
+                    color={inverted === true ? 'olive' : 'brown'}
                     name="chevron up"
                     onClick={() => console.log('go up')}
                   />
@@ -55,20 +55,13 @@ class Preview extends React.PureComponent<PreviewProps> {
   }
 
   resolveStructure() {
-    const { newStructure, onRemoveHeader, inverted } = this.props;
+    const { dataStructure, onRemoveHeader, inverted } = this.props;
 
-    const keys = Object.keys(newStructure);
+    const keys = Object.keys(dataStructure);
     return (
       <Card.Group itemsPerRow={3} className={inverted === true ? 'inverted' : undefined}>
         {keys.map((header) => (
-          <Card
-            key={header}
-            color={
-              inverted === true
-                ? 'black'
-                : COLORS[Math.floor(Math.random() * COLORS.length)]
-            }
-          >
+          <Card key={header} color={COLORS[Math.floor(Math.random() * COLORS.length)]}>
             <Card.Content>
               <Card.Header>
                 <Icon
@@ -81,8 +74,8 @@ class Preview extends React.PureComponent<PreviewProps> {
                 <Grid.Column floated="right">
                   <Icon
                     size="small"
-                    color="red"
-                    name="trash alternate outline"
+                    color={inverted === true ? 'red' : 'red'}
+                    name="eraser"
                     onClick={() => onRemoveHeader(header)}
                   />
                 </Grid.Column>

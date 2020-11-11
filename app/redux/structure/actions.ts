@@ -18,10 +18,11 @@ export const initStructure: ActionCreator<StructureActionTypes> = (path: string)
 });
 
 export const initStructureSuccess: ActionCreator<StructureActionTypes> = (
-  structure: StructureItem
+  structure: StructureItem,
+  allStructures: Array<any>
 ) => ({
   type: INITIALIZE_STRUCTURE_SUCCESS,
-  payload: { structure },
+  payload: { structure, allStructures },
 });
 
 export const initStructureFailed: ActionCreator<StructureActionTypes> = (
@@ -33,16 +34,20 @@ export const initStructureFailed: ActionCreator<StructureActionTypes> = (
 
 export const saveStructure: ActionCreator<StructureActionTypes> = (
   path: string,
-  newStructure: Record<string, never>,
-  isAutosave: boolean
+  dataStructure: Record<string, never>,
+  isAutosave: boolean,
+  fileName?: string
 ) => ({
   type: SAVE_STRUCTURE,
-  payload: { path, newStructure, isAutosave },
+  payload: { path, dataStructure, isAutosave, fileName },
 });
 
-export const saveStructureSuccess: ActionCreator<StructureActionTypes> = () => ({
+export const saveStructureSuccess: ActionCreator<StructureActionTypes> = (
+  isAutosave: boolean,
+  fileName?: string
+) => ({
   type: SAVE_STRUCTURE_SUCCESS,
-  payload: null,
+  payload: { isAutosave, fileName },
 });
 
 export const saveStructureFailed: ActionCreator<StructureActionTypes> = (

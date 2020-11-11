@@ -13,6 +13,30 @@
   width: 100vw;
 }
 
+.input-right-label {
+  color: #fff;
+  background: #ddd;
+  position: absolute;
+  right: 0;
+  height: 100%;
+  padding: 0px 10px;
+  line-height: 38px;
+  text-align: center;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  overflow: hidden;
+}
+
+.input-right-label.inverted {
+  color: #222;
+}
+
+.ui.ui.ui.ui.text.loader.loading-notification {
+  position: fixed;
+  top: 92%;
+  left: 94%;
+}
+
 /* Loading spinner fix when in list. https://github.com/Semantic-Org/Semantic-UI/issues/6717 */
 .ui.list > .item > i.icon {
   padding-right: 0 !important;

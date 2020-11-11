@@ -12,14 +12,18 @@ import { StructureActionTypes } from './action.types';
 import { LOADING, ERROR, INITIALIZES } from '../../utils/constants';
 
 export interface StructureState extends InteractiveResponder {
-  newStructure: StructureItem;
+  allStructures: Array<any>;
+  dataStructure: StructureItem;
+  structureFile: string;
 }
 
 const INIT_STATE: StructureState = {
   ...ERROR,
   ...LOADING,
   ...INITIALIZES,
-  newStructure: {},
+  allStructures: [],
+  dataStructure: {},
+  structureFile: 'structure_autosave',
 };
 
 const reducer = (
@@ -32,7 +36,8 @@ const reducer = (
     case INITIALIZE_STRUCTURE_SUCCESS:
       return {
         ...state,
-        newStructure: action.payload.structure,
+        allStructures: action.payload.allStructures,
+        dataStructure: action.payload.structure,
         initLoading: {
           loading: false,
           loaded: true,
@@ -60,13 +65,20 @@ const reducer = (
         loading: true,
       };
     case SAVE_STRUCTURE_SUCCESS:
-      return { ...state, loading: false };
+      return {
+        ...state,
+        loading: false,
+        structureFile:
+          action.payload.isAutosave === false && action.payload.fileName !== undefined
+            ? action.payload.fileName
+            : INIT_STATE.structureFile,
+      };
     case MANIPULATE_STRUCTURE_HEADER: {
       if (action.payload.action === 'add') {
         return {
           ...state,
-          newStructure: {
-            ...state.newStructure,
+          dataStructure: {
+            ...state.dataStructure,
             [action.payload.label]: [],
           },
         };
@@ -75,31 +87,31 @@ const reducer = (
       const {
         [headerToRemove]: {},
         ...removedStructure
-      } = state.newStructure;
-      return { ...state, newStructure: removedStructure };
+      } = state.dataStructure;
+      return { ...state, dataStructure: removedStructure };
     }
     case MANIPULATE_STRUCTURE_FIELD: {
       if (action.payload.action === 'add') {
         return {
           ...state,
-          newStructure: {
-            ...state.newStructure,
-            [action.payload.header]: state.newStructure[action.payload.header].concat(
+          dataStructure: {
+            ...state.dataStructure,
+            [action.payload.header]: state.dataStructure[action.payload.header].concat(
               action.payload.label
             ),
           },
         };
       }
-      const indexToRemove = state.newStructure[action.payload.header].indexOf(
+      const indexToRemove = state.dataStructure[action.payload.header].indexOf(
         action.payload.label
       );
       return {
         ...state,
-        newStructure: {
-          ...state.newStructure,
+        dataStructure: {
+          ...state.dataStructure,
           [action.payload.header]: [
-            ...state.newStructure[action.payload.header].slice(0, indexToRemove),
-            ...state.newStructure[action.payload.header].slice(indexToRemove + 1),
+            ...state.dataStructure[action.payload.header].slice(0, indexToRemove),
+            ...state.dataStructure[action.payload.header].slice(indexToRemove + 1),
           ],
         },
       };

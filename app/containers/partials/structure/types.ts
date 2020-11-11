@@ -1,5 +1,5 @@
 export type PreviewProps = {
-  newStructure: { [key: string]: Array<string> };
+  dataStructure: { [key: string]: Array<string> };
   onRemoveHeader: (removeHeader: string) => void;
   onRemoveField: (removeField: string, whichHeader: string) => void;
   inverted?: boolean;
@@ -18,4 +18,16 @@ export type HeaderFormProps = {
 };
 export type HeaderFormStates = {
   newHeader: string;
+};
+
+export type SaveModalProps = {
+  onConfirm: (fileName: string) => void;
+  pathPrefix: string;
+  inverted?: boolean;
+};
+export type SaveModalStates = {
+  fileName: string;
+  showModal: boolean;
+  errorState: boolean;
+  errorMessage: string;
 };

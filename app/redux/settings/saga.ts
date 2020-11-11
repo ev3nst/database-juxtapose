@@ -62,7 +62,7 @@ async function resetSettings(): Promise<UserConfig> {
 }
 
 // -------------------- Initialize Settings --------------------
-async function configureUserConfig(forceReset: boolean = false): Promise<UserConfig> {
+async function initUserConfig(forceReset: boolean = false): Promise<UserConfig> {
   try {
     if (forceReset === true) {
       return resetSettings();
@@ -75,7 +75,7 @@ async function configureUserConfig(forceReset: boolean = false): Promise<UserCon
 
 function* initSettings({ payload }: { payload: { forceReset?: boolean }; type: string }) {
   try {
-    const response = yield call(configureUserConfig, payload.forceReset);
+    const response = yield call(initUserConfig, payload.forceReset);
 
     const settPathKeys = Object.keys(response.paths);
     for (let i = 0; i < settPathKeys.length; i += 1) {

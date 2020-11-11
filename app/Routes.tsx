@@ -8,7 +8,7 @@ import routes from './utils/routes.json';
 import {
   Intro,
   NavigationWrapper,
-  ContentStructures,
+  DataStructures,
   NewMigration,
   Structure,
   MigrationWizard,
@@ -66,12 +66,12 @@ class Routes extends React.Component<IProps> {
             <Router>
               <Route path={routes.WRAPPER} component={NavigationWrapper} />
               <Switch>
-                <Route path={routes.CONTENT_STRUCTURES} component={ContentStructures} />
+                <Route path={routes.CONTENT_STRUCTURES} component={DataStructures} />
                 <Route path={routes.NEW_MIGRATION} component={NewMigration} />
                 <Route path={routes.NEW_STRUCTURE} component={Structure} />
                 <Route path={routes.MIGRATION_WIZARD} component={MigrationWizard} />
                 <Route path={routes.SETTINGS} component={Settings} />
-                <Route path="*" component={ContentStructures} />
+                <Route path="*" component={DataStructures} />
               </Switch>
             </Router>
           </>

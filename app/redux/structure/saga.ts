@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import { all, call, fork, put, takeLatest, takeEvery } from 'redux-saga/effects';
 import { INITIALIZE_STRUCTURE, SAVE_STRUCTURE } from '../redux.types';
-import { StructureItem } from '../../types';
-import { STRUCTURE_AUTOSAVE_FILE } from '../../utils/constants';
+import { StructureItem, SagaAsyncReturn } from '../../types';
+import { STRUCTURE_AUTOSAVE_FILE, PAGINATION_LIMIT } from '../../utils/constants';
 import {
   initStructureSuccess,
   initStructureFailed,
@@ -11,26 +11,42 @@ import {
 } from '../actions';
 
 // -------------------- Configure Structure Folder & Files --------------------
-type ReturnInitStructure = {
-  status: boolean;
-  data?: any;
-  error?: any;
-};
-async function configureStructureFiles(path: string): Promise<ReturnInitStructure> {
+async function getStructureFolder(
+  path: string,
+  page?: number = 1
+): Promise<SagaAsyncReturn> {
   try {
     if (!fs.existsSync(path)) {
       fs.mkdirSync(path);
     }
 
-    if (!fs.existsSync(path + STRUCTURE_AUTOSAVE_FILE)) {
-      fs.writeFileSync(path + STRUCTURE_AUTOSAVE_FILE, '{}');
+    const structures: Array<string> = [];
+    fs.readdirSync(path).forEach((file) => {
+      if (file.substr(file.length - 5) === '.json') {
+        structures.push(file);
+      }
+    });
+
+    return { status: false, data: structures };
+  } catch (error) {
+    return { status: false, error: error.toString() };
+  }
+}
+
+async function getStructureFile(
+  path: string,
+  fileName: string
+): Promise<SagaAsyncReturn> {
+  try {
+    if (!fs.existsSync(path + fileName)) {
+      fs.writeFileSync(path + fileName, '{}');
       return {
         status: true,
         data: {},
       };
     }
 
-    const FileContents = fs.readFileSync(path + STRUCTURE_AUTOSAVE_FILE, 'utf8');
+    const FileContents = fs.readFileSync(path + fileName, 'utf8');
     try {
       const data = JSON.parse(FileContents);
       if (data !== undefined || data !== null || data !== '') {
@@ -41,7 +57,7 @@ async function configureStructureFiles(path: string): Promise<ReturnInitStructur
       }
     } catch (error) {
       // json error
-      fs.writeFileSync(path + STRUCTURE_AUTOSAVE_FILE, '{}');
+      fs.writeFileSync(path + fileName, '{}');
       return {
         status: true,
         data: {},
@@ -61,13 +77,19 @@ type StructurePayload = {
 };
 function* initStructure({ payload }: StructurePayload) {
   try {
-    const response = yield call(configureStructureFiles, payload.path);
-    if (response.status === true) {
-      yield put(initStructureSuccess(response.data));
+    const structureList = yield call(getStructureFolder, payload.path);
+    const autosaveFile = yield call(
+      getStructureFile,
+      payload.path,
+      STRUCTURE_AUTOSAVE_FILE
+    );
+
+    if (autosaveFile.status === true) {
+      yield put(initStructureSuccess(autosaveFile.data, structureList));
       return;
     }
 
-    yield put(initStructureFailed(response.error));
+    yield put(initStructureFailed(autosaveFile.error));
   } catch (error) {
     yield put(initStructureFailed(error.toString()));
   }
@@ -77,26 +99,39 @@ export function* watchinitStructure() {
 }
 
 // -------------------- Save New Structure File --------------------
-async function saveStructureFile(path: string, newStructure: any, isAutosave: boolean) {
+async function saveStructureFile(
+  path: string,
+  dataStructure: any,
+  isAutosave: boolean,
+  fileName?: string
+) {
   if (isAutosave === true) {
-    fs.writeFileSync(path + STRUCTURE_AUTOSAVE_FILE, JSON.stringify(newStructure));
+    fs.writeFileSync(path + STRUCTURE_AUTOSAVE_FILE, JSON.stringify(dataStructure));
   } else {
-    fs.writeFileSync(path, JSON.stringify(newStructure));
+    fs.writeFileSync(`${path + fileName}.json`, JSON.stringify(dataStructure));
+    fs.writeFileSync(path + STRUCTURE_AUTOSAVE_FILE, JSON.stringify({}));
   }
 }
 
 type NewStructurePayload = {
   payload: {
     path: string;
-    newStructure: StructureItem;
+    dataStructure: StructureItem;
     isAutosave: boolean;
+    fileName?: string;
   };
   type: string;
 };
 function* saveStructure({ payload }: NewStructurePayload) {
   try {
-    yield call(saveStructureFile, payload.path, payload.newStructure, payload.isAutosave);
-    yield put(saveStructureSuccess());
+    yield call(
+      saveStructureFile,
+      payload.path,
+      payload.dataStructure,
+      payload.isAutosave,
+      payload.fileName
+    );
+    yield put(saveStructureSuccess(payload.isAutosave, payload.fileName));
   } catch (error) {
     yield put(saveStructureFailed(error));
   }

@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { Grid, Container, Form, Button, Header, Segment } from 'semantic-ui-react';
+import { Grid, Container, Form, Loader, Header, Segment } from 'semantic-ui-react';
 import {
   saveStructure,
   manipulateStructureHeader,
   manipulateStructureField,
 } from '../redux/actions';
-import { Preview, FieldForm, HeaderForm } from './partials/structure';
+import { Preview, FieldForm, HeaderForm, SaveModal } from './partials/structure';
 import { RootState } from '../redux/store';
 import { INTERVAL_TIMEOUT, DARK_MODE } from '../utils/constants';
 
 // #region Redux Configuration
 const mapStateToProps = ({ structure, settings }: RootState) => {
-  const { loading, loaded, newStructure } = structure;
+  const { loading, loaded, dataStructure } = structure;
   const { paths } = settings;
-  return { loading, loaded, newStructure, paths };
+  return { loading, loaded, dataStructure, paths };
 };
 
 const mapActionsToProps = {
@@ -27,7 +27,6 @@ const mapActionsToProps = {
 const connector = connect(mapStateToProps, mapActionsToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type IProps = PropsFromRedux & RouteComponentProps;
-
 type IStates = {
   showNotification: boolean;
 };
@@ -69,25 +68,25 @@ class Structure extends Component<IProps, IStates> {
   }
 
   onSaveStructure(isAutosave: boolean = false) {
-    const { paths, newStructure, saveStructure: SaveStructure } = this.props;
+    const { paths, dataStructure, saveStructure: SaveStructure } = this.props;
     this.setState({
       showNotification: true,
     });
     SaveStructure(
       paths.structures,
-      newStructure === undefined ? {} : newStructure,
+      dataStructure === undefined ? {} : dataStructure,
       isAutosave
     );
   }
 
   getStructureHeaders = (): Array<string> => {
-    const { newStructure } = this.props;
-    return Object.keys(newStructure);
+    const { dataStructure } = this.props;
+    return Object.keys(dataStructure);
   };
 
   getStructureFields = (whichHeader: string): Array<string> => {
-    const { newStructure } = this.props;
-    return Object.values(newStructure[whichHeader]);
+    const { dataStructure } = this.props;
+    return Object.values(dataStructure[whichHeader]);
   };
 
   onNewHeader = (newHeader: string): void => {
@@ -127,9 +126,8 @@ class Structure extends Component<IProps, IStates> {
   };
 
   render() {
-    const { newStructure } = this.props;
+    const { dataStructure, paths, saveStructure: SaveStructure } = this.props;
     const { showNotification } = this.state;
-
     return (
       <Grid inverted={DARK_MODE} padded className="maximize-height-with-nav">
         <Grid.Row color={DARK_MODE === true ? 'black' : undefined}>
@@ -148,14 +146,18 @@ class Structure extends Component<IProps, IStates> {
                   New Structure
                 </Header>
                 <Header inverted={DARK_MODE} as="h2" floated="right">
-                  <Button
-                    color={DARK_MODE === true ? 'green' : undefined}
+                  <SaveModal
                     inverted={DARK_MODE}
-                    loading={showNotification}
-                    onClick={() => this.onSaveStructure(true)}
-                  >
-                    SAVE
-                  </Button>
+                    pathPrefix={paths.structures}
+                    onConfirm={(fileName) => {
+                      SaveStructure(
+                        paths.structures,
+                        dataStructure === undefined ? {} : dataStructure,
+                        false,
+                        fileName
+                      );
+                    }}
+                  />
                 </Header>
               </Segment>
 
@@ -173,9 +175,16 @@ class Structure extends Component<IProps, IStates> {
                 inverted={DARK_MODE}
                 onRemoveHeader={this.onRemoveHeader}
                 onRemoveField={this.onRemoveField}
-                newStructure={newStructure}
+                dataStructure={dataStructure}
               />
             </Container>
+            <Loader
+              className="loading-notification"
+              inverted={DARK_MODE}
+              active={showNotification}
+            >
+              Autosave...
+            </Loader>
           </Grid.Column>
         </Grid.Row>
       </Grid>

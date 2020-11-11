@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Grid, Header } from 'semantic-ui-react';
 import { DARK_MODE } from '../utils/constants';
 
-class ContentStructures extends Component {
+class DataStructures extends Component {
   componentDidMount() {}
 
   render() {
@@ -25,4 +25,4 @@ const mapStateToProps = () => {
 
 const mapActionsToProps = {};
 
-export default connect(mapStateToProps, mapActionsToProps)(ContentStructures);
+export default connect(mapStateToProps, mapActionsToProps)(DataStructures);

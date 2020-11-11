@@ -14,3 +14,9 @@ export type Initializes = {
 };
 
 export type InteractiveResponder = PageLoading & PageError & Initializes;
+
+export type SagaAsyncReturn = {
+  status: boolean;
+  data?: any;
+  error?: any;
+};
