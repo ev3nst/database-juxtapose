@@ -30,6 +30,9 @@ export type NavbarProps = {
 
   /** Optional Back Button Icon. */
   backIcon?: SemanticICONS;
+
+  /** Controls inverted mode. */
+  inverted?: boolean;
 };
 // #endregion
 

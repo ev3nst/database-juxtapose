@@ -5,6 +5,7 @@ import routes from './routes.json';
 import { Initializes, PageError, PageLoading } from '../types';
 
 export const APP_NAME = remote.app.getName();
+export const DARK_MODE = window.localStorage.getItem('dark_mode') === 'on';
 
 export const FOLDER_PREFIX = `\\${APP_NAME}\\`;
 export const USER_FOLDER = remote.app.getPath('documents') + FOLDER_PREFIX;

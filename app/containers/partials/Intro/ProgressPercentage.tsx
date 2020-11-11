@@ -14,10 +14,10 @@ class ProgressPercentage extends React.PureComponent<IntroProgressProps> {
   }
 
   resolveProgress(): JSX.Element {
-    const { initStates, errors } = this.props;
+    const { initStates, errors, inverted } = this.props;
 
     if (this.checkIfLoaded()) {
-      return <Progress percent={100} success />;
+      return <Progress inverted={inverted} percent={100} success />;
     }
 
     const loadingKeys = Object.keys(initStates);
@@ -41,7 +41,7 @@ class ProgressPercentage extends React.PureComponent<IntroProgressProps> {
       const key = errorKeys[i] as keyof typeof initStates;
       if (errors[key].errorState === true) {
         return (
-          <Progress percent={loadingPercentage} error>
+          <Progress inverted={inverted} percent={loadingPercentage} error>
             There was an error
           </Progress>
         );

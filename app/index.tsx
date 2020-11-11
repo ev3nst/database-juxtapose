@@ -9,6 +9,10 @@ const store = configuredStore();
 
 const AppContainer = process.env.PLAIN_HMR ? Fragment : ReactHotAppContainer;
 
+if (window.localStorage.getItem('dark_mode') === null) {
+  window.localStorage.setItem('dark_mode', 'off');
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   const Root = require('./Root').default;
   render(

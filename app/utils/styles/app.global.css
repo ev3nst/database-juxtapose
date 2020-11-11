@@ -1,7 +1,61 @@
-@import '~semantic-ui-css/semantic.min.css';
+/* @import '~semantic-ui-css/semantic.min.css'; */
+@import '~fomantic-ui-css/semantic.min.css';
+
+.maximize-height {
+  height: 100vh;
+}
+
+.maximize-height-with-nav {
+  height: calc(100vh - 41px);
+}
+
+.maximize-width {
+  width: 100vw;
+}
 
 /* Loading spinner fix when in list. https://github.com/Semantic-Org/Semantic-UI/issues/6717 */
 .ui.list > .item > i.icon {
   padding-right: 0 !important;
   vertical-align: middle !important;
+}
+
+/* Checkbox Slider Inverted Support */
+/*--------------
+     Inverted
+---------------*/
+.inverted .slider.checkbox label,
+.inverted .slider.checkbox + label {
+  color: #888 !important;
+}
+
+/* Slider Line */
+.inverted .slider.checkbox .box:before,
+.inverted .slider.checkbox label:before {
+  background-color: #ddd !important;
+}
+
+/* Slider Hover */
+.inverted .slider.checkbox .box:hover::before,
+.inverted .slider.checkbox label:hover::before {
+  background: #fff !important;
+}
+
+/* Slider Active */
+.inverted .slider.checkbox input:checked ~ .box,
+.inverted .slider.checkbox input:checked ~ label {
+  color: #fff !important;
+}
+.inverted .slider.checkbox input:checked ~ .box:before,
+.inverted .slider.checkbox input:checked ~ label:before {
+  background-color: #fff !important;
+}
+
+/* Slider Active Focus */
+.inverted .slider.checkbox input:focus:checked ~ .box,
+.inverted .slider.checkbox input:focus:checked ~ label {
+  color: #fff !important;
+}
+.inverted .slider.checkbox input:focus:checked ~ .box:before,
+.inverted .slider.checkbox input:focus:checked ~ label:before {
+  background-color: #fff !important;
 }

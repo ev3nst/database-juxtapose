@@ -18,8 +18,8 @@ class ProgressList extends React.PureComponent<IntroProgressProps> {
     return 'circle notch';
   }
 
-  resolveIconColor(key: string): SemanticCOLORS {
-    const { initStates, errors } = this.props;
+  resolveIconColor(key: string): SemanticCOLORS | undefined {
+    const { initStates, errors, inverted } = this.props;
     const typedKey = key as keyof typeof errors;
 
     if (initStates[typedKey].loaded === true) {
@@ -30,16 +30,16 @@ class ProgressList extends React.PureComponent<IntroProgressProps> {
       return 'red';
     }
 
-    return 'black';
+    return inverted === true ? undefined : 'black';
   }
 
   render(): JSX.Element {
-    const { initStates, errors } = this.props;
+    const { initStates, errors, inverted } = this.props;
     return (
       <>
-        <Header as="h3" content="Progress" />
-        <Segment>
-          <List divided relaxed>
+        <Header as="h3" content="Progress" inverted={inverted} />
+        <Segment inverted={inverted}>
+          <List divided relaxed inverted={inverted}>
             <List.Item>
               <List.Icon
                 name={this.resolveIconName('settings')}

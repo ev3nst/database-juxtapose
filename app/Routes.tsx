@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Switch, Route, HashRouter as Router } from 'react-router-dom';
+import { Ref } from 'semantic-ui-react';
 import { initApp } from './redux/actions';
 import { RootState } from './redux/store';
 import routes from './utils/routes.json';
@@ -32,6 +33,13 @@ type IProps = ConnectedProps<typeof connector>;
 
 // Component
 class Routes extends React.Component<IProps> {
+  contextRef!: React.Ref<HTMLElement>;
+
+  constructor(props: IProps) {
+    super(props);
+    this.contextRef = React.createRef();
+  }
+
   componentDidMount(): void {
     const { initApp: InitApp, loaded } = this.props;
 
@@ -48,24 +56,26 @@ class Routes extends React.Component<IProps> {
     return false;
   }
 
-  render(): JSX.Element {
+  render() {
     const { loaded } = this.props;
     if (loaded === true) {
       return (
-        <>
-          <NotificationContainer transitionDuration={200} />
-          <Router>
-            <Route path={routes.WRAPPER} component={NavigationWrapper} />
-            <Switch>
-              <Route path={routes.CONTENT_STRUCTURES} component={ContentStructures} />
-              <Route path={routes.NEW_MIGRATION} component={NewMigration} />
-              <Route path={routes.NEW_STRUCTURE} component={Structure} />
-              <Route path={routes.MIGRATION_WIZARD} component={MigrationWizard} />
-              <Route path={routes.SETTINGS} component={Settings} />
-              <Route path="*" component={ContentStructures} />
-            </Switch>
-          </Router>
-        </>
+        <Ref innerRef={this.contextRef}>
+          <>
+            <NotificationContainer transitionDuration={200} />
+            <Router>
+              <Route path={routes.WRAPPER} component={NavigationWrapper} />
+              <Switch>
+                <Route path={routes.CONTENT_STRUCTURES} component={ContentStructures} />
+                <Route path={routes.NEW_MIGRATION} component={NewMigration} />
+                <Route path={routes.NEW_STRUCTURE} component={Structure} />
+                <Route path={routes.MIGRATION_WIZARD} component={MigrationWizard} />
+                <Route path={routes.SETTINGS} component={Settings} />
+                <Route path="*" component={ContentStructures} />
+              </Switch>
+            </Router>
+          </>
+        </Ref>
       );
     }
     return <Intro />;

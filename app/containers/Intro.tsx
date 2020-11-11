@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Container, Header, Transition, Message, Button } from 'semantic-ui-react';
+import { Grid, Container, Header, Transition, Message, Button } from 'semantic-ui-react';
 import {
   initSettings,
   initStructure,
@@ -9,7 +9,7 @@ import {
 } from '../redux/actions';
 import { ProgressPercentage, ProgressList } from './partials/intro';
 import { RootState } from '../redux/store';
-import { defaultConfig } from '../utils/constants';
+import { DARK_MODE } from '../utils/constants';
 
 // #region Redux Configuration
 const mapStateToProps = ({ settings, structure, migration, intro }: RootState) => {
@@ -123,24 +123,31 @@ class Intro extends Component<IProps> {
       >
         <>
           <Message
-            error
+            color={DARK_MODE === true ? 'black' : 'red'}
             floating
             header="Failed to initialize"
             list={[
               `User settings file contains corrupted data. If you want to reset this file to default press Reset button below or retry the initialization. This action will not restore migration and structure files. Settings file can be fixed manually at ${paths.userSettings}`,
             ]}
           />
-          <Button.Group>
-            <Button onClick={() => window.location.reload()}>Retry</Button>
+          <Button.Group inverted={DARK_MODE}>
+            <Button
+              color={DARK_MODE === true ? 'teal' : undefined}
+              inverted={DARK_MODE}
+              onClick={() => window.location.reload()}
+            >
+              Retry
+            </Button>
             <Button.Or />
             <Button
+              color={DARK_MODE === true ? 'red' : 'black'}
               onClick={() => {
                 const { initSettings: InitSettings } = this.props;
 
                 InitSettings(true);
                 window.location.reload();
               }}
-              color="black"
+              inverted={DARK_MODE}
             >
               Reset
             </Button>
@@ -153,22 +160,37 @@ class Intro extends Component<IProps> {
   render() {
     const { initStates, errors } = this.props;
     return (
-      <Transition
-        visible={!this.checkIfLoaded()}
-        animation="scale"
-        duration={this.transitionInterval}
-      >
-        <Container style={{ paddingTop: 40 }}>
-          <Header
-            as="h1"
-            content="App is initializing..."
-            subheader="Gathering information from user preferences and loadin necessary files."
-          />
-          <ProgressPercentage errors={errors} initStates={initStates} />
-          <ProgressList errors={errors} initStates={initStates} />
-          {this.renderCorruptedData()}
-        </Container>
-      </Transition>
+      <Grid inverted={DARK_MODE} padded className="maximize-height">
+        <Grid.Row color={DARK_MODE === true ? 'black' : undefined}>
+          <Grid.Column>
+            <Transition
+              visible={!this.checkIfLoaded()}
+              animation="scale"
+              duration={this.transitionInterval}
+            >
+              <Container style={{ paddingTop: 40 }}>
+                <Header
+                  inverted={DARK_MODE}
+                  as="h1"
+                  content="App is initializing..."
+                  subheader="Gathering information from user preferences and loadin necessary files."
+                />
+                <ProgressPercentage
+                  inverted={DARK_MODE}
+                  errors={errors}
+                  initStates={initStates}
+                />
+                <ProgressList
+                  inverted={DARK_MODE}
+                  errors={errors}
+                  initStates={initStates}
+                />
+                {this.renderCorruptedData()}
+              </Container>
+            </Transition>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     );
   }
 }

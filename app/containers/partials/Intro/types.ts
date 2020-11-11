@@ -16,4 +16,7 @@ export type IntroLoading = {
   };
 };
 
-export type IntroProgressProps = IntroErrors & IntroLoading;
+export type IntroProgressProps = {
+  inverted?: boolean;
+} & IntroErrors &
+  IntroLoading;

@@ -3,6 +3,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import {
+  Grid,
   Container,
   Header,
   Form,
@@ -14,7 +15,7 @@ import {
 } from 'semantic-ui-react';
 import { RootState } from '../redux/store';
 import { valueUpdate, changePath, saveSettings, cancelSettings } from '../redux/actions';
-import { USER_FOLDER, defaultConfig } from '../utils/constants';
+import { DARK_MODE, USER_FOLDER, defaultConfig } from '../utils/constants';
 
 // #region Redux Configuration
 const mapStateToProps = ({ settings }: RootState) => {
@@ -41,6 +42,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ISettingsProps = PropsFromRedux & RouteComponentProps;
 type IStates = {
   resetConfirm: boolean;
+  darkMode: boolean;
 };
 // #endregion
 
@@ -57,6 +59,7 @@ class Settings extends React.Component<ISettingsProps, IStates> {
 
     this.state = {
       resetConfirm: false,
+      darkMode: DARK_MODE,
     };
   }
 
@@ -123,117 +126,147 @@ class Settings extends React.Component<ISettingsProps, IStates> {
       valueUpdate: ValueUpdate,
       saveSettings: SaveSettings,
     } = this.props;
-    const { resetConfirm } = this.state;
+    const { resetConfirm, darkMode } = this.state;
 
     return (
-      <Container>
-        <Header
-          as="h2"
-          content="Application Settings"
-          subheader="User preferences are saved on a static path. Meaning it cannot be changed. When other path preferences are changed their contents are moved as well."
-        />
-        <Form>
-          <Form.Input
-            fluid
-            readOnly
-            label={{
-              children: (
-                <div>
-                  Structures Path &nbsp;
-                  <Popup
-                    mouseEnterDelay={400}
-                    content="Folder where all structure files are stored. When changed backup zip is created at application folder before moving all contents."
-                    trigger={<Icon name="info circle" />}
-                  />
-                </div>
-              ),
-            }}
-            value={newPaths.structures !== '' ? newPaths.structures : paths.structures}
-            action={{
-              ...this.pathInfoConfig,
-              onClick: () => this.onPathChange('structures'),
-            }}
-          />
-          <Form.Input
-            fluid
-            readOnly
-            label={{
-              children: (
-                <div>
-                  Migrations Path &nbsp;
-                  <Popup
-                    mouseEnterDelay={400}
-                    content="Folder where all migration files are stored. When changed backup zip is created at application folder before moving all contents."
-                    trigger={<Icon name="info circle" />}
-                  />
-                </div>
-              ),
-            }}
-            value={newPaths.migrations !== '' ? newPaths.migrations : paths.migrations}
-            action={{
-              ...this.pathInfoConfig,
-              onClick: () => this.onPathChange('migrations'),
-            }}
-          />
+      <Grid inverted={DARK_MODE} padded className="maximize-height-with-nav">
+        <Grid.Row color={DARK_MODE === true ? 'black' : undefined}>
+          <Grid.Column>
+            <Container>
+              <Header
+                inverted={DARK_MODE}
+                as="h2"
+                content="Application Settings"
+                subheader="User preferences are saved on a static path. Meaning it cannot be changed. When other path preferences are changed their contents are moved as well."
+              />
+              <Form inverted={DARK_MODE}>
+                <Form.Input
+                  fluid
+                  readOnly
+                  label={{
+                    children: (
+                      <div>
+                        Structures Path &nbsp;
+                        <Popup
+                          mouseEnterDelay={400}
+                          content="Folder where all structure files are stored. When changed backup zip is created at application folder before moving all contents."
+                          trigger={<Icon name="info circle" />}
+                        />
+                      </div>
+                    ),
+                  }}
+                  value={
+                    newPaths.structures !== '' ? newPaths.structures : paths.structures
+                  }
+                  action={{
+                    ...this.pathInfoConfig,
+                    onClick: () => this.onPathChange('structures'),
+                  }}
+                />
+                <Form.Input
+                  inverted={DARK_MODE}
+                  fluid
+                  readOnly
+                  label={{
+                    children: (
+                      <div>
+                        Migrations Path &nbsp;
+                        <Popup
+                          mouseEnterDelay={400}
+                          content="Folder where all migration files are stored. When changed backup zip is created at application folder before moving all contents."
+                          trigger={<Icon name="info circle" />}
+                        />
+                      </div>
+                    ),
+                  }}
+                  value={
+                    newPaths.migrations !== '' ? newPaths.migrations : paths.migrations
+                  }
+                  action={{
+                    ...this.pathInfoConfig,
+                    onClick: () => this.onPathChange('migrations'),
+                  }}
+                />
 
-          <Form.Input
-            required
-            disabled
-            fluid
-            label="User Preferences"
-            value={paths.userSettings}
-          />
-          <Form.Checkbox
-            name="autosave"
-            label="Auto Save"
-            checked={autoSave}
-            onChange={() => ValueUpdate('SETTINGS', 'autoSave', !autoSave)}
-          />
-          <Message
-            info
-            header="Works on Content Structure & Database Migration"
-            list={[
-              'When creating a new structure or migration every minute progress is saved and will be kept until page is manually cleaned via button provided in that page or progress is saved manually by the user.',
-            ]}
-          />
+                <Form.Input
+                  inverted={DARK_MODE}
+                  required
+                  disabled
+                  fluid
+                  label="User Preferences"
+                  value={paths.userSettings}
+                />
 
-          <Button
-            icon="save"
-            content="Submit"
-            floated="left"
-            type="button"
-            loading={loading}
-            onClick={() => {
-              SaveSettings(
-                {
-                  paths: {
-                    ...paths,
-                  },
-                  autoSave,
-                },
-                newPaths
-              );
-            }}
-          />
+                <Form.Radio
+                  className={DARK_MODE === true ? 'inverted' : undefined}
+                  label="Dark Mode (changes will take effect after you restart)"
+                  slider
+                  checked={darkMode}
+                  onChange={() => {
+                    localStorage.setItem('dark_mode', darkMode === true ? 'off' : 'on');
+                    this.setState({
+                      darkMode: !darkMode,
+                    });
+                  }}
+                />
 
-          <Button
-            icon="repeat"
-            content="Reset To Defaults"
-            floated="right"
-            loading={loading}
-            onClick={() => this.setState({ resetConfirm: true })}
-          />
-        </Form>
-        <Confirm
-          centered
-          dimmer="inverted"
-          open={resetConfirm}
-          header="Reset Settings"
-          content="This will reset settings to their defaults."
-          onCancel={() => this.setState({ resetConfirm: false })}
-          onConfirm={this.onResetConfirm}
-        />
-      </Container>
+                <Form.Checkbox
+                  name="autosave"
+                  label="Auto Save"
+                  checked={autoSave}
+                  onChange={() => ValueUpdate('SETTINGS', 'autoSave', !autoSave)}
+                />
+                <Message
+                  color={DARK_MODE === true ? 'black' : 'teal'}
+                  header="Works on Content Structure & Database Migration"
+                  list={[
+                    'When creating a new structure or migration every minute progress is saved and will be kept until page is manually cleaned via button provided in that page or progress is saved manually by the user.',
+                  ]}
+                />
+
+                <Button
+                  color={DARK_MODE === true ? 'green' : undefined}
+                  inverted={DARK_MODE}
+                  icon="save"
+                  content="Submit"
+                  floated="left"
+                  loading={loading}
+                  onClick={() => {
+                    SaveSettings(
+                      {
+                        paths: {
+                          ...paths,
+                        },
+                        autoSave,
+                      },
+                      newPaths
+                    );
+                  }}
+                />
+
+                <Button
+                  color={DARK_MODE === true ? 'orange' : undefined}
+                  inverted={DARK_MODE}
+                  icon="repeat"
+                  content="Reset To Defaults"
+                  floated="right"
+                  loading={loading}
+                  onClick={() => this.setState({ resetConfirm: true })}
+                />
+              </Form>
+            </Container>
+            <Confirm
+              centered
+              dimmer={DARK_MODE === true ? undefined : 'inverted'}
+              open={resetConfirm}
+              header="Reset Settings"
+              content="This will reset settings to their defaults."
+              onCancel={() => this.setState({ resetConfirm: false })}
+              onConfirm={this.onResetConfirm}
+            />
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     );
   }
 }

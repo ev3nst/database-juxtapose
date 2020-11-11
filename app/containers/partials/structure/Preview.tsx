@@ -6,13 +6,16 @@ import { PreviewProps } from './types';
 
 class Preview extends React.PureComponent<PreviewProps> {
   resolveStructureFields(key: string): JSX.Element {
-    const { newStructure, onRemoveField } = this.props;
+    const { newStructure, onRemoveField, inverted } = this.props;
 
     return (
-      <List selection verticalAlign="middle">
+      <List selection verticalAlign="middle" inverted={inverted}>
         {newStructure[key].map((item) => (
           <List.Item key={item}>
-            <List.Icon name="file outline" color="black" />
+            <List.Icon
+              name="file outline"
+              color={inverted === true ? undefined : 'black'}
+            />
             <List.Content>
               <List.Header>
                 {item}
@@ -52,16 +55,27 @@ class Preview extends React.PureComponent<PreviewProps> {
   }
 
   resolveStructure() {
-    const { newStructure, onRemoveHeader } = this.props;
+    const { newStructure, onRemoveHeader, inverted } = this.props;
 
     const keys = Object.keys(newStructure);
     return (
-      <Card.Group itemsPerRow={3}>
+      <Card.Group itemsPerRow={3} className={inverted === true ? 'inverted' : undefined}>
         {keys.map((header) => (
-          <Card key={header} color={COLORS[Math.floor(Math.random() * COLORS.length)]}>
+          <Card
+            key={header}
+            color={
+              inverted === true
+                ? 'black'
+                : COLORS[Math.floor(Math.random() * COLORS.length)]
+            }
+          >
             <Card.Content>
               <Card.Header>
-                <Icon style={{ marginRight: 5 }} color="black" name="folder outline" />
+                <Icon
+                  style={{ marginRight: 5 }}
+                  color={inverted === true ? undefined : 'black'}
+                  name="folder outline"
+                />
                 {header}
 
                 <Grid.Column floated="right">

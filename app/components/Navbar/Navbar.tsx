@@ -47,9 +47,23 @@ class Navbar extends React.PureComponent<NavbarProps> {
   }
 
   render() {
-    const { navItems } = this.props;
+    const { navItems, inverted } = this.props;
 
-    return <Menu style={{ marginTop: 0 }}>{this.renderNavItems(navItems)}</Menu>;
+    return (
+      <Menu
+        pointing
+        inverted={inverted}
+        style={{
+          marginTop: 0,
+          marginBottom: 0,
+          borderRadius: 0,
+          borderBottomColor: '#ffffff14',
+          borderBottomWidth: Number(inverted),
+        }}
+      >
+        {this.renderNavItems(navItems)}
+      </Menu>
+    );
   }
 }
 

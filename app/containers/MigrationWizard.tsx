@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
+import { Grid, Header } from 'semantic-ui-react';
+import { DARK_MODE } from '../utils/constants';
 
 class MigrationWizard extends Component<RouteComponentProps> {
   componentDidMount() {}
 
   render() {
     return (
-      <div>
-        <h1>Migration Wizard</h1>
-      </div>
+      <Grid inverted={DARK_MODE} padded className="maximize-height-with-nav">
+        <Grid.Row color={DARK_MODE === true ? 'black' : undefined}>
+          <Grid.Column>
+            <Header inverted={DARK_MODE} as="h1" content="This is Migration Wizard" />
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     );
   }
 }

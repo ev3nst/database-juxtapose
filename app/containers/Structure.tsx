@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { Container, Form, Button, Header, Segment } from 'semantic-ui-react';
+import { Grid, Container, Form, Button, Header, Segment } from 'semantic-ui-react';
 import {
   saveStructure,
   manipulateStructureHeader,
@@ -9,7 +9,7 @@ import {
 } from '../redux/actions';
 import { Preview, FieldForm, HeaderForm } from './partials/structure';
 import { RootState } from '../redux/store';
-import { INTERVAL_TIMEOUT } from '../utils/constants';
+import { INTERVAL_TIMEOUT, DARK_MODE } from '../utils/constants';
 
 // #region Redux Configuration
 const mapStateToProps = ({ structure, settings }: RootState) => {
@@ -131,46 +131,54 @@ class Structure extends Component<IProps, IStates> {
     const { showNotification } = this.state;
 
     return (
-      <Container>
-        <Segment
-          style={{
-            paddingLeft: 0,
-            paddingRight: 0,
-          }}
-          basic
-          clearing
-        >
-          <Header as="h2" floated="left">
-            New Structure
-          </Header>
-          <Header as="h2" floated="right">
-            <Button
-              loading={showNotification}
-              basic
-              color="black"
-              onClick={() => this.onSaveStructure(true)}
-            >
-              SAVE
-            </Button>
-          </Header>
-        </Segment>
+      <Grid inverted={DARK_MODE} padded className="maximize-height-with-nav">
+        <Grid.Row color={DARK_MODE === true ? 'black' : undefined}>
+          <Grid.Column>
+            <Container>
+              <Segment
+                inverted={DARK_MODE}
+                style={{
+                  paddingLeft: 0,
+                  paddingRight: 0,
+                }}
+                basic
+                clearing
+              >
+                <Header inverted={DARK_MODE} as="h2" floated="left">
+                  New Structure
+                </Header>
+                <Header inverted={DARK_MODE} as="h2" floated="right">
+                  <Button
+                    color={DARK_MODE === true ? 'green' : undefined}
+                    inverted={DARK_MODE}
+                    loading={showNotification}
+                    onClick={() => this.onSaveStructure(true)}
+                  >
+                    SAVE
+                  </Button>
+                </Header>
+              </Segment>
 
-        <Form>
-          <Form.Group widths="equal">
-            <HeaderForm onNewHeader={this.onNewHeader} />
-            <FieldForm
-              onNewField={this.onNewField}
-              structureHeaders={this.getStructureHeaders()}
-            />
-          </Form.Group>
-        </Form>
+              <Form inverted={DARK_MODE}>
+                <Form.Group widths="equal">
+                  <HeaderForm onNewHeader={this.onNewHeader} />
+                  <FieldForm
+                    onNewField={this.onNewField}
+                    structureHeaders={this.getStructureHeaders()}
+                  />
+                </Form.Group>
+              </Form>
 
-        <Preview
-          onRemoveHeader={this.onRemoveHeader}
-          onRemoveField={this.onRemoveField}
-          newStructure={newStructure}
-        />
-      </Container>
+              <Preview
+                inverted={DARK_MODE}
+                onRemoveHeader={this.onRemoveHeader}
+                onRemoveField={this.onRemoveField}
+                newStructure={newStructure}
+              />
+            </Container>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     );
   }
 }

@@ -1,12 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
+import { Sticky } from 'semantic-ui-react';
 import routes from '../utils/routes.json';
-import { NavbarItems } from '../utils/constants';
+import { DARK_MODE, NavbarItems } from '../utils/constants';
 import Navbar from '../components/Navbar';
 
 // #region Redux Configuration
-type IProps = {} & RouteComponentProps;
+type IProps = {
+  contextRef: React.Ref<HTMLElement>;
+} & RouteComponentProps;
 
 type IStates = {
   activeContainer: string;
@@ -60,15 +63,19 @@ class NavigationWrapper extends React.Component<IProps, IStates> {
   };
 
   render() {
+    const { contextRef } = this.props;
     const { activeContainer } = this.state;
     return (
-      <Navbar
-        navItems={NavbarItems}
-        activeNavbar={activeContainer}
-        onMenuClick={this.onNavigate}
-        onNavigateBack={() => this.onNavigate(routes.CONTENT_STRUCTURES)}
-        showBackButton={activeContainer !== routes.CONTENT_STRUCTURES}
-      />
+      <Sticky context={contextRef}>
+        <Navbar
+          inverted={DARK_MODE}
+          navItems={NavbarItems}
+          activeNavbar={activeContainer}
+          onMenuClick={this.onNavigate}
+          onNavigateBack={() => this.onNavigate(routes.CONTENT_STRUCTURES)}
+          showBackButton={activeContainer !== routes.CONTENT_STRUCTURES}
+        />
+      </Sticky>
     );
   }
 }

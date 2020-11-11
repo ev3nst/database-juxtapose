@@ -2,6 +2,7 @@ export type PreviewProps = {
   newStructure: { [key: string]: Array<string> };
   onRemoveHeader: (removeHeader: string) => void;
   onRemoveField: (removeField: string, whichHeader: string) => void;
+  inverted?: boolean;
 };
 export type FieldFormProps = {
   structureHeaders: Array<string>;
