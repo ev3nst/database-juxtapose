@@ -8,7 +8,7 @@ export const APP_NAME = remote.app.getName();
 export const DARK_MODE = window.localStorage.getItem('dark_mode') === 'on';
 export const PAGINATION_LIMIT = 10;
 
-export const FOLDER_PREFIX = `\\${APP_NAME}\\`;
+export const FOLDER_PREFIX = `/${APP_NAME}/`;
 export const USER_FOLDER = remote.app.getPath('documents') + FOLDER_PREFIX;
 export const CONFIG_PATH = `${USER_FOLDER}settings.json`;
 
@@ -20,8 +20,8 @@ export const defaultConfig = {
   autoSave: true,
   paths: {
     userSettings: CONFIG_PATH,
-    structures: `${USER_FOLDER}structures\\`,
-    migrations: `${USER_FOLDER}migrations\\`,
+    structures: `${USER_FOLDER}structures/`,
+    migrations: `${USER_FOLDER}migrations/`,
   },
 };
 

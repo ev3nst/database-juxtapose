@@ -57,7 +57,7 @@ async function getStructureFile(
       fs.writeFileSync(path + fileName, '[]');
       return {
         status: true,
-        data: {},
+        data: [],
         error: '',
       };
     }
@@ -77,7 +77,7 @@ async function getStructureFile(
       fs.writeFileSync(path + fileName, '{}');
       return {
         status: true,
-        data: {},
+        data: [],
         error: '',
       };
     }

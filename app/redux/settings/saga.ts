@@ -28,12 +28,26 @@ import {
   checkIfDirectoryEmpty,
 } from '../../utils/functions';
 
-async function getUserSettings(): Promise<UserConfig> {
-  const FileContents = fs.readFileSync(CONFIG_PATH, 'utf8');
-  return JSON.parse(FileContents) as UserConfig;
+// -------------------- Reset User Settings --------------------
+async function resetSettings(): Promise<UserConfig> {
+  if (!fs.existsSync(USER_FOLDER)) {
+    fs.mkdirSync(USER_FOLDER);
+  }
+
+  fs.writeFileSync(CONFIG_PATH, JSON.stringify(defaultConfig));
+  return defaultConfig;
 }
 
-// -------------------- Cancel Settings --------------------
+// -------------------- Get User Settings --------------------
+async function getUserSettings(): Promise<UserConfig> {
+  if (!fs.existsSync(USER_FOLDER)) {
+    return resetSettings();
+  }
+  const fileContents = fs.readFileSync(CONFIG_PATH, 'utf8');
+  return JSON.parse(fileContents) as UserConfig;
+}
+
+// -------------------- Cancel User Settings --------------------
 function* cancelSettings() {
   try {
     const response = yield call(getUserSettings);
@@ -49,16 +63,6 @@ function* cancelSettings() {
 }
 export function* watchcancelSettings() {
   yield takeEvery(CANCEL_SETTINGS, cancelSettings);
-}
-
-// -------------------- Reset Settings --------------------
-async function resetSettings(): Promise<UserConfig> {
-  if (!fs.existsSync(USER_FOLDER)) {
-    fs.mkdirSync(USER_FOLDER);
-  }
-
-  fs.writeFileSync(CONFIG_PATH, JSON.stringify(defaultConfig));
-  return defaultConfig;
 }
 
 // -------------------- Initialize Settings --------------------
