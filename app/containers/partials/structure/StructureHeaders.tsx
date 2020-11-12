@@ -12,7 +12,6 @@ export const StructureHeaderContainer = SortableContainer(
   ({ children, inverted }: StructureHeaderContainerType) => {
     return (
       <Card.Group
-        itemsPerRow={3}
         className={inverted === true ? 'inverted transition-reset' : 'transition-reset'}
       >
         {children}
