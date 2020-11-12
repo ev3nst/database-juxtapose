@@ -14,16 +14,16 @@ class Preview extends React.Component<PreviewProps> {
     return true;
   }
 
-  onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
-    const { onSort } = this.props;
-    onSort(oldIndex, newIndex);
-  };
-
   render() {
-    const { dataStructure, onRemoveHeader, onRemoveField, inverted } = this.props;
+    const { dataStructure, onRemoveHeader, onRemoveField, inverted, onSort } = this.props;
 
     return (
-      <StructureHeaderContainer inverted={inverted} axis="xy" onSortEnd={this.onSortEnd}>
+      <StructureHeaderContainer
+        inverted={inverted}
+        axis="xy"
+        onSortEnd={({ oldIndex, newIndex }) => onSort(oldIndex, newIndex)}
+        useDragHandle
+      >
         {dataStructure.map((_val, index) => (
           <StructureHeader
             key={dataStructure[index].name}
@@ -33,6 +33,7 @@ class Preview extends React.Component<PreviewProps> {
             inverted={inverted}
             onRemoveHeader={onRemoveHeader}
             onRemoveField={onRemoveField}
+            onSort={onSort}
           />
         ))}
       </StructureHeaderContainer>

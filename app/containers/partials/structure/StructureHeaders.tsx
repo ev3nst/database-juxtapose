@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Card, Divider, Icon } from 'semantic-ui-react';
-import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import { StructureFieldContainer, StructureField } from './StructureField';
 import { COLORS } from '../../../utils/constants';
 
@@ -21,7 +21,7 @@ export const StructureHeaderContainer = SortableContainer(
   }
 );
 
-// const DragHandle = SortableHandle(() => <span>::</span>);
+const DragHandle = SortableHandle(() => <Icon size="small" color="grey" name="move" />);
 
 export type StructureHeaderType = {
   header: string;
@@ -29,9 +29,17 @@ export type StructureHeaderType = {
   items: Array<string>;
   onRemoveHeader: (removeHeader: string) => void;
   onRemoveField: (removeField: string, whichHeader: string) => void;
+  onSort: (oldIndex: number, newIndex: number, whichHeader: string) => void;
 };
 export const StructureHeader = SortableElement(
-  ({ header, inverted, items, onRemoveHeader, onRemoveField }: StructureHeaderType) => {
+  ({
+    header,
+    inverted,
+    items,
+    onRemoveHeader,
+    onRemoveField,
+    onSort,
+  }: StructureHeaderType) => {
     return (
       <Card color={COLORS[Math.floor(Math.random() * COLORS.length)]}>
         <Card.Content>
@@ -44,19 +52,25 @@ export const StructureHeader = SortableElement(
             {header}
             <Grid.Column floated="right">
               <Icon
+                style={{ marginRight: 15 }}
                 size="small"
-                color={inverted === true ? 'red' : 'red'}
+                color="red"
                 name="eraser"
                 onClick={() => onRemoveHeader(header)}
               />
+              <DragHandle />
             </Grid.Column>
           </Card.Header>
           <Divider />
           <Card.Description>
             <StructureFieldContainer
               inverted={inverted}
-              axis="xy"
-              // onSortEnd={this.onSortEnd}
+              axis="y"
+              lockAxis="y"
+              distance={10}
+              onSortEnd={({ oldIndex, newIndex }) => {
+                onSort(oldIndex, newIndex, header);
+              }}
             >
               {items.map((field, index) => (
                 <StructureField

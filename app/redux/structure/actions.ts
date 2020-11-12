@@ -103,8 +103,9 @@ export const changeStructureFailed: ActionCreator<StructureActionTypes> = (
 
 export const sortStructure: ActionCreator<StructureActionTypes> = (
   oldIndex: number,
-  newIndex: number
+  newIndex: number,
+  whichHeader?: string
 ) => ({
   type: SORT_STRUCTURE,
-  payload: { oldIndex, newIndex },
+  payload: { oldIndex, newIndex, whichHeader },
 });

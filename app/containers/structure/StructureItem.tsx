@@ -204,7 +204,6 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
             )}
           </Header>
         </Segment>
-
         <Form inverted={DARK_MODE}>
           <Form.Group widths="equal">
             <HeaderForm onNewHeader={this.onNewHeader} />
@@ -214,7 +213,6 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
             />
           </Form.Group>
         </Form>
-
         <Preview
           inverted={DARK_MODE}
           onSort={sortStructure}

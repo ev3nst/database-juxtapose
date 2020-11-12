@@ -88,6 +88,7 @@ export interface SortStructure {
   payload: {
     oldIndex: number;
     newIndex: number;
+    whichHeader?: string;
   };
 }
 

@@ -56,7 +56,7 @@ type IStates = {};
 
 const listBorder: React.CSSProperties = {
   borderRightWidth: 1,
-  borderRightColor: '#333',
+  borderRightColor: DARK_MODE === true ? '#333333' : '#eeeeee',
   borderRightStyle: 'solid',
 };
 const itemSpace: React.CSSProperties = {

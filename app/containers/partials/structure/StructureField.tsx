@@ -11,27 +11,12 @@ export type StructureFieldType = {
 export const StructureField = SortableElement(
   ({ field, header, onRemoveField, inverted }: StructureFieldType) => {
     return (
-      <List.Item>
+      <List.Item className={inverted === true ? 'inverted' : undefined}>
         <List.Icon name="file outline" color={inverted === true ? undefined : 'black'} />
         <List.Content>
-          <List.Header>
+          <List.Header className="disable-select">
             {field}
             <List.Content floated="right">
-              <Icon
-                size="small"
-                color={inverted === true ? 'olive' : 'brown'}
-                name="chevron down"
-                onClick={() => console.log('go down')}
-              />
-              <Icon
-                style={{
-                  marginLeft: 5,
-                }}
-                size="small"
-                color={inverted === true ? 'olive' : 'brown'}
-                name="chevron up"
-                onClick={() => console.log('go up')}
-              />
               <Icon
                 size="small"
                 color="grey"

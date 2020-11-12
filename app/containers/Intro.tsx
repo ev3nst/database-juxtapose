@@ -41,9 +41,9 @@ type IProps = ConnectedProps<typeof connector>;
 // #endregion
 
 class Intro extends Component<IProps> {
-  private progressInterval = 250;
+  private progressInterval = 50;
 
-  private transitionInterval = 500;
+  private transitionInterval = 250;
 
   componentDidMount() {
     const { initSettings: InitSettings } = this.props;

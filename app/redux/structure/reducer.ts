@@ -99,10 +99,24 @@ const reducer = (
         errorMessage: action.payload.message,
       };
     case SORT_STRUCTURE: {
-      const { oldIndex, newIndex } = action.payload;
+      const { oldIndex, newIndex, whichHeader } = action.payload;
+      let sortedArray!: StructureObject;
+
+      if (whichHeader === undefined) {
+        sortedArray = arrayMove(state.dataStructure, oldIndex, newIndex);
+      } else {
+        const headerIndex = findObjectIndex(state.dataStructure, 'name', whichHeader);
+        sortedArray = Object.assign([...state.dataStructure], {
+          [headerIndex]: {
+            name: whichHeader,
+            items: arrayMove(state.dataStructure[headerIndex].items, oldIndex, newIndex),
+          },
+        });
+      }
+
       return {
         ...state,
-        dataStructure: arrayMove(state.dataStructure, oldIndex, newIndex),
+        dataStructure: sortedArray,
       };
     }
     case MANIPULATE_STRUCTURE_HEADER: {
@@ -143,9 +157,7 @@ const reducer = (
           dataStructure: Object.assign([...state.dataStructure], {
             [indexToAdd]: {
               name: action.payload.name,
-              items: Object.assign([...state.dataStructure[indexToAdd].items], {
-                [indexToAdd]: action.payload.field,
-              }),
+              items: [...state.dataStructure[indexToAdd].items, action.payload.field],
             },
           }),
         };

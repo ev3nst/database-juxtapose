@@ -63,6 +63,10 @@
 }
 
 /* Helpers */
+.disable-select {
+  user-select: none;
+}
+
 .maximize-height {
   height: calc(100vh - 24px);
 }
@@ -95,6 +99,22 @@
 
 .uppercase {
   text-transform: uppercase;
+}
+
+/* Semantic Fixes */
+
+/* Sortable HOC Overrides */
+body .item[role='listitem'] {
+  display: flex;
+  width: 100%;
+}
+
+body .item[role='listitem'] .content {
+  display: inline-flex;
+}
+
+body .item.inverted[role='listitem'] {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .ui.ui.ui.ui.text.loader.loading-notification {
