@@ -17,9 +17,9 @@
 .outer-wrapper .logo {
   user-select: none;
   float: left;
-  height: 16px;
-  margin-top: 4px;
-  margin-left: 4px;
+  height: 12px;
+  margin-top: 6px;
+  margin-left: 6px;
 }
 
 .action-buttons {
@@ -32,7 +32,7 @@
 .action-buttons .item {
   color: rgba(0, 0, 0, 0.87);
   padding: 0px 8px;
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  /* border-right: 1px solid rgba(255, 255, 255, 0.08); */
 }
 
 .action-buttons .item:hover,
@@ -50,8 +50,8 @@
 
 /* App Outer Wrapper & Action Buttons Inverted */
 .outer-wrapper.inverted {
-  background-color: #1b1c1d;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: rgba(0, 0, 0, 0.92);
+  border-bottom: none;
 }
 .outer-wrapper.inverted .action-buttons .item {
   color: rgba(255, 255, 255, 0.9);

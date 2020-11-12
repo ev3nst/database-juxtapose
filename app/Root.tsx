@@ -13,7 +13,7 @@ const AppActions = () => (
       <img className="logo" src={LogoSvg} alt="logo" />
     </div>
     <div className="action-buttons">
-      <Menu.Item className="action-button-left-border" onClick={() => WINDOW.minimize()}>
+      <Menu.Item onClick={() => WINDOW.minimize()}>
         <Icon size="small" name="window minimize outline" />
       </Menu.Item>
       <Menu.Item

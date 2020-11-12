@@ -7,7 +7,7 @@ const sagaMiddleware = createSagaMiddleware();
 const middlewares = [sagaMiddleware];
 export type RootState = ReturnType<typeof reducers>;
 
-export const configuredStore = (initialState?: RootState): unknown => {
+export const configuredStore = (initialState?: RootState) => {
   // Create Store
   const store = createStore(
     reducers,
