@@ -5,7 +5,14 @@ import { Ref } from 'semantic-ui-react';
 import { initApp } from './redux/actions';
 import { RootState } from './redux/store';
 import routes from './utils/routes.json';
-import { Intro, StickyNavigation, Structure, Wizard, Settings } from './containers';
+import {
+  Intro,
+  StickyNavigation,
+  Structure,
+  Migration,
+  Wizard,
+  Settings,
+} from './containers';
 
 import { NotificationContainer } from './components/Notification';
 
@@ -59,6 +66,7 @@ class Routes extends React.Component<IProps> {
               <Route path={routes.WRAPPER} component={StickyNavigation} />
               <Switch>
                 <Route path={routes.STRUCTURE} component={Structure} />
+                <Route path={routes.MIGRATION} component={Migration} />
                 <Route path={routes.WIZARD} component={Wizard} />
                 <Route path={routes.SETTINGS} component={Settings} />
               </Switch>

@@ -1,23 +1,32 @@
 import {
+  SAVE_MIGRATION,
+  SAVE_MIGRATION_SUCCESS,
+  CHANGE_MIGRATION,
+  CHANGE_MIGRATION_SUCCESS,
+  CHANGE_MIGRATION_FAILED,
   INITIALIZE_MIGRATION,
   INITIALIZE_MIGRATION_SUCCESS,
   INITIALIZE_MIGRATION_FAILED,
-  SAVE_MIGRATION,
-  SAVE_MIGRATION_SUCCESS,
 } from '../redux.types';
-import { InteractiveResponder } from '../../types';
+import { InteractiveResponder, MigrationObject } from '../../types';
 import { MigrationActionTypes } from './action.types';
 import { LOADING, ERROR, INITIALIZES } from '../../utils/constants';
 
 export interface MigrationState extends InteractiveResponder {
-  migration: any;
+  autosaveLoading: boolean;
+  allMigrations: Array<any>;
+  dataMigration: MigrationObject;
+  migrationFile: string;
 }
 
 const INIT_STATE: MigrationState = {
   ...ERROR,
   ...LOADING,
   ...INITIALIZES,
-  migration: {},
+  autosaveLoading: false,
+  allMigrations: [],
+  dataMigration: [],
+  migrationFile: 'migration_autosave',
 };
 
 const reducer = (
@@ -55,11 +64,34 @@ const reducer = (
     case SAVE_MIGRATION:
       return {
         ...state,
-        ...action.payload.migration,
-        loading: true,
+        loading: !action.payload.isAutosave,
+        autosaveLoading: action.payload.isAutosave,
       };
     case SAVE_MIGRATION_SUCCESS:
-      return { ...state, loading: false };
+      return {
+        ...state,
+        loading: false,
+        autosaveLoading: false,
+        migrationFile: action.payload.fileName,
+        allMigrations:
+          action.payload.isAutosave === true
+            ? state.allMigrations
+            : state.allMigrations.concat(action.payload.fileName),
+      };
+    case CHANGE_MIGRATION:
+      return { ...state, loading: true };
+    case CHANGE_MIGRATION_SUCCESS:
+      return {
+        ...state,
+        migrationFile: action.payload.migrationFile.replace('.json', ''),
+        dataMigration: action.payload.dataMigration,
+      };
+    case CHANGE_MIGRATION_FAILED:
+      return {
+        ...INIT_STATE,
+        errorState: true,
+        errorMessage: action.payload.message,
+      };
     default:
       return { ...state };
   }
