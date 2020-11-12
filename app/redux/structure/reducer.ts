@@ -1,4 +1,6 @@
+import arrayMove from 'array-move';
 import {
+  SORT_STRUCTURE,
   SAVE_STRUCTURE,
   SAVE_STRUCTURE_SUCCESS,
   CHANGE_STRUCTURE,
@@ -13,6 +15,7 @@ import {
 import { InteractiveResponder, StructureObject } from '../../types';
 import { StructureActionTypes } from './action.types';
 import { LOADING, ERROR, INITIALIZES } from '../../utils/constants';
+import { findObjectIndex } from '../../utils/functions';
 
 export interface StructureState extends InteractiveResponder {
   autosaveLoading: boolean;
@@ -27,7 +30,7 @@ const INIT_STATE: StructureState = {
   ...INITIALIZES,
   autosaveLoading: false,
   allStructures: [],
-  dataStructure: {},
+  dataStructure: [],
   structureFile: 'structure_autosave',
 };
 
@@ -95,48 +98,80 @@ const reducer = (
         errorState: true,
         errorMessage: action.payload.message,
       };
-
+    case SORT_STRUCTURE: {
+      const { oldIndex, newIndex } = action.payload;
+      return {
+        ...state,
+        dataStructure: arrayMove(state.dataStructure, oldIndex, newIndex),
+      };
+    }
     case MANIPULATE_STRUCTURE_HEADER: {
       if (action.payload.action === 'add') {
+        const newItem = {
+          name: action.payload.name,
+          items: [],
+        };
         return {
           ...state,
-          dataStructure: {
-            ...state.dataStructure,
-            [action.payload.label]: [],
-          },
+          dataStructure: state.dataStructure.concat(newItem),
         };
       }
-      const headerToRemove = action.payload.label;
-      const {
-        [headerToRemove]: {},
-        ...removedStructure
-      } = state.dataStructure;
-      return { ...state, dataStructure: removedStructure };
-    }
-    case MANIPULATE_STRUCTURE_FIELD: {
-      if (action.payload.action === 'add') {
-        return {
-          ...state,
-          dataStructure: {
-            ...state.dataStructure,
-            [action.payload.header]: state.dataStructure[action.payload.header].concat(
-              action.payload.label
-            ),
-          },
-        };
-      }
-      const indexToRemove = state.dataStructure[action.payload.header].indexOf(
-        action.payload.label
+
+      const indexToRemove = findObjectIndex(
+        state.dataStructure,
+        'name',
+        action.payload.name
       );
       return {
         ...state,
-        dataStructure: {
-          ...state.dataStructure,
-          [action.payload.header]: [
-            ...state.dataStructure[action.payload.header].slice(0, indexToRemove),
-            ...state.dataStructure[action.payload.header].slice(indexToRemove + 1),
-          ],
-        },
+        dataStructure: [
+          ...state.dataStructure.slice(0, indexToRemove),
+          ...state.dataStructure.slice(indexToRemove + 1),
+        ],
+      };
+    }
+    case MANIPULATE_STRUCTURE_FIELD: {
+      if (action.payload.action === 'add') {
+        const indexToAdd = findObjectIndex(
+          state.dataStructure,
+          'name',
+          action.payload.name
+        );
+
+        return {
+          ...state,
+          dataStructure: Object.assign([...state.dataStructure], {
+            [indexToAdd]: {
+              name: action.payload.name,
+              items: Object.assign([...state.dataStructure[indexToAdd].items], {
+                [indexToAdd]: action.payload.field,
+              }),
+            },
+          }),
+        };
+      }
+
+      const indexToRemoveFrom = findObjectIndex(
+        state.dataStructure,
+        'name',
+        action.payload.name
+      );
+
+      const indexToRemove = state.dataStructure[indexToRemoveFrom].items.indexOf(
+        action.payload.field
+      );
+
+      return {
+        ...state,
+        dataStructure: Object.assign([...state.dataStructure], {
+          [indexToRemoveFrom]: {
+            name: action.payload.name,
+            items: [
+              ...state.dataStructure[indexToRemoveFrom].items.slice(0, indexToRemove),
+              ...state.dataStructure[indexToRemoveFrom].items.slice(indexToRemove + 1),
+            ],
+          },
+        }),
       };
     }
     default:

@@ -11,6 +11,7 @@ import {
 } from '../../utils/constants';
 import { SettingPathInterface, StructureObject } from '../../types';
 import { StructureActionTypes } from '../../redux/structure/action.types';
+import { findObjectIndex } from '../../utils/functions';
 
 const resetPadding: React.CSSProperties = {
   paddingLeft: 0,
@@ -24,6 +25,7 @@ type StructureItemProps = {
   paths: SettingPathInterface;
   autosaveLoading: boolean;
   dataStructure: StructureObject;
+  sortStructure: ActionCreator<StructureActionTypes>;
   SaveStructure: ActionCreator<StructureActionTypes>;
   ManipulateStructureHeader: ActionCreator<StructureActionTypes>;
   ManipulateStructureField: ActionCreator<StructureActionTypes>;
@@ -81,12 +83,13 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
 
   getStructureHeaders = (): Array<string> => {
     const { dataStructure } = this.props;
-    return Object.keys(dataStructure);
+    return dataStructure.map((structure) => structure.name);
   };
 
   getStructureFields = (whichHeader: string): Array<string> => {
     const { dataStructure } = this.props;
-    return Object.values(dataStructure[whichHeader]);
+    const headerIndex = findObjectIndex(dataStructure, 'name', whichHeader);
+    return dataStructure[headerIndex].items;
   };
 
   onNewHeader = (newHeader: string): void => {
@@ -112,7 +115,7 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
 
     const fields = this.getStructureFields(selectedHeader);
     if (!fields.includes(newField)) {
-      ManipulateStructureField(newField, selectedHeader, 'add');
+      ManipulateStructureField(selectedHeader, newField, 'add');
     }
   };
 
@@ -121,7 +124,7 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
 
     const fields = this.getStructureFields(whichHeader);
     if (fields.includes(removeField)) {
-      ManipulateStructureField(removeField, whichHeader, 'remove');
+      ManipulateStructureField(whichHeader, removeField, 'remove');
     }
   };
 
@@ -130,6 +133,7 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
       activeFile,
       dataStructure,
       paths,
+      sortStructure,
       SaveStructure,
       errorState,
       errorMessage,
@@ -213,6 +217,7 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
 
         <Preview
           inverted={DARK_MODE}
+          onSort={sortStructure}
           onRemoveHeader={this.onRemoveHeader}
           onRemoveField={this.onRemoveField}
           dataStructure={dataStructure}

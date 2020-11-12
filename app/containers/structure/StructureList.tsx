@@ -14,7 +14,19 @@ type StructureListProps = {
   allStructures: Array<string>;
   changeStructure: ActionCreator<StructureActionTypes>;
 };
-class StructureList extends React.PureComponent<StructureListProps> {
+class StructureList extends React.Component<StructureListProps> {
+  shouldComponentUpdate(nextProps: StructureListProps): boolean {
+    const { allStructures, activeFile } = this.props;
+    if (
+      allStructures.length !== nextProps.allStructures.length ||
+      activeFile !== nextProps.activeFile
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
   renderStructureList(): JSX.Element[] {
     const { activeFile, structuresPath, allStructures, changeStructure } = this.props;
     return allStructures.map((fileName) => (

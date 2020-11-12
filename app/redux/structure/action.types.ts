@@ -1,4 +1,5 @@
 import {
+  SORT_STRUCTURE,
   SAVE_STRUCTURE,
   SAVE_STRUCTURE_SUCCESS,
   SAVE_STRUCTURE_FAILED,
@@ -51,16 +52,16 @@ export interface SaveStructureFailed {
 export interface ManipulateStructureHeader {
   type: typeof MANIPULATE_STRUCTURE_HEADER;
   payload: {
-    label: string;
+    name: string;
     action: StructureObjectAction;
   };
 }
 export interface ManipulateStructureContent {
   type: typeof MANIPULATE_STRUCTURE_FIELD;
   payload: {
-    label: string;
+    name: string;
+    field: string;
     action: StructureObjectAction;
-    header: string;
   };
 }
 
@@ -82,6 +83,14 @@ export interface ChangeStructureFailed {
   payload: { message: string };
 }
 
+export interface SortStructure {
+  type: typeof SORT_STRUCTURE;
+  payload: {
+    oldIndex: number;
+    newIndex: number;
+  };
+}
+
 export type StructureActionTypes =
   | InitStructure
   | InitStructureSuccess
@@ -93,4 +102,5 @@ export type StructureActionTypes =
   | ChangeStructureSuccess
   | ChangeStructureFailed
   | ManipulateStructureHeader
-  | ManipulateStructureContent;
+  | ManipulateStructureContent
+  | SortStructure;

@@ -9,6 +9,9 @@ import baseConfig from './webpack.config.base';
 import { dependencies } from '../../package.json';
 import CheckNodeEnv from '../scripts/CheckNodeEnv';
 
+// fomantic-ui-css causes false error
+delete dependencies['fomantic-ui-css'];
+
 CheckNodeEnv('development');
 
 const dist = path.join(__dirname, '../..', 'dll');

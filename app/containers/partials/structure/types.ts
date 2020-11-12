@@ -1,8 +1,11 @@
+import { StructureObject } from '../../../types';
+
 export type PreviewProps = {
-  dataStructure: { [key: string]: Array<string> };
+  dataStructure: StructureObject;
+  onSort: (oldIndex: number, newIndex: number) => void;
   onRemoveHeader: (removeHeader: string) => void;
   onRemoveField: (removeField: string, whichHeader: string) => void;
-  inverted?: boolean;
+  inverted: boolean;
 };
 export type FieldFormProps = {
   structureHeaders: Array<string>;

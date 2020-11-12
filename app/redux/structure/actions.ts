@@ -1,5 +1,6 @@
 import { ActionCreator } from 'redux';
 import {
+  SORT_STRUCTURE,
   SAVE_STRUCTURE,
   SAVE_STRUCTURE_SUCCESS,
   SAVE_STRUCTURE_FAILED,
@@ -37,7 +38,7 @@ export const initStructureFailed: ActionCreator<StructureActionTypes> = (
 
 export const saveStructure: ActionCreator<StructureActionTypes> = (
   path: string,
-  dataStructure: Record<string, never>,
+  dataStructure: StructureObject,
   fileName: string,
   isAutosave: boolean
 ) => ({
@@ -61,20 +62,20 @@ export const saveStructureFailed: ActionCreator<StructureActionTypes> = (
 });
 
 export const manipulateStructureHeader: ActionCreator<StructureActionTypes> = (
-  label: string,
+  name: string,
   action: StructureObjectAction
 ) => ({
   type: MANIPULATE_STRUCTURE_HEADER,
-  payload: { label, action },
+  payload: { name, action },
 });
 
 export const manipulateStructureField: ActionCreator<StructureActionTypes> = (
-  label: string,
-  header: string,
+  name: string,
+  field: string,
   action: StructureObjectAction
 ) => ({
   type: MANIPULATE_STRUCTURE_FIELD,
-  payload: { label, header, action },
+  payload: { name, field, action },
 });
 
 export const changeStructure: ActionCreator<StructureActionTypes> = (
@@ -98,4 +99,12 @@ export const changeStructureFailed: ActionCreator<StructureActionTypes> = (
 ) => ({
   type: CHANGE_STRUCTURE_FAILED,
   payload: { message },
+});
+
+export const sortStructure: ActionCreator<StructureActionTypes> = (
+  oldIndex: number,
+  newIndex: number
+) => ({
+  type: SORT_STRUCTURE,
+  payload: { oldIndex, newIndex },
 });

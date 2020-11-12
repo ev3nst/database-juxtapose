@@ -1,6 +1,15 @@
 import fs from 'fs';
 import archiver from 'archiver';
 
+export function findObjectIndex(array: Array<any>, attr: string, value: any): number {
+  for (let i = 0; i < array.length; i += 1) {
+    if (array[i][attr] === value) {
+      return i;
+    }
+  }
+  return -1;
+}
+
 export function zipDirectory(
   zipPath: string,
   folderToZip: string,

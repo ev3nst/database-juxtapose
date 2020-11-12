@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Grid } from 'semantic-ui-react';
 import {
+  sortStructure,
   saveStructure,
   changeStructure,
   manipulateStructureHeader,
@@ -40,6 +41,7 @@ const mapStateToProps = ({ structure, settings }: RootState) => {
 };
 
 const mapActionsToProps = {
+  sortStructure,
   saveStructure,
   changeStructure,
   manipulateStructureHeader,
@@ -73,6 +75,7 @@ class Structure extends React.PureComponent<IProps, IStates> {
       saveStructure: SaveStructure,
       manipulateStructureHeader: ManipulateStructureHeader,
       manipulateStructureField: ManipulateStructureField,
+      sortStructure: SortStructure,
       errorState,
       errorMessage,
     } = this.props;
@@ -96,6 +99,7 @@ class Structure extends React.PureComponent<IProps, IStates> {
                 paths={paths}
                 autosaveLoading={autosaveLoading}
                 dataStructure={dataStructure}
+                sortStructure={SortStructure}
                 SaveStructure={SaveStructure}
                 ManipulateStructureHeader={ManipulateStructureHeader}
                 ManipulateStructureField={ManipulateStructureField}

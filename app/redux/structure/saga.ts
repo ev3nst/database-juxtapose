@@ -54,7 +54,7 @@ async function getStructureFile(
 ): Promise<SagaAsyncReturn> {
   try {
     if (!fs.existsSync(path + fileName)) {
-      fs.writeFileSync(path + fileName, '{}');
+      fs.writeFileSync(path + fileName, '[]');
       return {
         status: true,
         data: {},
@@ -127,7 +127,7 @@ async function saveStructureFile(
 ) {
   fs.writeFileSync(`${path + fileName}.json`, JSON.stringify(dataStructure));
   if (isAutosave === false) {
-    fs.writeFileSync(path + STRUCTURE_AUTOSAVE_FILE, JSON.stringify({}));
+    fs.writeFileSync(path + STRUCTURE_AUTOSAVE_FILE, '[]');
   }
 }
 
