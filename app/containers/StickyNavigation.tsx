@@ -27,14 +27,17 @@ class StickyNavigation extends React.Component<IProps, IStates> {
   }
 
   componentDidMount() {
-    const { location } = this.props;
+    const { location, history } = this.props;
     const { activeContainer } = this.state;
 
     if (
       location.pathname === '/' ||
       Object.values(routes).indexOf(location.pathname) === -1
     ) {
-      this.onNavigate(routes.STRUCTURE);
+      this.setState({
+        activeContainer: routes.STRUCTURE,
+      });
+      history.push(routes.STRUCTURE);
     } else if (activeContainer !== location.pathname) {
       this.setState({
         activeContainer: location.pathname,
