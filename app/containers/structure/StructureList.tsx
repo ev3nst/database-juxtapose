@@ -1,7 +1,11 @@
 import React from 'react';
 import { ActionCreator } from 'redux';
 import { Segment, Header, List, Icon } from 'semantic-ui-react';
-import { DARK_MODE, STRUCTURE_AUTOSAVE_FILE } from '../../utils/constants';
+import {
+  DARK_MODE,
+  STRUCTURE_AUTOSAVE_NAME,
+  STRUCTURE_AUTOSAVE_FILE,
+} from '../../utils/constants';
 import { StructureActionTypes } from '../../redux/structure/action.types';
 
 type StructureListProps = {
@@ -22,7 +26,9 @@ class StructureList extends React.PureComponent<StructureListProps> {
         }}
       >
         <List.Content>
-          <List.Header className="uppercase">{fileName}</List.Header>
+          <List.Header>
+            <Icon size="small" name="file alternate outline" /> {fileName}
+          </List.Header>
         </List.Content>
       </List.Item>
     ));
@@ -44,14 +50,14 @@ class StructureList extends React.PureComponent<StructureListProps> {
         />
         <List selection animated verticalAlign="middle" inverted={DARK_MODE}>
           <List.Item
-            active={activeFile === STRUCTURE_AUTOSAVE_FILE.replace('.json', '')}
+            active={activeFile === STRUCTURE_AUTOSAVE_NAME}
             key={STRUCTURE_AUTOSAVE_FILE}
             onClick={() => {
               changeStructure(structuresPath, STRUCTURE_AUTOSAVE_FILE);
             }}
           >
             <List.Content>
-              <List.Header className="uppercase">
+              <List.Header>
                 New <Icon size="small" name="plus" />
               </List.Header>
             </List.Content>

@@ -12,7 +12,8 @@ export const FOLDER_PREFIX = `\\${APP_NAME}\\`;
 export const USER_FOLDER = remote.app.getPath('documents') + FOLDER_PREFIX;
 export const CONFIG_PATH = `${USER_FOLDER}settings.json`;
 
-export const STRUCTURE_AUTOSAVE_FILE = 'structure_autosave.json';
+export const STRUCTURE_AUTOSAVE_NAME = 'structure_autosave';
+export const STRUCTURE_AUTOSAVE_FILE = `${STRUCTURE_AUTOSAVE_NAME}.json`;
 export const MIGRATION_AUTOSAVE_FILE = 'migration_autosave.json';
 
 export const defaultConfig = {
@@ -24,7 +25,7 @@ export const defaultConfig = {
   },
 };
 
-export const INTERVAL_TIMEOUT = 10000;
+export const AUTOSAVE_INTERVAL = 60000;
 export const NOTIFICATION_TIMEOUT = 2500;
 
 export const NavbarItems: Array<RouteItem> = [

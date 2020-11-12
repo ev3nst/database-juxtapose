@@ -73,6 +73,7 @@ class SaveModal extends React.Component<SaveModalProps, SaveModalStates> {
         open={showModal}
         trigger={
           <Button
+            size="tiny"
             color={inverted === true ? 'green' : undefined}
             inverted={inverted}
             onClick={() => this.setState({ showModal: true })}

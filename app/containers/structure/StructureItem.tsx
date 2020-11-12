@@ -1,11 +1,13 @@
 import React from 'react';
 import { ActionCreator } from 'redux';
-import { Form, Loader, Header, Segment, Message } from 'semantic-ui-react';
+import { Form, Loader, Header, Segment, Message, Button } from 'semantic-ui-react';
 import { Preview, FieldForm, HeaderForm, SaveModal } from '../partials/structure';
+import { NotificationManager } from '../../components/Notification';
 import {
-  INTERVAL_TIMEOUT,
   DARK_MODE,
-  STRUCTURE_AUTOSAVE_FILE,
+  AUTOSAVE_INTERVAL,
+  NOTIFICATION_TIMEOUT,
+  STRUCTURE_AUTOSAVE_NAME,
 } from '../../utils/constants';
 import { SettingPathInterface, StructureObject } from '../../types';
 import { StructureActionTypes } from '../../redux/structure/action.types';
@@ -46,11 +48,19 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
 
   componentDidMount() {
     this.autosaveID = setInterval(() => {
-      const { errorState, activeFile } = this.props;
+      const { errorState, activeFile, paths, dataStructure, SaveStructure } = this.props;
       if (errorState !== true && activeFile !== undefined) {
-        this.onSaveStructure(activeFile);
+        this.setState({
+          showNotification: true,
+        });
+        SaveStructure(
+          paths.structures,
+          dataStructure === undefined ? {} : dataStructure,
+          activeFile,
+          true
+        );
       }
-    }, INTERVAL_TIMEOUT);
+    }, AUTOSAVE_INTERVAL);
   }
 
   componentDidUpdate(nextProps: StructureItemProps) {
@@ -67,19 +77,6 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
   componentWillUnmount() {
     clearInterval(this.autosaveID);
     clearInterval(this.notificationID);
-  }
-
-  onSaveStructure(fileName: string) {
-    const { paths, dataStructure, SaveStructure } = this.props;
-    this.setState({
-      showNotification: true,
-    });
-    SaveStructure(
-      paths.structures,
-      dataStructure === undefined ? {} : dataStructure,
-      fileName,
-      true
-    );
   }
 
   getStructureHeaders = (): Array<string> => {
@@ -129,7 +126,14 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
   };
 
   render() {
-    const { dataStructure, paths, SaveStructure, errorState, errorMessage } = this.props;
+    const {
+      activeFile,
+      dataStructure,
+      paths,
+      SaveStructure,
+      errorState,
+      errorMessage,
+    } = this.props;
     const { showNotification } = this.state;
 
     if (errorState === true) {
@@ -151,22 +155,49 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
             className="muted-subheader"
             inverted={DARK_MODE}
             floated="left"
-            content="New Structure"
-            subheader={STRUCTURE_AUTOSAVE_FILE}
+            content={
+              activeFile === STRUCTURE_AUTOSAVE_NAME ? 'New Structure +' : activeFile
+            }
+            subheader={`${activeFile}.json`}
           />
-          <Header inverted={DARK_MODE} as="h3" floated="right">
-            <SaveModal
-              inverted={DARK_MODE}
-              pathPrefix={paths.structures}
-              onConfirm={(fileName) => {
-                SaveStructure(
-                  paths.structures,
-                  dataStructure === undefined ? {} : dataStructure,
-                  fileName,
-                  false
-                );
-              }}
-            />
+          <Header inverted={DARK_MODE} as="h3" floated="left" style={{ marginLeft: 50 }}>
+            {activeFile === STRUCTURE_AUTOSAVE_NAME ? (
+              <SaveModal
+                inverted={DARK_MODE}
+                pathPrefix={paths.structures}
+                onConfirm={(fileName) => {
+                  SaveStructure(
+                    paths.structures,
+                    dataStructure === undefined ? {} : dataStructure,
+                    fileName,
+                    false
+                  );
+                }}
+              />
+            ) : (
+              <Button
+                size="tiny"
+                color={DARK_MODE === true ? 'green' : undefined}
+                inverted={DARK_MODE}
+                onClick={() => {
+                  SaveStructure(
+                    paths.structures,
+                    dataStructure === undefined ? {} : dataStructure,
+                    activeFile,
+                    true
+                  );
+
+                  NotificationManager.notificate({
+                    type: 'success',
+                    title: 'Structure',
+                    message: 'Save is successfull.',
+                    timeOut: NOTIFICATION_TIMEOUT,
+                  });
+                }}
+              >
+                SAVE
+              </Button>
+            )}
           </Header>
         </Segment>
 
