@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActionCreator } from 'redux';
-import { Segment, Header, List } from 'semantic-ui-react';
+import { Segment, Header, List, Icon } from 'semantic-ui-react';
 import { DARK_MODE, STRUCTURE_AUTOSAVE_FILE } from '../../utils/constants';
 import { StructureActionTypes } from '../../redux/structure/action.types';
 
@@ -51,7 +51,9 @@ class StructureList extends React.PureComponent<StructureListProps> {
             }}
           >
             <List.Content>
-              <List.Header className="uppercase">New</List.Header>
+              <List.Header className="uppercase">
+                New <Icon size="small" name="plus" />
+              </List.Header>
             </List.Content>
           </List.Item>
           {this.renderStructureList()}

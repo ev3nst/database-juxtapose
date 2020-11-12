@@ -76,6 +76,10 @@ const reducer = (
         loading: false,
         autosaveLoading: false,
         structureFile: action.payload.fileName,
+        allStructures:
+          action.payload.isAutosave === true
+            ? state.allStructures
+            : state.allStructures.concat(action.payload.fileName),
       };
     case CHANGE_STRUCTURE:
       return { ...state, loading: true };

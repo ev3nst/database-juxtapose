@@ -53,6 +53,7 @@ class SaveModal extends React.Component<SaveModalProps, SaveModalStates> {
         fileName: '',
         errorState: false,
         errorMessage: '',
+        showModal: false,
       });
       onConfirm(fileName);
     } else {
