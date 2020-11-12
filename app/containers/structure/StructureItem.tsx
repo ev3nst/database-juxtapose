@@ -57,7 +57,7 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
         });
         SaveStructure(
           paths.structures,
-          dataStructure === undefined ? {} : dataStructure,
+          dataStructure === undefined ? [] : dataStructure,
           activeFile,
           true
         );

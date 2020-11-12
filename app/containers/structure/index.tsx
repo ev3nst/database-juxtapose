@@ -59,10 +59,12 @@ const listBorder: React.CSSProperties = {
   borderRightColor: DARK_MODE === true ? '#333333' : '#eeeeee',
   borderRightStyle: 'solid',
 };
+
 const itemSpace: React.CSSProperties = {
   marginLeft: 10,
   paddingRight: 10,
 };
+
 class Structure extends React.PureComponent<IProps, IStates> {
   render() {
     const {

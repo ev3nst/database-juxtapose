@@ -56,9 +56,7 @@ class StructureList extends React.Component<StructureListProps> {
           inverted={DARK_MODE}
           content="Structure List"
           subheader="Click to navigate"
-          style={{
-            marginTop: 1,
-          }}
+          style={{ marginTop: 1 }}
         />
         <List selection animated verticalAlign="middle" inverted={DARK_MODE}>
           <List.Item

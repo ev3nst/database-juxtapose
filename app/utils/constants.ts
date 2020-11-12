@@ -15,7 +15,8 @@ export const CONFIG_PATH = `${USER_FOLDER}settings.json`;
 
 export const STRUCTURE_AUTOSAVE_NAME = 'structure_autosave';
 export const STRUCTURE_AUTOSAVE_FILE = `${STRUCTURE_AUTOSAVE_NAME}.json`;
-export const MIGRATION_AUTOSAVE_FILE = 'migration_autosave.json';
+export const MIGRATION_AUTOSAVE_NAME = 'migration_autosave';
+export const MIGRATION_AUTOSAVE_FILE = `${MIGRATION_AUTOSAVE_NAME}.json`;
 
 export const defaultConfig = {
   autoSave: true,

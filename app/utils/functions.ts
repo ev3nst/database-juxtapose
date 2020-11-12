@@ -1,5 +1,6 @@
 import fs from 'fs';
 import archiver from 'archiver';
+import { SagaAsyncReturn } from '../types';
 
 export function findObjectIndex(array: Array<any>, attr: string, value: any): number {
   for (let i = 0; i < array.length; i += 1) {
@@ -8,6 +9,95 @@ export function findObjectIndex(array: Array<any>, attr: string, value: any): nu
     }
   }
   return -1;
+}
+export type FolderPaginationReturnType = {
+  status: boolean;
+  files?: any;
+  error?: any;
+};
+
+export function replaceArray(find: string[], replace: string[], stringToReplace: string) {
+  for (let i = 0; i < find.length; i += 1) {
+    // eslint-disable-next-line no-param-reassign
+    stringToReplace = stringToReplace.replace(find[i], replace[i]);
+  }
+  return stringToReplace;
+}
+
+export async function saveJsonFile(path: string, data: any, fileName?: string) {
+  fs.writeFileSync(`${path + fileName}.json`, JSON.stringify(data));
+}
+
+export async function getJsonFile(
+  path: string,
+  fileName: string,
+  defaultData: string = '[]'
+): Promise<SagaAsyncReturn> {
+  try {
+    if (!fs.existsSync(path + fileName)) {
+      fs.writeFileSync(path + fileName, defaultData);
+      return {
+        status: true,
+        data: [],
+        error: '',
+      };
+    }
+
+    const fileContents = fs.readFileSync(path + fileName, 'utf8');
+    try {
+      const data = JSON.parse(fileContents);
+      if (data !== undefined || data !== null || data !== '') {
+        return {
+          status: true,
+          data,
+          error: '',
+        };
+      }
+    } catch (error) {
+      // json error
+      fs.writeFileSync(path + fileName, defaultData);
+      return {
+        status: true,
+        data: [],
+        error: '',
+      };
+    }
+    return { status: false, error: 'Corrupted json.' };
+  } catch (error) {
+    return { status: false, error: error.toString() };
+  }
+}
+
+export async function getFolderWithPagination(
+  path: string,
+  page: number = 0,
+  limit: number,
+  fileFormats: Array<string> = ['.json']
+): Promise<FolderPaginationReturnType> {
+  try {
+    if (!fs.existsSync(path)) {
+      fs.mkdirSync(path);
+    }
+
+    const offset = page * limit;
+
+    let index = 0;
+    const files: Array<string> = [];
+    fs.readdirSync(path).forEach((file) => {
+      if (fileFormats.indexOf(file.substr(file.length - 5)) !== -1) {
+        index += 1;
+        if (offset + limit === index) {
+          return;
+        }
+        if (offset < index) {
+          files.push(replaceArray(fileFormats, [''], file));
+        }
+      }
+    });
+    return { status: true, files, error: '' };
+  } catch (error) {
+    return { status: false, error: error.toString() };
+  }
 }
 
 export function zipDirectory(
