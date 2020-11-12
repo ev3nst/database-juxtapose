@@ -14,6 +14,7 @@ import {
 } from '../redux.types';
 import { StructureObjectAction, StructureObject } from '../../types';
 
+// init
 export interface InitStructure {
   type: typeof INITIALIZE_STRUCTURE;
   payload: { path: string };
@@ -29,6 +30,7 @@ export interface InitStructureFailed {
   payload: { message?: string };
 }
 
+// save
 export interface SaveStructure {
   type: typeof SAVE_STRUCTURE;
   payload: {
@@ -49,22 +51,7 @@ export interface SaveStructureFailed {
   payload: { message?: string };
 }
 
-export interface ManipulateStructureHeader {
-  type: typeof MANIPULATE_STRUCTURE_HEADER;
-  payload: {
-    name: string;
-    action: StructureObjectAction;
-  };
-}
-export interface ManipulateStructureContent {
-  type: typeof MANIPULATE_STRUCTURE_FIELD;
-  payload: {
-    name: string;
-    field: string;
-    action: StructureObjectAction;
-  };
-}
-
+// change file
 export interface ChangeStructure {
   type: typeof CHANGE_STRUCTURE;
   payload: {
@@ -83,6 +70,24 @@ export interface ChangeStructureFailed {
   payload: { message: string };
 }
 
+// manipulate data
+export interface ManipulateStructureHeader {
+  type: typeof MANIPULATE_STRUCTURE_HEADER;
+  payload: {
+    name: string;
+    action: StructureObjectAction;
+  };
+}
+export interface ManipulateStructureContent {
+  type: typeof MANIPULATE_STRUCTURE_FIELD;
+  payload: {
+    name: string;
+    field: string;
+    action: StructureObjectAction;
+  };
+}
+
+// sort data
 export interface SortStructure {
   type: typeof SORT_STRUCTURE;
   payload: {

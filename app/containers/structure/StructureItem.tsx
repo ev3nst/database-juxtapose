@@ -172,7 +172,7 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
                 onConfirm={(fileName) => {
                   SaveStructure(
                     paths.structures,
-                    dataStructure === undefined ? {} : dataStructure,
+                    dataStructure === undefined ? [] : dataStructure,
                     fileName,
                     false
                   );
@@ -186,7 +186,7 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
                 onClick={() => {
                   SaveStructure(
                     paths.structures,
-                    dataStructure === undefined ? {} : dataStructure,
+                    dataStructure === undefined ? [] : dataStructure,
                     activeFile,
                     true
                   );

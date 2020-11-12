@@ -1,5 +1,6 @@
 import { all, call, fork, put, takeLatest, takeEvery } from 'redux-saga/effects';
-import { CHANGE_STRUCTURE, INITIALIZE_STRUCTURE, SAVE_STRUCTURE } from '../redux.types';
+import { NotificationManager } from '../../components/Notification';
+import { INITIALIZE_STRUCTURE, CHANGE_STRUCTURE, SAVE_STRUCTURE } from '../redux.types';
 import { StructureObject } from '../../types';
 import {
   STRUCTURE_AUTOSAVE_NAME,
@@ -12,7 +13,6 @@ import {
   getJsonFile,
   saveJsonFile,
 } from '../../utils/functions';
-import { NotificationManager } from '../../components/Notification';
 import {
   initStructureSuccess,
   initStructureFailed,
@@ -77,7 +77,7 @@ function* saveStructure({ payload }: NewStructurePayload) {
 
     // if new, reset autosave file
     if (payload.isAutosave === false) {
-      yield call(saveJsonFile, payload.path, [], STRUCTURE_AUTOSAVE_FILE);
+      yield call(saveJsonFile, payload.path, [], STRUCTURE_AUTOSAVE_NAME);
     }
 
     yield put(saveStructureSuccess(payload.isAutosave, payload.fileName));

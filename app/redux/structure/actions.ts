@@ -61,23 +61,6 @@ export const saveStructureFailed: ActionCreator<StructureActionTypes> = (
   payload: { message },
 });
 
-export const manipulateStructureHeader: ActionCreator<StructureActionTypes> = (
-  name: string,
-  action: StructureObjectAction
-) => ({
-  type: MANIPULATE_STRUCTURE_HEADER,
-  payload: { name, action },
-});
-
-export const manipulateStructureField: ActionCreator<StructureActionTypes> = (
-  name: string,
-  field: string,
-  action: StructureObjectAction
-) => ({
-  type: MANIPULATE_STRUCTURE_FIELD,
-  payload: { name, field, action },
-});
-
 export const changeStructure: ActionCreator<StructureActionTypes> = (
   path: string,
   structureFile: string
@@ -99,6 +82,23 @@ export const changeStructureFailed: ActionCreator<StructureActionTypes> = (
 ) => ({
   type: CHANGE_STRUCTURE_FAILED,
   payload: { message },
+});
+
+export const manipulateStructureHeader: ActionCreator<StructureActionTypes> = (
+  name: string,
+  action: StructureObjectAction
+) => ({
+  type: MANIPULATE_STRUCTURE_HEADER,
+  payload: { name, action },
+});
+
+export const manipulateStructureField: ActionCreator<StructureActionTypes> = (
+  name: string,
+  field: string,
+  action: StructureObjectAction
+) => ({
+  type: MANIPULATE_STRUCTURE_FIELD,
+  payload: { name, field, action },
 });
 
 export const sortStructure: ActionCreator<StructureActionTypes> = (
