@@ -1,52 +1,14 @@
-import * as fs from 'fs';
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 import { INITIALIZE_MIGRATION } from '../redux.types';
-import { MIGRATION_AUTOSAVE_FILE } from '../../utils/constants';
+import {
+  MIGRATION_AUTOSAVE_FILE,
+  MIGRATION_AUTOSAVE_NAME,
+  PAGINATION_LIMIT,
+} from '../../utils/constants';
+import { getFolderWithPagination, getJsonFile } from '../../utils/functions';
 import { initMigrationSuccess, initMigrationFailed } from '../actions';
 
 // -------------------- Configure Migration Folder & Files --------------------
-type ReturnInitMigration = {
-  status: boolean;
-  data?: any;
-  error?: any;
-};
-async function configureMigrationFiles(path: string): Promise<ReturnInitMigration> {
-  try {
-    if (!fs.existsSync(path)) {
-      fs.mkdirSync(path);
-    }
-
-    if (!fs.existsSync(path + MIGRATION_AUTOSAVE_FILE)) {
-      fs.writeFileSync(path + MIGRATION_AUTOSAVE_FILE, '{}');
-      return {
-        status: true,
-        data: {},
-      };
-    }
-
-    const FileContents = fs.readFileSync(path + MIGRATION_AUTOSAVE_FILE, 'utf8');
-    try {
-      const data = JSON.parse(FileContents);
-      if (data !== undefined || data !== null || data !== '') {
-        return {
-          status: true,
-          data,
-        };
-      }
-    } catch (error) {
-      // json error
-      fs.writeFileSync(path + MIGRATION_AUTOSAVE_FILE, '{}');
-      return {
-        status: true,
-        data: {},
-      };
-    }
-    return { status: false, error: 'Corrupted json.' };
-  } catch (error) {
-    return { status: false, error: error.toString() };
-  }
-}
-
 type MigrationPayload = {
   payload: {
     path: string;
@@ -55,13 +17,28 @@ type MigrationPayload = {
 };
 function* initMigration({ payload }: MigrationPayload) {
   try {
-    const response = yield call(configureMigrationFiles, payload.path);
-    if (response.status === true) {
-      yield put(initMigrationSuccess(response.data));
+    const migrationList = yield call(
+      getFolderWithPagination,
+      payload.path,
+      0,
+      PAGINATION_LIMIT
+    );
+
+    const autosaveFile = yield call(getJsonFile, payload.path, MIGRATION_AUTOSAVE_FILE);
+
+    if (autosaveFile.status === true && migrationList.status === true) {
+      const autosaveIndex = migrationList.files.indexOf(MIGRATION_AUTOSAVE_NAME);
+      if (autosaveIndex > -1) {
+        migrationList.files.splice(autosaveIndex, 1);
+      }
+
+      yield put(initMigrationSuccess(autosaveFile.data, migrationList.files));
       return;
     }
 
-    yield put(initMigrationFailed(response.error));
+    yield put(
+      initMigrationFailed(`Errors: 1. ${autosaveFile.error} 2.${migrationList.error}`)
+    );
   } catch (error) {
     yield put(initMigrationFailed(error.toString()));
   }
