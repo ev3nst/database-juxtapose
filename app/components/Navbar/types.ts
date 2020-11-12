@@ -32,6 +32,9 @@ export type NavbarProps = {
   backIcon?: SemanticICONS;
 
   /** Controls inverted mode. */
+  extraButtons?: JSX.Element;
+
+  /** Controls inverted mode. */
   inverted?: boolean;
 };
 // #endregion

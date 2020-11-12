@@ -4,6 +4,7 @@ import { RouteItem } from '../components/Navbar';
 import routes from './routes.json';
 import { Initializes, PageError, PageLoading } from '../types';
 
+export const WINDOW = remote.getCurrentWindow();
 export const APP_NAME = remote.app.getName();
 export const DARK_MODE = window.localStorage.getItem('dark_mode') === 'on';
 export const PAGINATION_LIMIT = 10;

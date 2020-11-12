@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Icon, SemanticWIDTHS } from 'semantic-ui-react';
+import { Menu, Icon } from 'semantic-ui-react';
 import { NavbarProps, RouteItem } from './types';
 import NavbarItem from './NavbarItem';
 import NavDropdown from './NavDropdown';
@@ -61,16 +61,13 @@ class Navbar extends React.PureComponent<NavbarProps> {
   }
 
   render(): JSX.Element {
-    const { navItems, inverted } = this.props;
+    const { navItems, extraButtons, inverted } = this.props;
 
     return (
-      <Menu
-        pointing
-        inverted={inverted}
-        widths={navItems.length as SemanticWIDTHS}
-        style={this.menuCssOverrides}
-      >
+      <Menu pointing inverted={inverted} style={this.menuCssOverrides}>
         {this.renderNavItems(navItems)}
+
+        {extraButtons}
       </Menu>
     );
   }
