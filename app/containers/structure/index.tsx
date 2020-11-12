@@ -15,9 +15,28 @@ import StructureList from './StructureList';
 
 // #region Redux Configuration
 const mapStateToProps = ({ structure, settings }: RootState) => {
-  const { allStructures, autosaveLoading, loading, loaded, dataStructure } = structure;
+  const {
+    structureFile,
+    allStructures,
+    autosaveLoading,
+    loading,
+    loaded,
+    dataStructure,
+    errorState,
+    errorMessage,
+  } = structure;
   const { paths } = settings;
-  return { paths, allStructures, autosaveLoading, loading, loaded, dataStructure };
+  return {
+    paths,
+    structureFile,
+    allStructures,
+    autosaveLoading,
+    loading,
+    loaded,
+    dataStructure,
+    errorState,
+    errorMessage,
+  };
 };
 
 const mapActionsToProps = {
@@ -46,6 +65,7 @@ class Structure extends React.PureComponent<IProps, IStates> {
   render() {
     const {
       paths,
+      structureFile,
       allStructures,
       autosaveLoading,
       dataStructure,
@@ -53,12 +73,15 @@ class Structure extends React.PureComponent<IProps, IStates> {
       saveStructure: SaveStructure,
       manipulateStructureHeader: ManipulateStructureHeader,
       manipulateStructureField: ManipulateStructureField,
+      errorState,
+      errorMessage,
     } = this.props;
     return (
       <Grid inverted={DARK_MODE} padded className="maximize-height-with-nav">
         <Grid.Row color={DARK_MODE === true ? 'black' : undefined}>
           <Grid.Column width={3} style={listBorder}>
             <StructureList
+              activeFile={structureFile}
               structuresPath={paths.structures}
               allStructures={allStructures}
               changeStructure={ChangeStructure}
@@ -67,6 +90,9 @@ class Structure extends React.PureComponent<IProps, IStates> {
           <Grid.Column width={13}>
             <div style={itemSpace}>
               <StructureItem
+                activeFile={structureFile}
+                errorState={errorState}
+                errorMessage={errorMessage}
                 paths={paths}
                 autosaveLoading={autosaveLoading}
                 dataStructure={dataStructure}

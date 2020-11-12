@@ -38,16 +38,16 @@ export const initStructureFailed: ActionCreator<StructureActionTypes> = (
 export const saveStructure: ActionCreator<StructureActionTypes> = (
   path: string,
   dataStructure: Record<string, never>,
-  isAutosave: boolean,
-  fileName?: string
+  fileName: string,
+  isAutosave: boolean
 ) => ({
   type: SAVE_STRUCTURE,
-  payload: { path, dataStructure, isAutosave, fileName },
+  payload: { path, dataStructure, fileName, isAutosave },
 });
 
 export const saveStructureSuccess: ActionCreator<StructureActionTypes> = (
   isAutosave: boolean,
-  fileName?: string
+  fileName: string
 ) => ({
   type: SAVE_STRUCTURE_SUCCESS,
   payload: { isAutosave, fileName },

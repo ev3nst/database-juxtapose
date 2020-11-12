@@ -33,14 +33,14 @@ export interface SaveStructure {
   payload: {
     path: string;
     dataStructure: StructureObject;
+    fileName: string;
     isAutosave: boolean;
-    fileName?: string;
   };
 }
 
 export interface SaveStructureSuccess {
   type: typeof SAVE_STRUCTURE_SUCCESS;
-  payload: { isAutosave: boolean; fileName?: string };
+  payload: { isAutosave: boolean; fileName: string };
 }
 
 export interface SaveStructureFailed {

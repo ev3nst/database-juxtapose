@@ -75,17 +75,14 @@ const reducer = (
         ...state,
         loading: false,
         autosaveLoading: false,
-        structureFile:
-          action.payload.isAutosave === false && action.payload.fileName !== undefined
-            ? action.payload.fileName
-            : INIT_STATE.structureFile,
+        structureFile: action.payload.fileName,
       };
     case CHANGE_STRUCTURE:
       return { ...state, loading: true };
     case CHANGE_STRUCTURE_SUCCESS:
       return {
         ...state,
-        structureFile: action.payload.structureFile,
+        structureFile: action.payload.structureFile.replace('.json', ''),
         dataStructure: action.payload.dataStructure,
       };
     case CHANGE_STRUCTURE_FAILED:

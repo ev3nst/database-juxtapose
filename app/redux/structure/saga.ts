@@ -2,7 +2,12 @@ import * as fs from 'fs';
 import { all, call, fork, put, takeLatest, takeEvery } from 'redux-saga/effects';
 import { CHANGE_STRUCTURE, INITIALIZE_STRUCTURE, SAVE_STRUCTURE } from '../redux.types';
 import { StructureObject, SagaAsyncReturn } from '../../types';
-import { STRUCTURE_AUTOSAVE_FILE, PAGINATION_LIMIT } from '../../utils/constants';
+import {
+  STRUCTURE_AUTOSAVE_FILE,
+  PAGINATION_LIMIT,
+  NOTIFICATION_TIMEOUT,
+} from '../../utils/constants';
+import { NotificationManager } from '../../components/Notification';
 import {
   initStructureSuccess,
   initStructureFailed,
@@ -117,13 +122,11 @@ export function* watchinitStructure() {
 async function saveStructureFile(
   path: string,
   dataStructure: any,
-  isAutosave: boolean,
-  fileName?: string
+  fileName?: string,
+  isAutosave?: boolean
 ) {
-  if (isAutosave === true) {
-    fs.writeFileSync(path + STRUCTURE_AUTOSAVE_FILE, JSON.stringify(dataStructure));
-  } else {
-    fs.writeFileSync(`${path + fileName}.json`, JSON.stringify(dataStructure));
+  fs.writeFileSync(`${path + fileName}.json`, JSON.stringify(dataStructure));
+  if (isAutosave === false) {
     fs.writeFileSync(path + STRUCTURE_AUTOSAVE_FILE, JSON.stringify({}));
   }
 }
@@ -143,8 +146,8 @@ function* saveStructure({ payload }: NewStructurePayload) {
       saveStructureFile,
       payload.path,
       payload.dataStructure,
-      payload.isAutosave,
-      payload.fileName
+      payload.fileName,
+      payload.isAutosave
     );
     yield put(saveStructureSuccess(payload.isAutosave, payload.fileName));
   } catch (error) {
@@ -170,11 +173,27 @@ function* changeStructure({ payload }: ChangeStructurePayload) {
       payload.path,
       payload.structureFile
     );
+
     if (structureResponse.status === true) {
       yield put(changeStructureSuccess(structureResponse.data, payload.structureFile));
+      return;
     }
+
+    NotificationManager.notificate({
+      type: 'error',
+      title: 'Structure',
+      message: structureResponse.error,
+      timeOut: NOTIFICATION_TIMEOUT,
+    });
+
     yield put(changeStructureFailed(structureResponse.error));
   } catch (error) {
+    NotificationManager.notificate({
+      type: 'error',
+      title: 'Structure',
+      message: error.toString(),
+      timeOut: NOTIFICATION_TIMEOUT,
+    });
     yield put(changeStructureFailed(error.toString()));
   }
 }

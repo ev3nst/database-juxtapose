@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActionCreator } from 'redux';
-import { Form, Loader, Header, Segment } from 'semantic-ui-react';
+import { Form, Loader, Header, Segment, Message } from 'semantic-ui-react';
 import { Preview, FieldForm, HeaderForm, SaveModal } from '../partials/structure';
 import {
   INTERVAL_TIMEOUT,
@@ -16,6 +16,9 @@ const resetPadding: React.CSSProperties = {
 };
 
 type StructureItemProps = {
+  activeFile: string;
+  errorState: boolean;
+  errorMessage: string;
   paths: SettingPathInterface;
   autosaveLoading: boolean;
   dataStructure: StructureObject;
@@ -43,7 +46,10 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
 
   componentDidMount() {
     this.autosaveID = setInterval(() => {
-      this.onSaveStructure(true);
+      const { errorState, activeFile } = this.props;
+      if (errorState !== true && activeFile !== undefined) {
+        this.onSaveStructure(activeFile);
+      }
     }, INTERVAL_TIMEOUT);
   }
 
@@ -63,7 +69,7 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
     clearInterval(this.notificationID);
   }
 
-  onSaveStructure(isAutosave: boolean = false) {
+  onSaveStructure(fileName: string) {
     const { paths, dataStructure, SaveStructure } = this.props;
     this.setState({
       showNotification: true,
@@ -71,7 +77,8 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
     SaveStructure(
       paths.structures,
       dataStructure === undefined ? {} : dataStructure,
-      isAutosave
+      fileName,
+      true
     );
   }
 
@@ -122,8 +129,20 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
   };
 
   render() {
-    const { dataStructure, paths, SaveStructure } = this.props;
+    const { dataStructure, paths, SaveStructure, errorState, errorMessage } = this.props;
     const { showNotification } = this.state;
+
+    if (errorState === true) {
+      return (
+        <Message
+          color={DARK_MODE === true ? 'black' : 'red'}
+          floating
+          header="Something went wrong."
+          list={[errorMessage]}
+        />
+      );
+    }
+
     return (
       <>
         <Segment inverted={DARK_MODE} style={resetPadding} basic clearing>
@@ -143,8 +162,8 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
                 SaveStructure(
                   paths.structures,
                   dataStructure === undefined ? {} : dataStructure,
-                  false,
-                  fileName
+                  fileName,
+                  false
                 );
               }}
             />
@@ -168,7 +187,7 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
           dataStructure={dataStructure}
         />
         <Loader
-          className="autosaveLoading-notification"
+          className="loading-notification"
           inverted={DARK_MODE}
           active={showNotification}
         >
