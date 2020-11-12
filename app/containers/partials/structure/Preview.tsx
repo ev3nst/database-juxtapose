@@ -20,7 +20,7 @@ class Preview extends React.Component<PreviewProps> {
   };
 
   render() {
-    const { dataStructure, onRemoveHeader, inverted } = this.props;
+    const { dataStructure, onRemoveHeader, onRemoveField, inverted } = this.props;
 
     return (
       <StructureHeaderContainer inverted={inverted} axis="xy" onSortEnd={this.onSortEnd}>
@@ -29,8 +29,10 @@ class Preview extends React.Component<PreviewProps> {
             key={dataStructure[index].name}
             index={index}
             header={dataStructure[index].name}
+            items={dataStructure[index].items}
             inverted={inverted}
             onRemoveHeader={onRemoveHeader}
+            onRemoveField={onRemoveField}
           />
         ))}
       </StructureHeaderContainer>

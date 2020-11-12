@@ -45,6 +45,12 @@
   color: #999999;
 }
 
+.ui.card,
+.ui.cards > .card {
+  transition: unset;
+  -webkit-transition: unset;
+}
+
 /* Loading spinner fix when in list. https://github.com/Semantic-Org/Semantic-UI/issues/6717 */
 .ui.list > .item > i.icon {
   padding-right: 0 !important;

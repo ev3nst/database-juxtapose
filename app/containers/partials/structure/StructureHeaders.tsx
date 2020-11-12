@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Card, Divider, Icon } from 'semantic-ui-react';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import { StructureFieldContainer, StructureField } from './StructureField';
 import { COLORS } from '../../../utils/constants';
 
 export type StructureHeaderContainerType = {
@@ -10,7 +11,10 @@ export type StructureHeaderContainerType = {
 export const StructureHeaderContainer = SortableContainer(
   ({ children, inverted }: StructureHeaderContainerType) => {
     return (
-      <Card.Group itemsPerRow={3} className={inverted === true ? 'inverted' : undefined}>
+      <Card.Group
+        itemsPerRow={3}
+        className={inverted === true ? 'inverted transition-reset' : 'transition-reset'}
+      >
         {children}
       </Card.Group>
     );
@@ -22,12 +26,14 @@ export const StructureHeaderContainer = SortableContainer(
 export type StructureHeaderType = {
   header: string;
   inverted: boolean;
+  items: Array<string>;
   onRemoveHeader: (removeHeader: string) => void;
+  onRemoveField: (removeField: string, whichHeader: string) => void;
 };
 export const StructureHeader = SortableElement(
-  ({ header, inverted, onRemoveHeader }: StructureHeaderType) => {
+  ({ header, inverted, items, onRemoveHeader, onRemoveField }: StructureHeaderType) => {
     return (
-      <Card key={header} color={COLORS[Math.floor(Math.random() * COLORS.length)]}>
+      <Card color={COLORS[Math.floor(Math.random() * COLORS.length)]}>
         <Card.Content>
           <Card.Header>
             <Icon
@@ -46,7 +52,24 @@ export const StructureHeader = SortableElement(
             </Grid.Column>
           </Card.Header>
           <Divider />
-          <Card.Description>qqqq</Card.Description>
+          <Card.Description>
+            <StructureFieldContainer
+              inverted={inverted}
+              axis="xy"
+              // onSortEnd={this.onSortEnd}
+            >
+              {items.map((field, index) => (
+                <StructureField
+                  key={field}
+                  field={field}
+                  index={index}
+                  header={header}
+                  inverted={inverted}
+                  onRemoveField={onRemoveField}
+                />
+              ))}
+            </StructureFieldContainer>
+          </Card.Description>
         </Card.Content>
       </Card>
     );
