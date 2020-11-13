@@ -8,6 +8,10 @@ import {
 } from '../../utils/constants';
 import { StructureActionTypes } from '../../redux/structure/action.types';
 
+const ListItemMargin: React.CSSProperties = {
+  marginBottom: 7,
+};
+
 type StructureListProps = {
   activeFile: string;
   structuresPath: string;
@@ -60,8 +64,9 @@ class StructureList extends React.Component<StructureListProps> {
         />
         <List selection animated verticalAlign="middle" inverted={DARK_MODE}>
           <List.Item
-            active={activeFile === STRUCTURE_AUTOSAVE_NAME}
             key={STRUCTURE_AUTOSAVE_FILE}
+            active={activeFile === STRUCTURE_AUTOSAVE_NAME}
+            style={ListItemMargin}
             onClick={() => {
               changeStructure(structuresPath, STRUCTURE_AUTOSAVE_FILE);
             }}

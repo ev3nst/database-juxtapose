@@ -43,7 +43,7 @@ class StructureDetail extends React.PureComponent<
     super(props);
 
     this.state = {
-      showDataTypes: false,
+      showDataTypes: true,
       showNotification: false,
     };
   }

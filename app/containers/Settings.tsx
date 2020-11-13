@@ -17,6 +17,10 @@ import { RootState } from '../redux/store';
 import { valueUpdate, changePath, saveSettings, cancelSettings } from '../redux/actions';
 import { DARK_MODE, USER_FOLDER, defaultConfig } from '../utils/constants';
 
+const HeaderPadding: React.CSSProperties = {
+  paddingTop: 15,
+};
+
 // #region Redux Configuration
 const mapStateToProps = ({ settings }: RootState) => {
   const { paths, newPaths, autoSave, loading, errorState, errorMessage } = settings;
@@ -134,6 +138,7 @@ class Settings extends React.Component<IProps, IStates> {
           <Grid.Column>
             <Container>
               <Header
+                style={HeaderPadding}
                 inverted={DARK_MODE}
                 as="h2"
                 content="Application Settings"

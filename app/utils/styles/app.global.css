@@ -134,9 +134,18 @@ body .item.inverted[role='listitem'] {
 }
 
 /* Loading spinner fix when in list. https://github.com/Semantic-Org/Semantic-UI/issues/6717 */
-.ui.list > .item > i.icon {
+.ui.list > .item > i.icon.loading {
   padding-right: 0 !important;
   vertical-align: middle !important;
+}
+
+.ui.horizontal.list .list > .item > .content,
+.ui.horizontal.list .list > .item > .image,
+.ui.horizontal.list .list > .item > i.icon,
+.ui.horizontal.list > .item > .content,
+.ui.horizontal.list > .item > .image,
+.ui.horizontal.list > .item > i.icon {
+  vertical-align: top;
 }
 
 /* Checkbox Slider Inverted Support */
