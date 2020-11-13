@@ -93,7 +93,7 @@
   overflow: hidden;
 }
 
-.input-right-label.inverted {
+body .ui.three.cards.field-data-card-group {
   color: #222;
 }
 
@@ -101,10 +101,18 @@
   text-transform: uppercase;
 }
 
+/*
+.data-types {
+  position: absolute;
+  top: 160px;
+  z-index: 9999;
+}
+
+*/
 /* Semantic Fixes */
 
 /* Sortable HOC Overrides */
-body .item[role='listitem'] {
+body .item[role='listitem']:not(.data-types .item) {
   display: flex;
   width: 100%;
 }

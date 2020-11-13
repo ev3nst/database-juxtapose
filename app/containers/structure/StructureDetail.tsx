@@ -13,6 +13,11 @@ const itemSpace: React.CSSProperties = {
   paddingRight: 10,
 };
 
+const SwitchButtonStyles: React.CSSProperties = {
+  zIndex: 9,
+  marginTop: 12,
+};
+
 type StructureDetailProps = {
   paths: SettingPathInterface;
   activeFile: string;
@@ -109,7 +114,7 @@ class StructureDetail extends React.PureComponent<
     return (
       <div style={itemSpace}>
         <Button
-          style={{ zIndex: 9, marginTop: 12 }}
+          style={SwitchButtonStyles}
           floated="right"
           icon
           labelPosition="right"

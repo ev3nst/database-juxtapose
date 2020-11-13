@@ -1,38 +1,13 @@
 import React from 'react';
-import { Card, Tab, Header, Input, Form } from 'semantic-ui-react';
-import { StructureObject, StructureFieldType } from '../../types';
-import { DARK_MODE, COLORS } from '../../utils/constants';
-
-const FieldItem = ({ field }: { field: StructureFieldType }) => (
-  <Card
-    className={DARK_MODE === true ? 'inverted' : undefined}
-    style={{
-      padding: 15,
-      // paddingLeft: 20,
-      // paddingRight: 20,
-    }}
-  >
-    <Form.Group>
-      <Header as="h5" content={field.name} />
-      <Form.Input
-        fluid
-        // label="Data Type"
-        list="datatypes"
-        placeholder="Choose Data Type..."
-        inverted={DARK_MODE}
-        transparent={DARK_MODE}
-      />
-      <datalist id="datatypes">
-        <option value="String" selected={true}>
-          String
-        </option>
-        <option value="Integer">Integer</option>
-        <option value="Boolean">Boolean</option>
-      </datalist>
-      <Form.Input fluid inverted={DARK_MODE} transparent={DARK_MODE} />
-    </Form.Group>
-  </Card>
-);
+import { Segment, Message, Card, Tab, List } from 'semantic-ui-react';
+import { FieldData } from '../partials/structure';
+import { StructureObject } from '../../types';
+import {
+  DARK_MODE,
+  FIELD_COLORS,
+  VerticalPaddingReset,
+  HorizontalPaddingReset,
+} from '../../utils/constants';
 
 const PaneReset: React.CSSProperties = {
   paddingTop: 12,
@@ -62,12 +37,49 @@ class StructureDataTypes extends React.PureComponent<StructureDataTypesProps> {
             key={dataStructure[i].name}
             inverted={DARK_MODE}
             attached="top"
-            renderActiveOnly
             style={PaneReset}
           >
-            <Card.Group itemsPerRow={4}>
+            <Card.Group itemsPerRow={3} className="field-data-card-group">
+              <Segment
+                basic
+                className="data-types"
+                clearing
+                inverted={DARK_MODE}
+                style={VerticalPaddingReset}
+              >
+                Data Types:
+                <List
+                  selection
+                  horizontal
+                  inverted={DARK_MODE}
+                  style={{ marginLeft: 15 }}
+                >
+                  <List.Item style={{ color: FIELD_COLORS.Any }}>Any</List.Item>
+                  <List.Item style={{ color: FIELD_COLORS.String }}>String</List.Item>
+                  <List.Item style={{ color: FIELD_COLORS.Integer }}>Integer</List.Item>
+                  <List.Item style={{ color: FIELD_COLORS.Double }}>Double</List.Item>
+                  <List.Item style={{ color: FIELD_COLORS.Boolean }}>Boolean</List.Item>
+                  <List.Item style={{ color: FIELD_COLORS.Date }}>Date</List.Item>
+                  <List.Item style={{ color: FIELD_COLORS.Timestamp }}>
+                    Timestamp
+                  </List.Item>
+                  <List.Item style={{ color: FIELD_COLORS.Json }}>Json</List.Item>
+                  <List.Item style={{ color: FIELD_COLORS.Enum }}>Enum</List.Item>
+                  <List.Item style={{ color: FIELD_COLORS.Array }}>Array</List.Item>
+                </List>
+                <Message
+                  size="small"
+                  style={HorizontalPaddingReset}
+                  color={DARK_MODE === true ? 'black' : 'teal'}
+                  header="Optional"
+                  list={[
+                    'These types are used when database is linked to this structure to check if integrated database has correct value types that is specified here. This is especially usefull if database is relational for example MySQL. Default value is Any, which means there will be no type checking.',
+                  ]}
+                />
+              </Segment>
+
               {dataStructure[i].items.map((field) => (
-                <FieldItem key={field.name} field={field} />
+                <FieldData key={field.name} field={field} />
               ))}
             </Card.Group>
           </Tab.Pane>
@@ -84,6 +96,18 @@ class StructureDataTypes extends React.PureComponent<StructureDataTypesProps> {
     return (
       <div>
         <Tab menu={{ secondary: true, inverted: true }} panes={this.resolvePanes()} />
+        <datalist id="datatypes" defaultValue="Any">
+          <option value="Any">Any</option>
+          <option value="String">String</option>
+          <option value="Integer">Integer</option>
+          <option value="Double">Double</option>
+          <option value="Boolean">Boolean</option>
+          <option value="Date">Date</option>
+          <option value="Timestamp">Timestamp</option>
+          <option value="Json">Json</option>
+          <option value="Enum">Enum</option>
+          <option value="Array">Array</option>
+        </datalist>
       </div>
     );
   }

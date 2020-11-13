@@ -13,6 +13,7 @@ import { StructureActionTypes } from '../../../redux/structure/action.types';
 const resetPadding: React.CSSProperties = {
   paddingLeft: 0,
   paddingRight: 0,
+  paddingBottom: 0,
 };
 
 type SFileSegmentProps = {

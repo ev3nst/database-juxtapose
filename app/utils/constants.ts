@@ -1,3 +1,4 @@
+import { CSSProperties } from 'react';
 import { remote } from 'electron';
 import { SemanticCOLORS } from 'semantic-ui-react';
 import { RouteItem } from '../components/Navbar';
@@ -81,3 +82,26 @@ export const COLORS: Array<SemanticCOLORS> = [
   'brown',
   'grey',
 ];
+
+export const FIELD_COLORS = {
+  String: COLORS[0],
+  Integer: COLORS[1],
+  Double: COLORS[2],
+  Boolean: COLORS[9],
+  Date: COLORS[4],
+  Timestamp: COLORS[5],
+  Json: COLORS[6],
+  Enum: COLORS[7],
+  Array: COLORS[8],
+  Any: COLORS[11],
+};
+
+export const VerticalPaddingReset: CSSProperties = {
+  paddingTop: 0,
+  paddingBottom: 0,
+};
+
+export const HorizontalPaddingReset: CSSProperties = {
+  paddingRight: 0,
+  paddingLeft: 0,
+};

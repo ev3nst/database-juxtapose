@@ -161,9 +161,9 @@ const reducer = (
                 ...state.dataStructure[indexToAdd].items,
                 {
                   name: action.payload.field,
-                  dataType: 'string',
-                  nullable: false,
-                  default: false,
+                  dataType: 'Any',
+                  required: false,
+                  defaultValue: null,
                 },
               ],
             },

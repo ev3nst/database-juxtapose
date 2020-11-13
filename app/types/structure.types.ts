@@ -1,21 +1,22 @@
 export type StructureObjectAction = 'add' | 'remove';
 
 export type StructureFieldDataTypes =
-  | 'string'
-  | 'integer'
-  | 'double'
-  | 'boolean'
-  | 'date'
-  | 'timestamp'
-  | 'json'
-  | 'enum'
-  | 'array';
+  | 'String'
+  | 'Integer'
+  | 'Double'
+  | 'Boolean'
+  | 'Date'
+  | 'Timestamp'
+  | 'Json'
+  | 'Enum'
+  | 'Array'
+  | 'Any';
 
 export type StructureFieldType = {
   name: string;
   dataType: StructureFieldDataTypes;
-  nullable: boolean;
-  default: any;
+  required: boolean;
+  defaultValue: any;
 };
 
 export type StructureArrayItem = {
