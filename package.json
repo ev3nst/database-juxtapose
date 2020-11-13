@@ -134,7 +134,6 @@
     "@types/react-router": "^5.1.8",
     "@types/react-router-dom": "^5.1.5",
     "@types/redux-logger": "^3.0.8",
-    "@types/semantic-ui": "^2.2.7",
     "@types/webpack": "^4.41.21",
     "@types/webpack-env": "^1.15.2",
     "@typescript-eslint/eslint-plugin": "4.4.1",

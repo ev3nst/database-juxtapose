@@ -1,8 +1,7 @@
 import React from 'react';
 import { ActionCreator } from 'redux';
 import { Loader, Header, Segment, Message, Button } from 'semantic-ui-react';
-import { SaveModal } from '../partials/structure';
-import { NotificationManager } from '../../components/Notification';
+import { NotificationManager, SaveModal } from '../../components';
 import {
   DARK_MODE,
   AUTOSAVE_INTERVAL,
@@ -117,6 +116,7 @@ class MigrationItem extends React.PureComponent<MigrationItemProps, MigrationIte
               <SaveModal
                 inverted={DARK_MODE}
                 pathPrefix={paths.migrations}
+                label="Migration"
                 onConfirm={(fileName) => {
                   SaveMigration(
                     paths.migrations,

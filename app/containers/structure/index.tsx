@@ -11,8 +11,8 @@ import {
 } from '../../redux/actions';
 import { RootState } from '../../redux/store';
 import { DARK_MODE } from '../../utils/constants';
-import StructureItem from './StructureItem';
 import StructureList from './StructureList';
+import StructureDetail from './StructureDetail';
 
 // #region Redux Configuration
 const mapStateToProps = ({ structure, settings }: RootState) => {
@@ -51,7 +51,6 @@ const mapActionsToProps = {
 const connector = connect(mapStateToProps, mapActionsToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type IProps = PropsFromRedux & RouteComponentProps;
-type IStates = {};
 // #endregion
 
 const listBorder: React.CSSProperties = {
@@ -60,12 +59,7 @@ const listBorder: React.CSSProperties = {
   borderRightStyle: 'solid',
 };
 
-const itemSpace: React.CSSProperties = {
-  marginLeft: 10,
-  paddingRight: 10,
-};
-
-class Structure extends React.PureComponent<IProps, IStates> {
+class Structure extends React.PureComponent<IProps> {
   render() {
     const {
       paths,
@@ -81,6 +75,7 @@ class Structure extends React.PureComponent<IProps, IStates> {
       errorState,
       errorMessage,
     } = this.props;
+
     return (
       <Grid inverted={DARK_MODE} padded className="maximize-height-with-nav">
         <Grid.Row color={DARK_MODE === true ? 'black' : undefined}>
@@ -93,20 +88,18 @@ class Structure extends React.PureComponent<IProps, IStates> {
             />
           </Grid.Column>
           <Grid.Column width={13}>
-            <div style={itemSpace}>
-              <StructureItem
-                activeFile={structureFile}
-                errorState={errorState}
-                errorMessage={errorMessage}
-                paths={paths}
-                autosaveLoading={autosaveLoading}
-                dataStructure={dataStructure}
-                sortStructure={SortStructure}
-                SaveStructure={SaveStructure}
-                AddOrRemoveHeader={AddOrRemoveHeader}
-                AddOrRemoveField={AddOrRemoveField}
-              />
-            </div>
+            <StructureDetail
+              paths={paths}
+              activeFile={structureFile}
+              autosaveLoading={autosaveLoading}
+              dataStructure={dataStructure}
+              SaveStructure={SaveStructure}
+              SortStructure={SortStructure}
+              AddOrRemoveHeader={AddOrRemoveHeader}
+              AddOrRemoveField={AddOrRemoveField}
+              errorState={errorState}
+              errorMessage={errorMessage}
+            />
           </Grid.Column>
         </Grid.Row>
       </Grid>

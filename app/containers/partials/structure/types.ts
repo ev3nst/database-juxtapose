@@ -22,15 +22,3 @@ export type HeaderFormProps = {
 export type HeaderFormStates = {
   newHeader: string;
 };
-
-export type SaveModalProps = {
-  onConfirm: (fileName: string) => void;
-  pathPrefix: string;
-  inverted?: boolean;
-};
-export type SaveModalStates = {
-  fileName: string;
-  showModal: boolean;
-  errorState: boolean;
-  errorMessage: string;
-};

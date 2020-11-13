@@ -1,5 +1,5 @@
 import { all, call, fork, put, takeLatest, takeEvery } from 'redux-saga/effects';
-import { NotificationManager } from '../../components/Notification';
+import { NotificationManager } from '../../components';
 import { INITIALIZE_MIGRATION, CHANGE_MIGRATION, SAVE_MIGRATION } from '../redux.types';
 import { MigrationObject } from '../../types';
 import {

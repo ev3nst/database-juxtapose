@@ -8,6 +8,13 @@ import {
   NotificationUpdate,
 } from './types';
 
+const NotificationContainerStyles: React.CSSProperties = {
+  position: 'absolute',
+  top: 80,
+  right: 15,
+  zIndex: 9999,
+  width: 200,
+};
 class NotificationContainer extends React.Component<
   NotificationContainerProps,
   NotificationContainerStates
@@ -48,15 +55,7 @@ class NotificationContainer extends React.Component<
     const { notifications } = this.state;
     const { transitionDuration } = this.props;
     return (
-      <div
-        style={{
-          position: 'absolute',
-          top: 50,
-          right: 50,
-          zIndex: 9999,
-          width: 200,
-        }}
-      >
+      <div style={NotificationContainerStyles}>
         {notifications.map((notification) => {
           const key = notification.id || new Date().getTime();
           return (

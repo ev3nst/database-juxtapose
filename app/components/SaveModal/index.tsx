@@ -65,7 +65,7 @@ class SaveModal extends React.Component<SaveModalProps, SaveModalStates> {
   }
 
   render(): JSX.Element {
-    const { pathPrefix, inverted } = this.props;
+    const { pathPrefix, label, inverted } = this.props;
     const { fileName, showModal, errorState, errorMessage } = this.state;
     return (
       <Modal
@@ -85,7 +85,7 @@ class SaveModal extends React.Component<SaveModalProps, SaveModalStates> {
       >
         <Header icon inverted={inverted}>
           <Icon name="save" />
-          Save Data Structure
+          Save Data {label}
         </Header>
         <Modal.Content>
           <div>File Name</div>
@@ -118,7 +118,7 @@ class SaveModal extends React.Component<SaveModalProps, SaveModalStates> {
           />
           <Divider hidden />
           <p>
-            This data structure will be saved under structures folder with specified name.
+            {label} Data will be saved with specified name and autosave will be reset.
           </p>
           {errorState === true && (
             <Message

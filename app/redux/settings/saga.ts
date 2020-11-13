@@ -21,7 +21,7 @@ import {
   changePathSuccess,
 } from '../actions';
 import { UserConfig, SettingPathInterface } from '../../types';
-import { NotificationManager } from '../../components/Notification';
+import { NotificationManager } from '../../components';
 import {
   zipDirectory,
   moveToNewPaths,
