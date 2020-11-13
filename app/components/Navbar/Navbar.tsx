@@ -66,7 +66,6 @@ class Navbar extends React.PureComponent<NavbarProps> {
     return (
       <Menu pointing inverted={inverted} style={this.menuCssOverrides}>
         {this.renderNavItems(navItems)}
-
         {extraButtons}
       </Menu>
     );

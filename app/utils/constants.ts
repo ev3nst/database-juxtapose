@@ -86,7 +86,7 @@ export const COLORS: Array<SemanticCOLORS> = [
 export const FIELD_COLORS = {
   String: COLORS[0],
   Integer: COLORS[1],
-  Double: COLORS[2],
+  Double: COLORS[10],
   Boolean: COLORS[9],
   Date: COLORS[4],
   Timestamp: COLORS[5],

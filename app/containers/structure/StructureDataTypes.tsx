@@ -69,7 +69,7 @@ class StructureDataTypes extends React.PureComponent<StructureDataTypesProps> {
                 </List>
                 <Message
                   size="small"
-                  style={HorizontalPaddingReset}
+                  style={DARK_MODE === true ? HorizontalPaddingReset : undefined}
                   color={DARK_MODE === true ? 'black' : 'teal'}
                   header="Optional"
                   list={[
@@ -93,21 +93,29 @@ class StructureDataTypes extends React.PureComponent<StructureDataTypesProps> {
   }
 
   render() {
+    const { dataStructure } = this.props;
     return (
       <div>
-        <Tab menu={{ secondary: true, inverted: true }} panes={this.resolvePanes()} />
-        <datalist id="datatypes" defaultValue="Any">
-          <option value="Any">Any</option>
-          <option value="String">String</option>
-          <option value="Integer">Integer</option>
-          <option value="Double">Double</option>
-          <option value="Boolean">Boolean</option>
-          <option value="Date">Date</option>
-          <option value="Timestamp">Timestamp</option>
-          <option value="Json">Json</option>
-          <option value="Enum">Enum</option>
-          <option value="Array">Array</option>
-        </datalist>
+        {dataStructure.length > 0 && (
+          <>
+            <Tab
+              menu={{ secondary: DARK_MODE, inverted: DARK_MODE }}
+              panes={this.resolvePanes()}
+            />
+            <datalist id="datatypes" defaultValue="Any">
+              <option value="Any">Any</option>
+              <option value="String">String</option>
+              <option value="Integer">Integer</option>
+              <option value="Double">Double</option>
+              <option value="Boolean">Boolean</option>
+              <option value="Date">Date</option>
+              <option value="Timestamp">Timestamp</option>
+              <option value="Json">Json</option>
+              <option value="Enum">Enum</option>
+              <option value="Array">Array</option>
+            </datalist>
+          </>
+        )}
       </div>
     );
   }

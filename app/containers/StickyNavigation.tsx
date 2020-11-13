@@ -4,7 +4,7 @@ import { RouteComponentProps } from 'react-router';
 import { Sticky } from 'semantic-ui-react';
 import routes from '../utils/routes.json';
 import { DARK_MODE, NavbarItems } from '../utils/constants';
-import Navbar from '../components/Navbar';
+import { Navbar, AppActions } from '../components';
 
 // #region Redux Configuration
 type IProps = {
@@ -70,6 +70,7 @@ class StickyNavigation extends React.Component<IProps, IStates> {
     const { activeContainer } = this.state;
     return (
       <Sticky context={contextRef}>
+        <AppActions />
         <Navbar
           inverted={DARK_MODE}
           navItems={NavbarItems}

@@ -62,7 +62,7 @@ class FieldData extends React.Component<FieldDataProps, FieldDataStates> {
             }}
           />
           <Checkbox
-            className="inverted"
+            className={DARK_MODE === true ? 'inverted' : undefined}
             label="Required"
             style={{ marginBottom: 10 }}
             checked={required}

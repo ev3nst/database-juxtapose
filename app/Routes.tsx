@@ -15,6 +15,7 @@ import {
 } from './containers';
 
 import { NotificationContainer } from './components/Notification';
+import { DARK_MODE } from './utils/constants';
 
 // #region Redux Configuration
 const mapStateToProps = ({ intro }: RootState) => {
@@ -60,7 +61,9 @@ class Routes extends React.Component<IProps> {
     if (loaded === true) {
       return (
         <Ref innerRef={this.contextRef}>
-          <>
+          <div
+            className={DARK_MODE === true ? 'route-wrapper inverted' : 'route-wrapper'}
+          >
             <NotificationContainer transitionDuration={200} />
             <Router>
               <Route path={routes.WRAPPER} component={StickyNavigation} />
@@ -71,7 +74,7 @@ class Routes extends React.Component<IProps> {
                 <Route path={routes.SETTINGS} component={Settings} />
               </Switch>
             </Router>
-          </>
+          </div>
         </Ref>
       );
     }

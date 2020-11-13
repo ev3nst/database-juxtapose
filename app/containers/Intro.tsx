@@ -8,6 +8,7 @@ import {
   initAppSuccess,
 } from '../redux/actions';
 import { ProgressPercentage, ProgressList } from './partials/intro';
+import { AppActions } from '../components';
 import { RootState } from '../redux/store';
 import { DARK_MODE } from '../utils/constants';
 
@@ -160,37 +161,40 @@ class Intro extends Component<IProps> {
   render() {
     const { initStates, errors } = this.props;
     return (
-      <Grid inverted={DARK_MODE} padded className="maximize-height">
-        <Grid.Row color={DARK_MODE === true ? 'black' : undefined}>
-          <Grid.Column>
-            <Transition
-              visible={!this.checkIfLoaded()}
-              animation="scale"
-              duration={this.transitionInterval}
-            >
-              <Container style={{ paddingTop: 40 }}>
-                <Header
-                  inverted={DARK_MODE}
-                  as="h1"
-                  content="App is initializing..."
-                  subheader="Gathering information from user preferences and loadin necessary files."
-                />
-                <ProgressPercentage
-                  inverted={DARK_MODE}
-                  errors={errors}
-                  initStates={initStates}
-                />
-                <ProgressList
-                  inverted={DARK_MODE}
-                  errors={errors}
-                  initStates={initStates}
-                />
-                {this.renderCorruptedData()}
-              </Container>
-            </Transition>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+      <>
+        <AppActions classNames="manually-fixed" />
+        <Grid inverted={DARK_MODE} padded className="maximize-height">
+          <Grid.Row color={DARK_MODE === true ? 'black' : undefined}>
+            <Grid.Column>
+              <Transition
+                visible={!this.checkIfLoaded()}
+                animation="scale"
+                duration={this.transitionInterval}
+              >
+                <Container style={{ paddingTop: 40 }}>
+                  <Header
+                    inverted={DARK_MODE}
+                    as="h1"
+                    content="App is initializing..."
+                    subheader="Gathering information from user preferences and loadin necessary files."
+                  />
+                  <ProgressPercentage
+                    inverted={DARK_MODE}
+                    errors={errors}
+                    initStates={initStates}
+                  />
+                  <ProgressList
+                    inverted={DARK_MODE}
+                    errors={errors}
+                    initStates={initStates}
+                  />
+                  {this.renderCorruptedData()}
+                </Container>
+              </Transition>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </>
     );
   }
 }

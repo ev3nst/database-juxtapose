@@ -5,6 +5,16 @@
 .outer-wrapper {
   display: flex;
   height: 24px;
+  z-index: 999;
+  opacity: 1;
+  background-color: #fff;
+}
+
+.outer-wrapper.manually-fixed {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
 }
 
 .app-drag {
@@ -50,7 +60,7 @@
 
 /* App Outer Wrapper & Action Buttons Inverted */
 .outer-wrapper.inverted {
-  background-color: rgba(0, 0, 0, 0.92);
+  background-color: #111;
   border-bottom: none;
 }
 .outer-wrapper.inverted .action-buttons .item {
@@ -62,13 +72,44 @@
   color: #fff;
 }
 
+/* Scrollbar */
+html,
+body,
+#root {
+  overflow: hidden;
+}
+.route-wrapper {
+  overflow-x: scroll;
+}
+
+.route-wrapper::-webkit-scrollbar {
+  width: 16px;
+}
+
+.route-wrapper::-webkit-scrollbar-track {
+  border-radius: 0;
+  background: #eee;
+}
+
+.route-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 0;
+  background: #ddd;
+}
+
+.route-wrapper.inverted::-webkit-scrollbar-track {
+  background: #222;
+}
+.route-wrapper.inverted::-webkit-scrollbar-thumb {
+  background: #111;
+}
+
 /* Helpers */
 .disable-select {
   user-select: none;
 }
 
 .maximize-height {
-  height: calc(100vh - 24px);
+  height: calc(100vh);
 }
 
 .maximize-height-with-nav {
@@ -110,6 +151,10 @@ body .ui.three.cards.field-data-card-group {
 
 */
 /* Semantic Fixes */
+/* Inputs doesnt respect parent color */
+.ui.fluid.input > input {
+  color: inherit;
+}
 
 /* Sortable HOC Overrides */
 body .item[role='listitem']:not(.data-types .item) {
