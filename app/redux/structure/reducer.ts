@@ -6,8 +6,8 @@ import {
   CHANGE_STRUCTURE,
   CHANGE_STRUCTURE_SUCCESS,
   CHANGE_STRUCTURE_FAILED,
-  MANIPULATE_STRUCTURE_HEADER,
-  MANIPULATE_STRUCTURE_FIELD,
+  ADD_OR_REMOVE_S_HEADER,
+  ADD_OR_REMOVE_S_FIELD,
   INITIALIZE_STRUCTURE,
   INITIALIZE_STRUCTURE_SUCCESS,
   INITIALIZE_STRUCTURE_FAILED,
@@ -19,7 +19,7 @@ import { findObjectIndex } from '../../utils/functions';
 
 export interface StructureState extends InteractiveResponder {
   autosaveLoading: boolean;
-  allStructures: Array<any>;
+  allStructures: Array<string>;
   dataStructure: StructureObject;
   structureFile: string;
 }
@@ -119,7 +119,7 @@ const reducer = (
         dataStructure: sortedArray,
       };
     }
-    case MANIPULATE_STRUCTURE_HEADER: {
+    case ADD_OR_REMOVE_S_HEADER: {
       if (action.payload.action === 'add') {
         const newItem = {
           name: action.payload.name,
@@ -144,7 +144,7 @@ const reducer = (
         ],
       };
     }
-    case MANIPULATE_STRUCTURE_FIELD: {
+    case ADD_OR_REMOVE_S_FIELD: {
       if (action.payload.action === 'add') {
         const indexToAdd = findObjectIndex(
           state.dataStructure,
@@ -157,7 +157,15 @@ const reducer = (
           dataStructure: Object.assign([...state.dataStructure], {
             [indexToAdd]: {
               name: action.payload.name,
-              items: [...state.dataStructure[indexToAdd].items, action.payload.field],
+              items: [
+                ...state.dataStructure[indexToAdd].items,
+                {
+                  name: action.payload.field,
+                  dataType: 'string',
+                  nullable: false,
+                  default: false,
+                },
+              ],
             },
           }),
         };
@@ -169,7 +177,9 @@ const reducer = (
         action.payload.name
       );
 
-      const indexToRemove = state.dataStructure[indexToRemoveFrom].items.indexOf(
+      const indexToRemove = findObjectIndex(
+        state.dataStructure[indexToRemoveFrom].items,
+        'name',
         action.payload.field
       );
 

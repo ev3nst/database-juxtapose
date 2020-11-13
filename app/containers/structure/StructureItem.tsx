@@ -27,8 +27,8 @@ type StructureItemProps = {
   dataStructure: StructureObject;
   sortStructure: ActionCreator<StructureActionTypes>;
   SaveStructure: ActionCreator<StructureActionTypes>;
-  ManipulateStructureHeader: ActionCreator<StructureActionTypes>;
-  ManipulateStructureField: ActionCreator<StructureActionTypes>;
+  AddOrRemoveHeader: ActionCreator<StructureActionTypes>;
+  AddOrRemoveField: ActionCreator<StructureActionTypes>;
 };
 
 type StructureItemStates = {
@@ -89,42 +89,42 @@ class StructureItem extends React.PureComponent<StructureItemProps, StructureIte
   getStructureFields = (whichHeader: string): Array<string> => {
     const { dataStructure } = this.props;
     const headerIndex = findObjectIndex(dataStructure, 'name', whichHeader);
-    return dataStructure[headerIndex].items;
+    return dataStructure[headerIndex].items.map((field) => field.name);
   };
 
   onNewHeader = (newHeader: string): void => {
-    const { ManipulateStructureHeader } = this.props;
+    const { AddOrRemoveHeader } = this.props;
 
     const headers = this.getStructureHeaders();
     if (!headers.includes(newHeader)) {
-      ManipulateStructureHeader(newHeader, 'add');
+      AddOrRemoveHeader(newHeader, 'add');
     }
   };
 
   onRemoveHeader = (removeHeader: string): void => {
-    const { ManipulateStructureHeader } = this.props;
+    const { AddOrRemoveHeader } = this.props;
 
     const headers = this.getStructureHeaders();
     if (headers.includes(removeHeader)) {
-      ManipulateStructureHeader(removeHeader, 'remove');
+      AddOrRemoveHeader(removeHeader, 'remove');
     }
   };
 
   onNewField = (newField: string, selectedHeader: string): void => {
-    const { ManipulateStructureField } = this.props;
+    const { AddOrRemoveField } = this.props;
 
     const fields = this.getStructureFields(selectedHeader);
     if (!fields.includes(newField)) {
-      ManipulateStructureField(selectedHeader, newField, 'add');
+      AddOrRemoveField(selectedHeader, newField, 'add');
     }
   };
 
   onRemoveField = (removeField: string, whichHeader: string): void => {
-    const { ManipulateStructureField } = this.props;
+    const { AddOrRemoveField } = this.props;
 
     const fields = this.getStructureFields(whichHeader);
     if (fields.includes(removeField)) {
-      ManipulateStructureField(whichHeader, removeField, 'remove');
+      AddOrRemoveField(whichHeader, removeField, 'remove');
     }
   };
 

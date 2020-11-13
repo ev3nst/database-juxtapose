@@ -6,8 +6,8 @@ import {
   sortStructure,
   saveStructure,
   changeStructure,
-  manipulateStructureHeader,
-  manipulateStructureField,
+  addOrRemoveHeader,
+  addOrRemoveField,
 } from '../../redux/actions';
 import { RootState } from '../../redux/store';
 import { DARK_MODE } from '../../utils/constants';
@@ -44,8 +44,8 @@ const mapActionsToProps = {
   sortStructure,
   saveStructure,
   changeStructure,
-  manipulateStructureHeader,
-  manipulateStructureField,
+  addOrRemoveHeader,
+  addOrRemoveField,
 };
 
 const connector = connect(mapStateToProps, mapActionsToProps);
@@ -75,8 +75,8 @@ class Structure extends React.PureComponent<IProps, IStates> {
       dataStructure,
       changeStructure: ChangeStructure,
       saveStructure: SaveStructure,
-      manipulateStructureHeader: ManipulateStructureHeader,
-      manipulateStructureField: ManipulateStructureField,
+      addOrRemoveHeader: AddOrRemoveHeader,
+      addOrRemoveField: AddOrRemoveField,
       sortStructure: SortStructure,
       errorState,
       errorMessage,
@@ -103,8 +103,8 @@ class Structure extends React.PureComponent<IProps, IStates> {
                 dataStructure={dataStructure}
                 sortStructure={SortStructure}
                 SaveStructure={SaveStructure}
-                ManipulateStructureHeader={ManipulateStructureHeader}
-                ManipulateStructureField={ManipulateStructureField}
+                AddOrRemoveHeader={AddOrRemoveHeader}
+                AddOrRemoveField={AddOrRemoveField}
               />
             </div>
           </Grid.Column>

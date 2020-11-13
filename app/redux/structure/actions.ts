@@ -7,8 +7,8 @@ import {
   CHANGE_STRUCTURE,
   CHANGE_STRUCTURE_SUCCESS,
   CHANGE_STRUCTURE_FAILED,
-  MANIPULATE_STRUCTURE_HEADER,
-  MANIPULATE_STRUCTURE_FIELD,
+  ADD_OR_REMOVE_S_HEADER,
+  ADD_OR_REMOVE_S_FIELD,
   INITIALIZE_STRUCTURE,
   INITIALIZE_STRUCTURE_SUCCESS,
   INITIALIZE_STRUCTURE_FAILED,
@@ -84,20 +84,20 @@ export const changeStructureFailed: ActionCreator<StructureActionTypes> = (
   payload: { message },
 });
 
-export const manipulateStructureHeader: ActionCreator<StructureActionTypes> = (
+export const addOrRemoveHeader: ActionCreator<StructureActionTypes> = (
   name: string,
   action: StructureObjectAction
 ) => ({
-  type: MANIPULATE_STRUCTURE_HEADER,
+  type: ADD_OR_REMOVE_S_HEADER,
   payload: { name, action },
 });
 
-export const manipulateStructureField: ActionCreator<StructureActionTypes> = (
+export const addOrRemoveField: ActionCreator<StructureActionTypes> = (
   name: string,
   field: string,
   action: StructureObjectAction
 ) => ({
-  type: MANIPULATE_STRUCTURE_FIELD,
+  type: ADD_OR_REMOVE_S_FIELD,
   payload: { name, field, action },
 });
 
