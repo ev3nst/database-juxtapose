@@ -9,11 +9,17 @@ import {
   CHANGE_STRUCTURE_FAILED,
   ADD_OR_REMOVE_S_HEADER,
   ADD_OR_REMOVE_S_FIELD,
+  MANIPULATE_FIELD_DATA,
   INITIALIZE_STRUCTURE,
   INITIALIZE_STRUCTURE_SUCCESS,
   INITIALIZE_STRUCTURE_FAILED,
 } from '../redux.types';
-import { StructureObjectAction, StructureObject } from '../../types';
+import {
+  StructureObjectAction,
+  StructureObject,
+  StructureFieldDataTypes,
+  StructureFieldKeys,
+} from '../../types';
 import { StructureActionTypes } from './action.types';
 
 export const initStructure: ActionCreator<StructureActionTypes> = (path: string) => ({
@@ -108,4 +114,14 @@ export const sortStructure: ActionCreator<StructureActionTypes> = (
 ) => ({
   type: SORT_STRUCTURE,
   payload: { oldIndex, newIndex, whichHeader },
+});
+
+export const manipulateFieldData: ActionCreator<StructureActionTypes> = (
+  whichHeader: string,
+  field: string,
+  key: StructureFieldKeys,
+  value: string | StructureFieldDataTypes | boolean
+) => ({
+  type: MANIPULATE_FIELD_DATA,
+  payload: { whichHeader, field, key, value },
 });

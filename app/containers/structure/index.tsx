@@ -8,6 +8,7 @@ import {
   changeStructure,
   addOrRemoveHeader,
   addOrRemoveField,
+  manipulateFieldData,
 } from '../../redux/actions';
 import { RootState } from '../../redux/store';
 import { DARK_MODE } from '../../utils/constants';
@@ -46,6 +47,7 @@ const mapActionsToProps = {
   changeStructure,
   addOrRemoveHeader,
   addOrRemoveField,
+  manipulateFieldData,
 };
 
 const connector = connect(mapStateToProps, mapActionsToProps);
@@ -72,6 +74,7 @@ class Structure extends React.PureComponent<IProps> {
       addOrRemoveHeader: AddOrRemoveHeader,
       addOrRemoveField: AddOrRemoveField,
       sortStructure: SortStructure,
+      manipulateFieldData: ManipulateFieldData,
       errorState,
       errorMessage,
     } = this.props;
@@ -97,6 +100,7 @@ class Structure extends React.PureComponent<IProps> {
               SortStructure={SortStructure}
               AddOrRemoveHeader={AddOrRemoveHeader}
               AddOrRemoveField={AddOrRemoveField}
+              ManipulateFieldData={ManipulateFieldData}
               errorState={errorState}
               errorMessage={errorMessage}
             />

@@ -1,7 +1,9 @@
 import React from 'react';
+import { ActionCreator } from 'redux';
 import { Segment, Message, Card, Tab, List } from 'semantic-ui-react';
 import { FieldData } from '../partials/structure';
 import { StructureObject } from '../../types';
+import { StructureActionTypes } from '../../redux/structure/action.types';
 import {
   DARK_MODE,
   FIELD_COLORS,
@@ -22,11 +24,12 @@ type PaneItem = {
 
 type StructureDataTypesProps = {
   dataStructure: StructureObject;
+  manipulateFieldData: ActionCreator<StructureActionTypes>;
 };
 
 class StructureDataTypes extends React.PureComponent<StructureDataTypesProps> {
   resolvePanes() {
-    const { dataStructure } = this.props;
+    const { dataStructure, manipulateFieldData } = this.props;
     const tabs: PaneItem[] = [];
 
     for (let i = 0; i < dataStructure.length; i += 1) {
@@ -54,18 +57,19 @@ class StructureDataTypes extends React.PureComponent<StructureDataTypesProps> {
                   inverted={DARK_MODE}
                   style={{ marginLeft: 15 }}
                 >
-                  <List.Item style={{ color: FIELD_COLORS.Any }}>Any</List.Item>
-                  <List.Item style={{ color: FIELD_COLORS.String }}>String</List.Item>
-                  <List.Item style={{ color: FIELD_COLORS.Integer }}>Integer</List.Item>
-                  <List.Item style={{ color: FIELD_COLORS.Double }}>Double</List.Item>
-                  <List.Item style={{ color: FIELD_COLORS.Boolean }}>Boolean</List.Item>
-                  <List.Item style={{ color: FIELD_COLORS.Date }}>Date</List.Item>
-                  <List.Item style={{ color: FIELD_COLORS.Timestamp }}>
-                    Timestamp
-                  </List.Item>
-                  <List.Item style={{ color: FIELD_COLORS.Json }}>Json</List.Item>
-                  <List.Item style={{ color: FIELD_COLORS.Enum }}>Enum</List.Item>
-                  <List.Item style={{ color: FIELD_COLORS.Array }}>Array</List.Item>
+                  {Object.keys(FIELD_COLORS).map((field) => (
+                    <List.Item
+                      key={field}
+                      className={
+                        DARK_MODE === true
+                          ? 'inverted-text-shadow'
+                          : 'defualt-text-shadow'
+                      }
+                      style={{ color: FIELD_COLORS[field as keyof typeof FIELD_COLORS] }}
+                    >
+                      {field}
+                    </List.Item>
+                  ))}
                 </List>
                 <Message
                   size="small"
@@ -79,7 +83,12 @@ class StructureDataTypes extends React.PureComponent<StructureDataTypesProps> {
               </Segment>
 
               {dataStructure[i].items.map((field) => (
-                <FieldData key={field.name} field={field} />
+                <FieldData
+                  key={field.name}
+                  header={dataStructure[i].name}
+                  field={field}
+                  manipulateFieldData={manipulateFieldData}
+                />
               ))}
             </Card.Group>
           </Tab.Pane>
@@ -103,16 +112,11 @@ class StructureDataTypes extends React.PureComponent<StructureDataTypesProps> {
               panes={this.resolvePanes()}
             />
             <datalist id="datatypes" defaultValue="Any">
-              <option value="Any">Any</option>
-              <option value="String">String</option>
-              <option value="Integer">Integer</option>
-              <option value="Double">Double</option>
-              <option value="Boolean">Boolean</option>
-              <option value="Date">Date</option>
-              <option value="Timestamp">Timestamp</option>
-              <option value="Json">Json</option>
-              <option value="Enum">Enum</option>
-              <option value="Array">Array</option>
+              {Object.keys(FIELD_COLORS).map((field) => (
+                <option key={field} value={field}>
+                  {field}
+                </option>
+              ))}
             </datalist>
           </>
         )}

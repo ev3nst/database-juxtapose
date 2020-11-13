@@ -84,6 +84,7 @@ export const COLORS: Array<SemanticCOLORS> = [
 ];
 
 export const FIELD_COLORS = {
+  Any: COLORS[11],
   String: COLORS[0],
   Integer: COLORS[1],
   Double: COLORS[10],
@@ -93,7 +94,6 @@ export const FIELD_COLORS = {
   Json: COLORS[6],
   Enum: COLORS[7],
   Array: COLORS[8],
-  Any: COLORS[11],
 };
 
 export const VerticalPaddingReset: CSSProperties = {

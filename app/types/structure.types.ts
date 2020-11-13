@@ -12,6 +12,8 @@ export type StructureFieldDataTypes =
   | 'Array'
   | 'Any';
 
+export type StructureFieldKeys = 'name' | 'dataType' | 'required' | 'defaultValue';
+
 export type StructureFieldType = {
   name: string;
   dataType: StructureFieldDataTypes;

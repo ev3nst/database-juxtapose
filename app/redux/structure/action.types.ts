@@ -8,11 +8,17 @@ import {
   CHANGE_STRUCTURE_FAILED,
   ADD_OR_REMOVE_S_HEADER,
   ADD_OR_REMOVE_S_FIELD,
+  MANIPULATE_FIELD_DATA,
   INITIALIZE_STRUCTURE,
   INITIALIZE_STRUCTURE_SUCCESS,
   INITIALIZE_STRUCTURE_FAILED,
 } from '../redux.types';
-import { StructureObjectAction, StructureObject } from '../../types';
+import {
+  StructureObjectAction,
+  StructureObject,
+  StructureFieldKeys,
+  StructureFieldDataTypes,
+} from '../../types';
 
 // init
 export interface InitStructure {
@@ -97,6 +103,17 @@ export interface SortStructure {
   };
 }
 
+// manipulate field keys
+export interface ManipulateFieldData {
+  type: typeof MANIPULATE_FIELD_DATA;
+  payload: {
+    whichHeader: string;
+    field: string;
+    key: StructureFieldKeys;
+    value: string | StructureFieldDataTypes | boolean;
+  };
+}
+
 export type StructureActionTypes =
   | InitStructure
   | InitStructureSuccess
@@ -109,4 +126,5 @@ export type StructureActionTypes =
   | ChangeStructureFailed
   | AddOrRemoveHeader
   | AddOrRemoveContent
-  | SortStructure;
+  | SortStructure
+  | ManipulateFieldData;

@@ -27,6 +27,7 @@ type StructureDetailProps = {
   SortStructure: ActionCreator<StructureActionTypes>;
   AddOrRemoveHeader: ActionCreator<StructureActionTypes>;
   AddOrRemoveField: ActionCreator<StructureActionTypes>;
+  ManipulateFieldData: ActionCreator<StructureActionTypes>;
   errorState: boolean;
   errorMessage: string;
 };
@@ -95,6 +96,7 @@ class StructureDetail extends React.PureComponent<
       SortStructure,
       AddOrRemoveHeader,
       AddOrRemoveField,
+      ManipulateFieldData,
       errorState,
       errorMessage,
     } = this.props;
@@ -139,7 +141,10 @@ class StructureDetail extends React.PureComponent<
             AddOrRemoveField={AddOrRemoveField}
           />
         ) : (
-          <StructureDataTypes dataStructure={dataStructure} />
+          <StructureDataTypes
+            dataStructure={dataStructure}
+            manipulateFieldData={ManipulateFieldData}
+          />
         )}
         <Loader
           className="loading-notification"

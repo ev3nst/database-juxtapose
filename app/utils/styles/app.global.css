@@ -142,14 +142,14 @@ body .ui.three.cards.field-data-card-group {
   text-transform: uppercase;
 }
 
-/*
-.data-types {
-  position: absolute;
-  top: 160px;
-  z-index: 9999;
+.default-text-shadow {
+  text-shadow: 2px 2px #ddd;
 }
 
-*/
+.inverted-text-shadow {
+  text-shadow: 2px 2px #000;
+}
+
 /* Semantic Fixes */
 /* Inputs doesnt respect parent color */
 .ui.fluid.input > input {

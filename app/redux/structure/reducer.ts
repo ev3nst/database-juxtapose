@@ -8,6 +8,7 @@ import {
   CHANGE_STRUCTURE_FAILED,
   ADD_OR_REMOVE_S_HEADER,
   ADD_OR_REMOVE_S_FIELD,
+  MANIPULATE_FIELD_DATA,
   INITIALIZE_STRUCTURE,
   INITIALIZE_STRUCTURE_SUCCESS,
   INITIALIZE_STRUCTURE_FAILED,
@@ -41,6 +42,7 @@ const reducer = (
   switch (action.type) {
     case INITIALIZE_STRUCTURE:
       return { ...state, loading: true };
+
     case INITIALIZE_STRUCTURE_SUCCESS:
       return {
         ...state,
@@ -55,6 +57,7 @@ const reducer = (
           errorMessage: '',
         },
       };
+
     case INITIALIZE_STRUCTURE_FAILED:
       return {
         ...INIT_STATE,
@@ -67,12 +70,14 @@ const reducer = (
           errorMessage: action.payload.message ? action.payload.message.toString() : '',
         },
       };
+
     case SAVE_STRUCTURE:
       return {
         ...state,
         loading: !action.payload.isAutosave,
         autosaveLoading: action.payload.isAutosave,
       };
+
     case SAVE_STRUCTURE_SUCCESS:
       return {
         ...state,
@@ -84,20 +89,24 @@ const reducer = (
             ? state.allStructures
             : state.allStructures.concat(action.payload.fileName),
       };
+
     case CHANGE_STRUCTURE:
       return { ...state, loading: true };
+
     case CHANGE_STRUCTURE_SUCCESS:
       return {
         ...state,
         structureFile: action.payload.structureFile.replace('.json', ''),
         dataStructure: action.payload.dataStructure,
       };
+
     case CHANGE_STRUCTURE_FAILED:
       return {
         ...INIT_STATE,
         errorState: true,
         errorMessage: action.payload.message,
       };
+
     case SORT_STRUCTURE: {
       const { oldIndex, newIndex, whichHeader } = action.payload;
       let sortedArray!: StructureObject;
@@ -119,6 +128,7 @@ const reducer = (
         dataStructure: sortedArray,
       };
     }
+
     case ADD_OR_REMOVE_S_HEADER: {
       if (action.payload.action === 'add') {
         const newItem = {
@@ -144,6 +154,7 @@ const reducer = (
         ],
       };
     }
+
     case ADD_OR_REMOVE_S_FIELD: {
       if (action.payload.action === 'add') {
         const indexToAdd = findObjectIndex(
@@ -196,6 +207,34 @@ const reducer = (
         }),
       };
     }
+
+    case MANIPULATE_FIELD_DATA: {
+      const headerToModify = findObjectIndex(
+        state.dataStructure,
+        'name',
+        action.payload.whichHeader
+      );
+
+      const fieldToModify = findObjectIndex(
+        state.dataStructure[headerToModify].items,
+        'name',
+        action.payload.field
+      );
+
+      const rawItems = Object.assign([...state.dataStructure[headerToModify].items]);
+      rawItems[fieldToModify][action.payload.key] = action.payload.value;
+
+      return {
+        ...state,
+        dataStructure: Object.assign([...state.dataStructure], {
+          [headerToModify]: {
+            name: action.payload.whichHeader,
+            items: rawItems,
+          },
+        }),
+      };
+    }
+
     default:
       return { ...state };
   }

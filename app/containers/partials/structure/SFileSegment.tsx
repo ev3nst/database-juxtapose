@@ -33,7 +33,9 @@ class SFileSegment extends React.PureComponent<SFileSegmentProps> {
           inverted={DARK_MODE}
           floated="left"
           content={
-            activeFile === STRUCTURE_AUTOSAVE_NAME ? 'New Structure +' : activeFile
+            activeFile === STRUCTURE_AUTOSAVE_NAME
+              ? 'New Structure +'
+              : activeFile.toUpperCase()
           }
           subheader={`${activeFile}.json`}
         />
