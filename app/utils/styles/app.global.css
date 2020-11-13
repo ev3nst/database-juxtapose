@@ -150,10 +150,24 @@ body .ui.three.cards.field-data-card-group {
   text-shadow: 2px 2px #000;
 }
 
+.ui.form .field.inverted-bordered .ui.input input {
+  border: 1px solid #444 !important;
+  border-radius: 5px !important;
+  color: #fff;
+}
+
 /* Semantic Fixes */
 /* Inputs doesnt respect parent color */
 .ui.fluid.input > input {
   color: inherit;
+}
+
+/* Select Box doesnt have inverted support */
+.ui.form .field.inverted > .selection.dropdown {
+  background: 0;
+  border: 1px solid #444 !important;
+  border-radius: 5px !important;
+  color: #fff;
 }
 
 /* Sortable HOC Overrides */

@@ -68,7 +68,7 @@ class StructureItem extends React.PureComponent<StructureItemProps> {
     return (
       <>
         <Form inverted={DARK_MODE}>
-          <Form.Group widths="equal">
+          <Form.Group widths={3}>
             <HeaderForm onNewHeader={this.onNewHeader} />
             <FieldForm
               onNewField={this.onNewField}

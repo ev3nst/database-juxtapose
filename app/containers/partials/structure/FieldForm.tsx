@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
 import { FieldFormProps, FieldFormStates } from './types';
+import { DARK_MODE } from '../../../utils/constants';
 
 class FieldForm extends React.Component<FieldFormProps, FieldFormStates> {
   constructor(props: FieldFormProps) {
@@ -52,6 +53,7 @@ class FieldForm extends React.Component<FieldFormProps, FieldFormStates> {
           label="Select Header"
           options={this.getHeaderOptions()}
           placeholder="Select Header"
+          className="inverted"
           onChange={(_e, { value }) => {
             this.setState({
               selectedHeader: String(value),
@@ -64,6 +66,8 @@ class FieldForm extends React.Component<FieldFormProps, FieldFormStates> {
           label="New Field"
           value={newField}
           placeholder="New Field"
+          transparent={DARK_MODE}
+          className={DARK_MODE === true ? 'inverted-bordered' : undefined}
           onChange={(val) =>
             this.setState({
               newField: val.target.value,

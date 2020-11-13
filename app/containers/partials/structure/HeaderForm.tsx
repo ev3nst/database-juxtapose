@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
 import { HeaderFormProps, HeaderFormStates } from './types';
+import { DARK_MODE } from '../../../utils/constants';
 
 class HeaderForm extends React.Component<HeaderFormProps, HeaderFormStates> {
   constructor(props: HeaderFormProps) {
@@ -42,6 +43,8 @@ class HeaderForm extends React.Component<HeaderFormProps, HeaderFormStates> {
         label="New Header"
         value={newHeader}
         placeholder="New Header"
+        transparent={DARK_MODE}
+        className={DARK_MODE === true ? 'inverted-bordered' : undefined}
         onChange={(val) =>
           this.setState({
             newHeader: val.target.value,
