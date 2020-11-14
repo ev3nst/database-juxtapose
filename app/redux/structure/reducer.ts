@@ -6,6 +6,9 @@ import {
   CHANGE_STRUCTURE,
   CHANGE_STRUCTURE_SUCCESS,
   CHANGE_STRUCTURE_FAILED,
+  DELETE_STRUCTURE,
+  DELETE_STRUCTURE_SUCCESS,
+  DELETE_STRUCTURE_FAILED,
   ADD_OR_REMOVE_S_HEADER,
   ADD_OR_REMOVE_S_FIELD,
   MANIPULATE_FIELD_DATA,
@@ -79,6 +82,19 @@ const reducer = (
       };
 
     case SAVE_STRUCTURE_SUCCESS:
+      console.log(
+        {
+          ...state,
+          loading: false,
+          autosaveLoading: false,
+          structureFile: action.payload.fileName,
+          allStructures:
+            action.payload.isAutosave === true
+              ? state.allStructures
+              : state.allStructures.concat(action.payload.fileName),
+        },
+        'SAV?E'
+      );
       return {
         ...state,
         loading: false,
@@ -101,6 +117,27 @@ const reducer = (
       };
 
     case CHANGE_STRUCTURE_FAILED:
+      return {
+        ...INIT_STATE,
+        errorState: true,
+        errorMessage: action.payload.message,
+      };
+
+    case DELETE_STRUCTURE:
+      return { ...state, loading: true };
+
+    case DELETE_STRUCTURE_SUCCESS: {
+      const indexToRemove = state.allStructures.indexOf(action.payload.structureFile);
+      return {
+        ...state,
+        allStructures: [
+          ...state.allStructures.slice(0, indexToRemove),
+          ...state.allStructures.slice(indexToRemove + 1),
+        ],
+      };
+    }
+
+    case DELETE_STRUCTURE_FAILED:
       return {
         ...INIT_STATE,
         errorState: true,

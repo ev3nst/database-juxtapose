@@ -28,6 +28,10 @@ export async function saveJsonFile(path: string, data: any, fileName?: string) {
   fs.writeFileSync(`${path + fileName}.json`, JSON.stringify(data));
 }
 
+export async function deleteJsonFile(path: string, fileName?: string) {
+  fs.unlinkSync(`${path + fileName}.json`);
+}
+
 export async function getJsonFile(
   path: string,
   fileName: string,

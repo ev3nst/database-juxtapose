@@ -6,6 +6,9 @@ import {
   CHANGE_STRUCTURE,
   CHANGE_STRUCTURE_SUCCESS,
   CHANGE_STRUCTURE_FAILED,
+  DELETE_STRUCTURE,
+  DELETE_STRUCTURE_SUCCESS,
+  DELETE_STRUCTURE_FAILED,
   ADD_OR_REMOVE_S_HEADER,
   ADD_OR_REMOVE_S_FIELD,
   MANIPULATE_FIELD_DATA,
@@ -76,6 +79,24 @@ export interface ChangeStructureFailed {
   payload: { message: string };
 }
 
+export interface DeleteStructure {
+  type: typeof DELETE_STRUCTURE;
+  payload: {
+    path: string;
+    structureFile: string;
+  };
+}
+
+export interface DeleteStructureSuccess {
+  type: typeof DELETE_STRUCTURE_SUCCESS;
+  payload: { structureFile: string };
+}
+
+export interface DeleteStructureFailed {
+  type: typeof DELETE_STRUCTURE_FAILED;
+  payload: { message: string };
+}
+
 // add or remove data
 export interface AddOrRemoveHeader {
   type: typeof ADD_OR_REMOVE_S_HEADER;
@@ -124,6 +145,9 @@ export type StructureActionTypes =
   | ChangeStructure
   | ChangeStructureSuccess
   | ChangeStructureFailed
+  | DeleteStructure
+  | DeleteStructureSuccess
+  | DeleteStructureFailed
   | AddOrRemoveHeader
   | AddOrRemoveContent
   | SortStructure

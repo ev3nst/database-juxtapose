@@ -1,6 +1,11 @@
 import { all, call, fork, put, takeLatest, takeEvery } from 'redux-saga/effects';
 import { NotificationManager } from '../../components';
-import { INITIALIZE_STRUCTURE, CHANGE_STRUCTURE, SAVE_STRUCTURE } from '../redux.types';
+import {
+  INITIALIZE_STRUCTURE,
+  CHANGE_STRUCTURE,
+  SAVE_STRUCTURE,
+  DELETE_STRUCTURE,
+} from '../redux.types';
 import { StructureObject } from '../../types';
 import {
   STRUCTURE_AUTOSAVE_NAME,
@@ -12,6 +17,7 @@ import {
   getFolderWithPagination,
   getJsonFile,
   saveJsonFile,
+  deleteJsonFile,
 } from '../../utils/functions';
 import {
   initStructureSuccess,
@@ -20,16 +26,19 @@ import {
   saveStructureFailed,
   changeStructureSuccess,
   changeStructureFailed,
+  deleteStructureSuccess,
+  deleteStructureFailed,
 } from '../actions';
 
 // -------------------- Configure Structure Folder & Files --------------------
-type StructurePayload = {
+function* initStructure({
+  payload,
+}: {
   payload: {
     path: string;
   };
   type: string;
-};
-function* initStructure({ payload }: StructurePayload) {
+}) {
   try {
     const structureList = yield call(
       getFolderWithPagination,
@@ -62,7 +71,9 @@ export function* watchinitStructure() {
 }
 
 // -------------------- Save New Structure File --------------------
-type NewStructurePayload = {
+function* saveStructure({
+  payload,
+}: {
   payload: {
     path: string;
     dataStructure: StructureObject;
@@ -70,8 +81,7 @@ type NewStructurePayload = {
     fileName?: string;
   };
   type: string;
-};
-function* saveStructure({ payload }: NewStructurePayload) {
+}) {
   try {
     yield call(saveJsonFile, payload.path, payload.dataStructure, payload.fileName);
 
@@ -90,14 +100,15 @@ export function* watchsaveStructure() {
 }
 
 // -------------------- Change Current Working Structure File --------------------
-type ChangeStructurePayload = {
+function* changeStructure({
+  payload,
+}: {
   payload: {
     path: string;
     structureFile: string;
   };
   type: string;
-};
-function* changeStructure({ payload }: ChangeStructurePayload) {
+}) {
   try {
     const structureResponse = yield call(
       getJsonFile,
@@ -132,10 +143,44 @@ export function* watchchangeStructure() {
   yield takeLatest(CHANGE_STRUCTURE, changeStructure);
 }
 
+// -------------------- Change Current Working Structure File --------------------
+function* deleteStructure({
+  payload,
+}: {
+  payload: {
+    path: string;
+    structureFile: string;
+  };
+  type: string;
+}) {
+  try {
+    yield call(deleteJsonFile, payload.path, payload.structureFile);
+    yield put(deleteStructureSuccess(payload.structureFile));
+    NotificationManager.notificate({
+      type: 'success',
+      title: 'Structure',
+      message: 'Structure file is deleted.',
+      timeOut: NOTIFICATION_TIMEOUT,
+    });
+  } catch (error) {
+    NotificationManager.notificate({
+      type: 'error',
+      title: 'Structure',
+      message: error.toString(),
+      timeOut: NOTIFICATION_TIMEOUT,
+    });
+    yield put(deleteStructureFailed(error.toString()));
+  }
+}
+export function* watchdeleteStructure() {
+  yield takeLatest(DELETE_STRUCTURE, deleteStructure);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(watchinitStructure),
     fork(watchsaveStructure),
     fork(watchchangeStructure),
+    fork(watchdeleteStructure),
   ]);
 }

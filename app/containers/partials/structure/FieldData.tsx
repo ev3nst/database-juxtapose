@@ -31,6 +31,11 @@ const FieldData = ({ header, field, manipulateFieldData }: FieldDataProps) => {
             const value = event.target.value as StructureFieldDataTypes;
             manipulateFieldData(header, field.name, 'dataType', value);
           }}
+          onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
+            if (Object.keys(FIELD_COLORS).indexOf(event.target.value) === -1) {
+              manipulateFieldData(header, field.name, 'dataType', 'Any');
+            }
+          }}
         />
         <Checkbox
           className={DARK_MODE === true ? 'inverted' : undefined}

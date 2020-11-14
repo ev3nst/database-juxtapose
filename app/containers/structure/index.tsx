@@ -6,6 +6,7 @@ import {
   sortStructure,
   saveStructure,
   changeStructure,
+  deleteStructure,
   addOrRemoveHeader,
   addOrRemoveField,
   manipulateFieldData,
@@ -45,6 +46,7 @@ const mapActionsToProps = {
   sortStructure,
   saveStructure,
   changeStructure,
+  deleteStructure,
   addOrRemoveHeader,
   addOrRemoveField,
   manipulateFieldData,
@@ -70,6 +72,7 @@ class Structure extends React.PureComponent<IProps> {
       autosaveLoading,
       dataStructure,
       changeStructure: ChangeStructure,
+      deleteStructure: DeleteStructure,
       saveStructure: SaveStructure,
       addOrRemoveHeader: AddOrRemoveHeader,
       addOrRemoveField: AddOrRemoveField,
@@ -88,6 +91,7 @@ class Structure extends React.PureComponent<IProps> {
               structuresPath={paths.structures}
               allStructures={allStructures}
               changeStructure={ChangeStructure}
+              deleteStructure={DeleteStructure}
             />
           </Grid.Column>
           <Grid.Column width={13}>

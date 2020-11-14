@@ -1,12 +1,17 @@
 import React from 'react';
 import { ActionCreator } from 'redux';
-import { Segment, Header, List, Icon } from 'semantic-ui-react';
+import { Segment, Header, List, Confirm, Icon } from 'semantic-ui-react';
 import {
   DARK_MODE,
   STRUCTURE_AUTOSAVE_NAME,
   STRUCTURE_AUTOSAVE_FILE,
 } from '../../utils/constants';
 import { StructureActionTypes } from '../../redux/structure/action.types';
+
+const LessSegmentPadding: React.CSSProperties = {
+  paddingLeft: 6,
+  paddingRight: 2,
+};
 
 const ListItemMargin: React.CSSProperties = {
   marginBottom: 7,
@@ -17,13 +22,34 @@ type StructureListProps = {
   structuresPath: string;
   allStructures: Array<string>;
   changeStructure: ActionCreator<StructureActionTypes>;
+  deleteStructure: ActionCreator<StructureActionTypes>;
 };
-class StructureList extends React.Component<StructureListProps> {
-  shouldComponentUpdate(nextProps: StructureListProps): boolean {
+
+type StructureListStates = {
+  deleteStructureConfirm: boolean;
+  whichStructure: string;
+};
+
+class StructureList extends React.Component<StructureListProps, StructureListStates> {
+  constructor(props: StructureListProps) {
+    super(props);
+
+    this.state = {
+      deleteStructureConfirm: false,
+      whichStructure: '',
+    };
+  }
+
+  shouldComponentUpdate(
+    nextProps: StructureListProps,
+    prevStates: StructureListStates
+  ): boolean {
     const { allStructures, activeFile } = this.props;
+    const { deleteStructureConfirm } = this.state;
     if (
-      allStructures.length !== nextProps.allStructures.length ||
-      activeFile !== nextProps.activeFile
+      nextProps.allStructures.length !== allStructures.length ||
+      nextProps.activeFile !== activeFile ||
+      prevStates.deleteStructureConfirm !== deleteStructureConfirm
     ) {
       return true;
     }
@@ -46,14 +72,24 @@ class StructureList extends React.Component<StructureListProps> {
             <Icon size="small" name="file alternate outline" /> {fileName}
           </List.Header>
         </List.Content>
+        <Icon
+          style={{ float: 'right', marginTop: 4 }}
+          size="small"
+          color="red"
+          name="trash alternate outline"
+          onClick={() => {
+            this.setState({ deleteStructureConfirm: true, whichStructure: fileName });
+          }}
+        />
       </List.Item>
     ));
   }
 
   render() {
-    const { activeFile, structuresPath, changeStructure } = this.props;
+    const { activeFile, structuresPath, changeStructure, deleteStructure } = this.props;
+    const { deleteStructureConfirm, whichStructure } = this.state;
     return (
-      <Segment inverted={DARK_MODE} basic clearing>
+      <Segment inverted={DARK_MODE} basic clearing style={LessSegmentPadding}>
         <Header
           as="h3"
           className="muted-subheader"
@@ -79,6 +115,24 @@ class StructureList extends React.Component<StructureListProps> {
           </List.Item>
           {this.renderStructureList()}
         </List>
+
+        <Confirm
+          centered
+          dimmer={DARK_MODE === true ? undefined : 'inverted'}
+          open={deleteStructureConfirm}
+          header="Delete Structure"
+          content="This action will delete structure file."
+          onCancel={() =>
+            this.setState({ deleteStructureConfirm: false, whichStructure: '' })
+          }
+          onConfirm={() => {
+            deleteStructure(structuresPath, whichStructure);
+            if (activeFile === whichStructure) {
+              changeStructure(structuresPath, STRUCTURE_AUTOSAVE_FILE);
+            }
+            this.setState({ deleteStructureConfirm: false, whichStructure: '' });
+          }}
+        />
       </Segment>
     );
   }
