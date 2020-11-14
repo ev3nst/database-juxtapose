@@ -1,4 +1,4 @@
-import { PageLoading, PageError } from '../../../types';
+import { PageLoading, PageError } from '../../types';
 
 export type IntroErrors = {
   errors: {

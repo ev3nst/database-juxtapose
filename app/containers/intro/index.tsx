@@ -6,11 +6,12 @@ import {
   initStructure,
   initMigration,
   initAppSuccess,
-} from '../redux/actions';
-import { ProgressPercentage, ProgressList } from './partials/intro';
-import { AppActions } from '../components';
-import { RootState } from '../redux/store';
-import { DARK_MODE } from '../utils/constants';
+} from '../../redux/actions';
+import ProgressPercentage from './ProgressPercentage';
+import ProgressList from './ProgressList';
+import { AppActions } from '../../components';
+import { RootState } from '../../redux/store';
+import { DARK_MODE } from '../../utils/constants';
 
 // #region Redux Configuration
 const mapStateToProps = ({ settings, structure, migration, intro }: RootState) => {

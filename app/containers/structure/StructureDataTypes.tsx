@@ -1,7 +1,7 @@
 import React from 'react';
 import { ActionCreator } from 'redux';
 import { Segment, Message, Card, Tab, List } from 'semantic-ui-react';
-import { FieldData } from '../partials/structure';
+import FieldData from './FieldData';
 import { StructureObject } from '../../types';
 import { StructureActionTypes } from '../../redux/structure/action.types';
 import {

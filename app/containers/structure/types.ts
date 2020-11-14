@@ -1,4 +1,4 @@
-import { StructureObject } from '../../../types';
+import { StructureObject } from '../../types';
 
 export type PreviewProps = {
   dataStructure: StructureObject;

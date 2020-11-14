@@ -1,7 +1,7 @@
 import React from 'react';
 import { ActionCreator } from 'redux';
 import { Message, Button, Icon, Loader } from 'semantic-ui-react';
-import { SFileSegment } from '../partials/structure';
+import SFileSegment from './SFileSegment';
 import { DARK_MODE, AUTOSAVE_INTERVAL } from '../../utils/constants';
 import { SettingPathInterface, StructureObject } from '../../types';
 import { StructureActionTypes } from '../../redux/structure/action.types';
@@ -49,7 +49,7 @@ class StructureDetail extends React.PureComponent<
     super(props);
 
     this.state = {
-      showDataTypes: true,
+      showDataTypes: false,
       showNotification: false,
     };
   }

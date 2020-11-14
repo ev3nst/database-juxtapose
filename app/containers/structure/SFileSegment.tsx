@@ -1,14 +1,14 @@
 import React from 'react';
 import { ActionCreator } from 'redux';
 import { Segment, Header, Button } from 'semantic-ui-react';
-import { SaveModal, NotificationManager } from '../../../components';
+import { SaveModal, NotificationManager } from '../../components';
 import {
   DARK_MODE,
   STRUCTURE_AUTOSAVE_NAME,
   NOTIFICATION_TIMEOUT,
-} from '../../../utils/constants';
-import { SettingPathInterface, StructureObject } from '../../../types';
-import { StructureActionTypes } from '../../../redux/structure/action.types';
+} from '../../utils/constants';
+import { SettingPathInterface, StructureObject } from '../../types';
+import { StructureActionTypes } from '../../redux/structure/action.types';
 
 const resetPadding: React.CSSProperties = {
   paddingLeft: 0,

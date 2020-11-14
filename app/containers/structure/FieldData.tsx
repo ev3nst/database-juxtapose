@@ -1,9 +1,9 @@
 import React from 'react';
 import { ActionCreator } from 'redux';
 import { Card, Header, Checkbox, Form } from 'semantic-ui-react';
-import { StructureFieldType, StructureFieldDataTypes } from '../../../types';
-import { DARK_MODE, FIELD_COLORS } from '../../../utils/constants';
-import { StructureActionTypes } from '../../../redux/structure/action.types';
+import { StructureFieldType, StructureFieldDataTypes } from '../../types';
+import { DARK_MODE, FIELD_COLORS } from '../../utils/constants';
+import { StructureActionTypes } from '../../redux/structure/action.types';
 
 const ExtraPadding: React.CSSProperties = {
   padding: 15,

@@ -1,7 +1,9 @@
 import React from 'react';
 import { ActionCreator } from 'redux';
 import { Form } from 'semantic-ui-react';
-import { Preview, FieldForm, HeaderForm } from '../partials/structure';
+import Preview from './Preview';
+import FieldForm from './FieldForm';
+import HeaderForm from './HeaderForm';
 import { DARK_MODE } from '../../utils/constants';
 import { StructureObject } from '../../types';
 import { StructureActionTypes } from '../../redux/structure/action.types';

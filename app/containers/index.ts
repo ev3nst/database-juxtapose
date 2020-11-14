@@ -1,4 +1,4 @@
-export { default as Intro } from './Intro';
+export { default as Intro } from './intro';
 export { default as StickyNavigation } from './StickyNavigation';
 export { default as Structure } from './structure';
 export { default as Migration } from './migration';

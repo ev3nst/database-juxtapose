@@ -2,8 +2,8 @@ import React from 'react';
 import { Grid, Card, Divider, Icon } from 'semantic-ui-react';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import { StructureFieldContainer, StructureField } from './StructureField';
-import { COLORS } from '../../../utils/constants';
-import { StructureFieldType } from '../../../types';
+import { COLORS } from '../../utils/constants';
+import { StructureFieldType } from '../../types';
 
 export type StructureHeaderContainerType = {
   children: JSX.Element[];
