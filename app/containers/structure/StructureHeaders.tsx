@@ -3,12 +3,8 @@ import { Grid, Card, Divider, Icon } from 'semantic-ui-react';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import { StructureFieldContainer, StructureField } from './StructureField';
 import { COLORS } from '../../utils/constants';
-import { StructureFieldType } from '../../types';
+import { StructureHeaderContainerType, StructureHeaderType } from './types';
 
-export type StructureHeaderContainerType = {
-  children: JSX.Element[];
-  inverted: boolean;
-};
 export const StructureHeaderContainer = SortableContainer(
   ({ children, inverted }: StructureHeaderContainerType) => {
     return (
@@ -23,14 +19,6 @@ export const StructureHeaderContainer = SortableContainer(
 
 const DragHandle = SortableHandle(() => <Icon size="small" color="grey" name="move" />);
 
-export type StructureHeaderType = {
-  header: string;
-  inverted: boolean;
-  items: Array<StructureFieldType>;
-  onRemoveHeader: (removeHeader: string) => void;
-  onRemoveField: (removeField: string, whichHeader: string) => void;
-  onSort: (oldIndex: number, newIndex: number, whichHeader: string) => void;
-};
 export const StructureHeader = SortableElement(
   ({
     header,

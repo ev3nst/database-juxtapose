@@ -1,5 +1,4 @@
 import React from 'react';
-import { ActionCreator } from 'redux';
 import { Segment, Header, Button } from 'semantic-ui-react';
 import { SaveModal, NotificationManager } from '../../components';
 import {
@@ -7,8 +6,7 @@ import {
   STRUCTURE_AUTOSAVE_NAME,
   NOTIFICATION_TIMEOUT,
 } from '../../utils/constants';
-import { SettingPathInterface, StructureObject } from '../../types';
-import { StructureActionTypes } from '../../redux/structure/action.types';
+import { SFileSegmentProps } from './types';
 
 const resetPadding: React.CSSProperties = {
   paddingLeft: 0,
@@ -16,12 +14,6 @@ const resetPadding: React.CSSProperties = {
   paddingBottom: 0,
 };
 
-type SFileSegmentProps = {
-  paths: SettingPathInterface;
-  activeFile: string;
-  dataStructure: StructureObject;
-  SaveStructure: ActionCreator<StructureActionTypes>;
-};
 class SFileSegment extends React.PureComponent<SFileSegmentProps> {
   render() {
     const { paths, activeFile, dataStructure, SaveStructure } = this.props;

@@ -1,12 +1,11 @@
 import React from 'react';
-import { ActionCreator } from 'redux';
 import { Segment, Header, List, Confirm, Icon } from 'semantic-ui-react';
 import {
   DARK_MODE,
   STRUCTURE_AUTOSAVE_NAME,
   STRUCTURE_AUTOSAVE_FILE,
 } from '../../utils/constants';
-import { StructureActionTypes } from '../../redux/structure/action.types';
+import { StructureListProps, StructureListStates } from './types';
 
 const LessSegmentPadding: React.CSSProperties = {
   paddingLeft: 6,
@@ -15,19 +14,6 @@ const LessSegmentPadding: React.CSSProperties = {
 
 const ListItemMargin: React.CSSProperties = {
   marginBottom: 7,
-};
-
-type StructureListProps = {
-  activeFile: string;
-  structuresPath: string;
-  allStructures: Array<string>;
-  changeStructure: ActionCreator<StructureActionTypes>;
-  deleteStructure: ActionCreator<StructureActionTypes>;
-};
-
-type StructureListStates = {
-  deleteStructureConfirm: boolean;
-  whichStructure: string;
 };
 
 class StructureList extends React.Component<StructureListProps, StructureListStates> {

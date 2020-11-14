@@ -1,15 +1,10 @@
 import React from 'react';
 import { List, Icon } from 'semantic-ui-react';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import { StructureFieldSortable, StructureFieldContainerType } from './types';
 
-export type StructureFieldType = {
-  field: string;
-  header: string;
-  onRemoveField: (removeField: string, whichHeader: string) => void;
-  inverted?: boolean;
-};
 export const StructureField = SortableElement(
-  ({ field, header, onRemoveField, inverted }: StructureFieldType) => {
+  ({ field, header, onRemoveField, inverted }: StructureFieldSortable) => {
     return (
       <List.Item className={inverted === true ? 'inverted' : undefined}>
         <List.Icon name="file outline" color={inverted === true ? undefined : 'black'} />
@@ -35,10 +30,6 @@ export const StructureField = SortableElement(
   }
 );
 
-export type StructureFieldContainerType = {
-  children: JSX.Element[];
-  inverted: boolean;
-};
 export const StructureFieldContainer = SortableContainer(
   ({ children, inverted }: StructureFieldContainerType) => {
     return (

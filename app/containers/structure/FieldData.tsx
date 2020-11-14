@@ -1,18 +1,11 @@
 import React from 'react';
-import { ActionCreator } from 'redux';
 import { Card, Header, Checkbox, Form } from 'semantic-ui-react';
-import { StructureFieldType, StructureFieldDataTypes } from '../../types';
 import { DARK_MODE, FIELD_COLORS } from '../../utils/constants';
-import { StructureActionTypes } from '../../redux/structure/action.types';
+import { StructureFieldDataTypes } from '../../types';
+import { FieldDataProps } from './types';
 
 const ExtraPadding: React.CSSProperties = {
   padding: 15,
-};
-
-type FieldDataProps = {
-  header: string;
-  field: StructureFieldType;
-  manipulateFieldData: ActionCreator<StructureActionTypes>;
 };
 
 const FieldData = ({ header, field, manipulateFieldData }: FieldDataProps) => {

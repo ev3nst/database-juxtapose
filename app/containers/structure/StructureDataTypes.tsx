@@ -1,30 +1,18 @@
 import React from 'react';
-import { ActionCreator } from 'redux';
 import { Segment, Message, Card, Tab, List } from 'semantic-ui-react';
 import FieldData from './FieldData';
-import { StructureObject } from '../../types';
-import { StructureActionTypes } from '../../redux/structure/action.types';
 import {
   DARK_MODE,
   FIELD_COLORS,
   VerticalPaddingReset,
   HorizontalPaddingReset,
 } from '../../utils/constants';
+import { PaneItem, StructureDataTypesProps } from './types';
 
 const PaneReset: React.CSSProperties = {
   paddingTop: 12,
   paddingLeft: 5,
   borderWidth: 0,
-};
-
-type PaneItem = {
-  menuItem?: any;
-  render?: (() => React.ReactNode) | undefined;
-};
-
-type StructureDataTypesProps = {
-  dataStructure: StructureObject;
-  manipulateFieldData: ActionCreator<StructureActionTypes>;
 };
 
 class StructureDataTypes extends React.PureComponent<StructureDataTypesProps> {

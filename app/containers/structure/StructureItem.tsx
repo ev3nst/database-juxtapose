@@ -1,20 +1,11 @@
 import React from 'react';
-import { ActionCreator } from 'redux';
 import { Form } from 'semantic-ui-react';
 import Preview from './Preview';
 import FieldForm from './FieldForm';
 import HeaderForm from './HeaderForm';
-import { DARK_MODE } from '../../utils/constants';
-import { StructureObject } from '../../types';
-import { StructureActionTypes } from '../../redux/structure/action.types';
 import { findObjectIndex } from '../../utils/functions';
-
-type StructureItemProps = {
-  dataStructure: StructureObject;
-  sortStructure: ActionCreator<StructureActionTypes>;
-  AddOrRemoveHeader: ActionCreator<StructureActionTypes>;
-  AddOrRemoveField: ActionCreator<StructureActionTypes>;
-};
+import { DARK_MODE } from '../../utils/constants';
+import { StructureItemProps } from './types';
 
 class StructureItem extends React.PureComponent<StructureItemProps> {
   getStructureHeaders = (): Array<string> => {

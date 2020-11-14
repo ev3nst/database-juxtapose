@@ -1,12 +1,10 @@
 import React from 'react';
-import { ActionCreator } from 'redux';
 import { Message, Button, Icon, Loader } from 'semantic-ui-react';
 import SFileSegment from './SFileSegment';
-import { DARK_MODE, AUTOSAVE_INTERVAL } from '../../utils/constants';
-import { SettingPathInterface, StructureObject } from '../../types';
-import { StructureActionTypes } from '../../redux/structure/action.types';
 import StructureItem from './StructureItem';
 import StructureDataTypes from './StructureDataTypes';
+import { DARK_MODE, AUTOSAVE_INTERVAL } from '../../utils/constants';
+import { StructureDetailProps, StructureDetailStates } from './types';
 
 const itemSpace: React.CSSProperties = {
   marginLeft: 10,
@@ -16,25 +14,6 @@ const itemSpace: React.CSSProperties = {
 const SwitchButtonStyles: React.CSSProperties = {
   zIndex: 9,
   marginTop: 12,
-};
-
-type StructureDetailProps = {
-  paths: SettingPathInterface;
-  activeFile: string;
-  autosaveLoading: boolean;
-  dataStructure: StructureObject;
-  SaveStructure: ActionCreator<StructureActionTypes>;
-  SortStructure: ActionCreator<StructureActionTypes>;
-  AddOrRemoveHeader: ActionCreator<StructureActionTypes>;
-  AddOrRemoveField: ActionCreator<StructureActionTypes>;
-  ManipulateFieldData: ActionCreator<StructureActionTypes>;
-  errorState: boolean;
-  errorMessage: string;
-};
-
-type StructureDetailStates = {
-  showDataTypes: boolean;
-  showNotification: boolean;
 };
 
 class StructureDetail extends React.PureComponent<
