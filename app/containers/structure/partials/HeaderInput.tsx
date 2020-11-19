@@ -1,10 +1,10 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
-import { HeaderFormProps, HeaderFormStates } from '../types';
+import { HeaderInputProps, HeaderInputStates } from '../types';
 import { DARK_MODE } from '../../../utils/constants';
 
-class HeaderForm extends React.Component<HeaderFormProps, HeaderFormStates> {
-  constructor(props: HeaderFormProps) {
+class HeaderInput extends React.Component<HeaderInputProps, HeaderInputStates> {
+  constructor(props: HeaderInputProps) {
     super(props);
 
     this.state = {
@@ -13,8 +13,8 @@ class HeaderForm extends React.Component<HeaderFormProps, HeaderFormStates> {
   }
 
   shouldComponentUpdate(
-    _nextProps: HeaderFormProps,
-    prevStates: HeaderFormStates
+    _nextProps: HeaderInputProps,
+    prevStates: HeaderInputStates
   ): boolean {
     const { newHeader } = this.state;
     if (newHeader !== prevStates.newHeader) {
@@ -56,4 +56,4 @@ class HeaderForm extends React.Component<HeaderFormProps, HeaderFormStates> {
   }
 }
 
-export default HeaderForm;
+export default HeaderInput;

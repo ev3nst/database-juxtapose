@@ -1,5 +1,5 @@
 import React from 'react';
-import { StructureHeaderContainer, StructureHeader } from './StructureHeaders';
+import { SortableHeaderContainer, SortableHeader } from './SortableHeader';
 import { PreviewProps } from '../types';
 
 class Preview extends React.Component<PreviewProps> {
@@ -18,14 +18,14 @@ class Preview extends React.Component<PreviewProps> {
     const { dataStructure, onRemoveHeader, onRemoveField, inverted, onSort } = this.props;
 
     return (
-      <StructureHeaderContainer
+      <SortableHeaderContainer
         inverted={inverted}
         axis="xy"
         onSortEnd={({ oldIndex, newIndex }) => onSort(oldIndex, newIndex)}
         useDragHandle
       >
         {dataStructure.structure.map((_val, index) => (
-          <StructureHeader
+          <SortableHeader
             key={dataStructure.structure[index].itemName}
             index={index}
             header={dataStructure.structure[index].itemName}
@@ -36,7 +36,7 @@ class Preview extends React.Component<PreviewProps> {
             onSort={onSort}
           />
         ))}
-      </StructureHeaderContainer>
+      </SortableHeaderContainer>
     );
   }
 }

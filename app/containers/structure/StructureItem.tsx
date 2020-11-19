@@ -1,8 +1,8 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
 import Preview from './partials/Preview';
-import FieldForm from './partials/FieldForm';
-import HeaderForm from './partials/HeaderForm';
+import FieldInput from './partials/FieldInput';
+import HeaderInput from './partials/HeaderInput';
 import { findObjectIndex } from '../../utils/functions';
 import { DARK_MODE } from '../../utils/constants';
 import { StructureItemProps } from './types';
@@ -62,8 +62,8 @@ class StructureItem extends React.PureComponent<StructureItemProps> {
       <>
         <Form inverted={DARK_MODE}>
           <Form.Group widths={3}>
-            <HeaderForm onNewHeader={this.onNewHeader} />
-            <FieldForm
+            <HeaderInput onNewHeader={this.onNewHeader} />
+            <FieldInput
               onNewField={this.onNewField}
               structureHeaders={this.getStructureHeaders()}
             />

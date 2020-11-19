@@ -1,10 +1,10 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
-import { FieldFormProps, FieldFormStates } from '../types';
+import { FieldInputProps, FieldInputStates } from '../types';
 import { DARK_MODE } from '../../../utils/constants';
 
-class FieldForm extends React.Component<FieldFormProps, FieldFormStates> {
-  constructor(props: FieldFormProps) {
+class FieldInput extends React.Component<FieldInputProps, FieldInputStates> {
+  constructor(props: FieldInputProps) {
     super(props);
 
     this.state = {
@@ -12,7 +12,10 @@ class FieldForm extends React.Component<FieldFormProps, FieldFormStates> {
     };
   }
 
-  shouldComponentUpdate(nextProps: FieldFormProps, prevStates: FieldFormStates): boolean {
+  shouldComponentUpdate(
+    nextProps: FieldInputProps,
+    prevStates: FieldInputStates
+  ): boolean {
     const { newField, selectedHeader } = this.state;
     const { structureHeaders } = this.props;
     if (
@@ -82,4 +85,4 @@ class FieldForm extends React.Component<FieldFormProps, FieldFormStates> {
   }
 }
 
-export default FieldForm;
+export default FieldInput;

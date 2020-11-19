@@ -10,25 +10,25 @@ export type PreviewProps = {
   inverted: boolean;
 };
 
-export type FieldFormProps = {
+export type FieldInputProps = {
   structureHeaders: Array<string>;
   onNewField: (newField: string, selectedHeader: string) => void;
 };
 
-export type FieldFormStates = {
+export type FieldInputStates = {
   selectedHeader?: string;
   newField: string;
 };
 
-export type HeaderFormProps = {
+export type HeaderInputProps = {
   onNewHeader: (newHeader: string) => void;
 };
 
-export type HeaderFormStates = {
+export type HeaderInputStates = {
   newHeader: string;
 };
 
-export type SFileSegmentProps = {
+export type FormSegmentProps = {
   paths: SettingPathInterface;
   activeFile: string;
   dataStructure: StructureObject;
@@ -64,24 +64,24 @@ export type StructureDetailStates = {
   showNotification: boolean;
 };
 
-export type StructureFieldSortable = {
+export type SortableFieldType = {
   field: string;
   header: string;
   onRemoveField: (removeField: string, whichHeader: string) => void;
   inverted?: boolean;
 };
 
-export type StructureFieldContainerType = {
+export type SortableFieldContainerType = {
   children: JSX.Element[];
   inverted: boolean;
 };
 
-export type StructureHeaderContainerType = {
+export type SortableHeaderContainerType = {
   children: JSX.Element[];
   inverted: boolean;
 };
 
-export type StructureHeaderType = {
+export type SortableHeaderType = {
   header: string;
   inverted: boolean;
   items: Array<StructureFieldType>;

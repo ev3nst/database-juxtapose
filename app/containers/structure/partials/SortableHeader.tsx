@@ -1,12 +1,12 @@
 import React from 'react';
 import { Grid, Card, Divider, Icon } from 'semantic-ui-react';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
-import { StructureFieldContainer, StructureField } from './StructureField';
+import { SortableFieldContainer, SortableField } from './SortableField';
 import { COLORS } from '../../../utils/constants';
-import { StructureHeaderContainerType, StructureHeaderType } from '../types';
+import { SortableHeaderContainerType, SortableHeaderType } from '../types';
 
-export const StructureHeaderContainer = SortableContainer(
-  ({ children, inverted }: StructureHeaderContainerType) => {
+export const SortableHeaderContainer = SortableContainer(
+  ({ children, inverted }: SortableHeaderContainerType) => {
     return (
       <Card.Group
         className={inverted === true ? 'inverted transition-reset' : 'transition-reset'}
@@ -19,7 +19,7 @@ export const StructureHeaderContainer = SortableContainer(
 
 const DragHandle = SortableHandle(() => <Icon size="small" color="grey" name="move" />);
 
-export const StructureHeader = SortableElement(
+export const SortableHeader = SortableElement(
   ({
     header,
     inverted,
@@ -27,7 +27,7 @@ export const StructureHeader = SortableElement(
     onRemoveHeader,
     onRemoveField,
     onSort,
-  }: StructureHeaderType) => {
+  }: SortableHeaderType) => {
     return (
       <Card color={COLORS[Math.floor(Math.random() * COLORS.length)]}>
         <Card.Content>
@@ -51,7 +51,7 @@ export const StructureHeader = SortableElement(
           </Card.Header>
           <Divider />
           <Card.Description>
-            <StructureFieldContainer
+            <SortableFieldContainer
               inverted={inverted}
               axis="y"
               lockAxis="y"
@@ -61,7 +61,7 @@ export const StructureHeader = SortableElement(
               }}
             >
               {items.map((field, index) => (
-                <StructureField
+                <SortableField
                   key={field.fieldName}
                   field={field.fieldName}
                   index={index}
@@ -70,7 +70,7 @@ export const StructureHeader = SortableElement(
                   onRemoveField={onRemoveField}
                 />
               ))}
-            </StructureFieldContainer>
+            </SortableFieldContainer>
           </Card.Description>
         </Card.Content>
       </Card>

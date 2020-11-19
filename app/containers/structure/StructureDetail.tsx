@@ -1,6 +1,6 @@
 import React from 'react';
 import { Message, Button, Icon, Loader } from 'semantic-ui-react';
-import SFileSegment from './partials/SFileSegment';
+import FormSegment from './partials/FormSegment';
 import StructureItem from './StructureItem';
 import StructureDataTypes from './StructureDataTypes';
 import { DARK_MODE, AUTOSAVE_INTERVAL, EMPTY_STRUCTURE } from '../../utils/constants';
@@ -106,7 +106,7 @@ class StructureDetail extends React.PureComponent<
           Switch to {showDataTypes === false ? 'Data Types' : 'Structure'}
           <Icon name="arrow right" />
         </Button>
-        <SFileSegment
+        <FormSegment
           paths={paths}
           activeFile={activeFile}
           dataStructure={dataStructure}

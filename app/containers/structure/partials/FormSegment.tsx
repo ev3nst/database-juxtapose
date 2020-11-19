@@ -7,7 +7,7 @@ import {
   NOTIFICATION_TIMEOUT,
   EMPTY_STRUCTURE,
 } from '../../../utils/constants';
-import { SFileSegmentProps } from '../types';
+import { FormSegmentProps } from '../types';
 
 const resetPadding: React.CSSProperties = {
   paddingLeft: 0,
@@ -15,7 +15,7 @@ const resetPadding: React.CSSProperties = {
   paddingBottom: 0,
 };
 
-class SFileSegment extends React.PureComponent<SFileSegmentProps> {
+class FormSegment extends React.PureComponent<FormSegmentProps> {
   render() {
     const { paths, activeFile, dataStructure, SaveStructure } = this.props;
     return (
@@ -77,4 +77,4 @@ class SFileSegment extends React.PureComponent<SFileSegmentProps> {
   }
 }
 
-export default SFileSegment;
+export default FormSegment;
