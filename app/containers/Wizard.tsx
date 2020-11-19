@@ -12,7 +12,7 @@ class Wizard extends Component<RouteComponentProps> {
       <Grid inverted={DARK_MODE} padded className="maximize-height-with-nav">
         <Grid.Row color={DARK_MODE === true ? 'black' : undefined}>
           <Grid.Column>
-            <Header inverted={DARK_MODE} as="h1" content="This is Migration Wizard" />
+            <Header inverted={DARK_MODE} as="h1" content="This is Integration Wizard" />
           </Grid.Column>
         </Grid.Row>
       </Grid>
@@ -21,7 +21,7 @@ class Wizard extends Component<RouteComponentProps> {
 }
 
 const mapStateToProps = () => {
-  // const { test } = migration_wizard;
+  // const { test } = integration;
   return {};
 };
 

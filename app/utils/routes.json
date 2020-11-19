@@ -1,7 +1,7 @@
 {
   "WRAPPER": "/",
   "STRUCTURE": "/structure",
-  "MIGRATION": "/migration",
+  "INTEGRATION": "/integration",
   "WIZARD": "/wizard",
   "SETTINGS": "/settings"
 }

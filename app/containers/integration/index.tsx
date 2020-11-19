@@ -2,37 +2,37 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Grid } from 'semantic-ui-react';
-import { saveMigration, changeMigration } from '../../redux/actions';
+import { saveIntegration, changeIntegration } from '../../redux/actions';
 import { RootState } from '../../redux/store';
 import { DARK_MODE } from '../../utils/constants';
-import MigrationItem from './MigrationItem';
-import MigrationList from './MigrationList';
+import IntegrationItem from './IntegrationItem';
+import IntegrationList from './IntegrationList';
 
 // #region Redux Configuration
-const mapStateToProps = ({ migration, settings }: RootState) => {
+const mapStateToProps = ({ integration, settings }: RootState) => {
   const {
     autosaveLoading,
-    allMigrations,
-    migrationFile,
-    dataMigration,
+    allIntegrations,
+    integrationFile,
+    dataIntegration,
     errorState,
     errorMessage,
-  } = migration;
+  } = integration;
   const { paths } = settings;
   return {
     paths,
     autosaveLoading,
-    allMigrations,
-    migrationFile,
-    dataMigration,
+    allIntegrations,
+    integrationFile,
+    dataIntegration,
     errorState,
     errorMessage,
   };
 };
 
 const mapActionsToProps = {
-  saveMigration,
-  changeMigration,
+  saveIntegration,
+  changeIntegration,
 };
 
 const connector = connect(mapStateToProps, mapActionsToProps);
@@ -52,40 +52,40 @@ const itemSpace: React.CSSProperties = {
   paddingRight: 10,
 };
 
-class Migration extends React.PureComponent<IProps, IStates> {
+class Integration extends React.PureComponent<IProps, IStates> {
   render() {
     const {
       paths,
       autosaveLoading,
-      allMigrations,
-      migrationFile,
-      dataMigration,
-      changeMigration: ChangeMigration,
+      allIntegrations,
+      integrationFile,
+      dataIntegration,
+      changeIntegration: ChangeIntegration,
       errorState,
       errorMessage,
-      saveMigration: SaveMigration,
+      saveIntegration: SaveIntegration,
     } = this.props;
     return (
       <Grid inverted={DARK_MODE} padded className="maximize-height-with-nav">
         <Grid.Row color={DARK_MODE === true ? 'black' : undefined}>
           <Grid.Column width={3} style={listBorder}>
-            <MigrationList
-              activeFile={migrationFile}
-              migrationsPath={paths.migrations}
-              allMigrations={allMigrations}
-              changeMigration={ChangeMigration}
+            <IntegrationList
+              activeFile={integrationFile}
+              integrationsPath={paths.integrations}
+              allIntegrations={allIntegrations}
+              changeIntegration={ChangeIntegration}
             />
           </Grid.Column>
           <Grid.Column width={13}>
             <div style={itemSpace}>
-              <MigrationItem
-                activeFile={migrationFile}
+              <IntegrationItem
+                activeFile={integrationFile}
                 errorState={errorState}
                 errorMessage={errorMessage}
                 paths={paths}
                 autosaveLoading={autosaveLoading}
-                dataMigration={dataMigration}
-                SaveMigration={SaveMigration}
+                dataIntegration={dataIntegration}
+                SaveIntegration={SaveIntegration}
               />
             </div>
           </Grid.Column>
@@ -94,4 +94,4 @@ class Migration extends React.PureComponent<IProps, IStates> {
     );
   }
 }
-export default connector(Migration);
+export default connector(Integration);

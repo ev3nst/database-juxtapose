@@ -9,7 +9,7 @@ import {
   Intro,
   StickyNavigation,
   Structure,
-  Migration,
+  Integration,
   Wizard,
   Settings,
 } from './containers';
@@ -69,7 +69,7 @@ class Routes extends React.Component<IProps> {
               <Route path={routes.WRAPPER} component={StickyNavigation} />
               <Switch>
                 <Route path={routes.STRUCTURE} component={Structure} />
-                <Route path={routes.MIGRATION} component={Migration} />
+                <Route path={routes.INTEGRATION} component={Integration} />
                 <Route path={routes.WIZARD} component={Wizard} />
                 <Route path={routes.SETTINGS} component={Settings} />
               </Switch>

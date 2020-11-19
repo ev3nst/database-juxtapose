@@ -24,12 +24,12 @@ const INIT_STATE: SettingsState = {
   paths: {
     userSettings: '',
     structures: '',
-    migrations: '',
+    integrations: '',
   },
   newPaths: {
     userSettings: '',
     structures: '',
-    migrations: '',
+    integrations: '',
   },
 };
 
@@ -82,11 +82,11 @@ const reducer = (
             state.newPaths.structures !== state.paths.structures
               ? state.newPaths.structures
               : state.paths.structures,
-          migrations:
-            state.newPaths.migrations !== '' &&
-            state.newPaths.migrations !== state.paths.migrations
-              ? state.newPaths.migrations
-              : state.paths.migrations,
+          integrations:
+            state.newPaths.integrations !== '' &&
+            state.newPaths.integrations !== state.paths.integrations
+              ? state.newPaths.integrations
+              : state.paths.integrations,
         },
         autoSave: action.payload.settings.autoSave,
         loading: false,

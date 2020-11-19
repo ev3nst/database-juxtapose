@@ -9,7 +9,7 @@ class ProgressPercentage extends React.PureComponent<IntroProgressProps> {
     return (
       initStates.settings.loaded === true &&
       initStates.structure.loaded === true &&
-      initStates.migration.loaded === true
+      initStates.integration.loaded === true
     );
   }
 

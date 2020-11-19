@@ -6,36 +6,39 @@ import {
   DARK_MODE,
   AUTOSAVE_INTERVAL,
   NOTIFICATION_TIMEOUT,
-  MIGRATION_AUTOSAVE_NAME,
+  INTEGRATION_AUTOSAVE_NAME,
 } from '../../utils/constants';
-import { SettingPathInterface, MigrationObject } from '../../types';
-import { MigrationActionTypes } from '../../redux/migration/action.types';
+import { SettingPathInterface, IntegrationObject } from '../../types';
+import { IntegrationActionTypes } from '../../redux/integration/action.types';
 
 const resetPadding: React.CSSProperties = {
   paddingLeft: 0,
   paddingRight: 0,
 };
 
-type MigrationItemProps = {
+type IntegrationItemProps = {
   activeFile: string;
   errorState: boolean;
   errorMessage: string;
   paths: SettingPathInterface;
   autosaveLoading: boolean;
-  dataMigration: MigrationObject;
-  SaveMigration: ActionCreator<MigrationActionTypes>;
+  dataIntegration: IntegrationObject;
+  SaveIntegration: ActionCreator<IntegrationActionTypes>;
 };
 
-type MigrationItemStates = {
+type IntegrationItemStates = {
   showNotification: boolean;
 };
 
-class MigrationItem extends React.PureComponent<MigrationItemProps, MigrationItemStates> {
+class IntegrationItem extends React.PureComponent<
+  IntegrationItemProps,
+  IntegrationItemStates
+> {
   autosaveID!: NodeJS.Timeout;
 
   notificationID!: NodeJS.Timeout;
 
-  constructor(props: MigrationItemProps) {
+  constructor(props: IntegrationItemProps) {
     super(props);
 
     this.state = {
@@ -45,14 +48,20 @@ class MigrationItem extends React.PureComponent<MigrationItemProps, MigrationIte
 
   componentDidMount() {
     this.autosaveID = setInterval(() => {
-      const { errorState, activeFile, paths, dataMigration, SaveMigration } = this.props;
+      const {
+        errorState,
+        activeFile,
+        paths,
+        dataIntegration,
+        SaveIntegration,
+      } = this.props;
       if (errorState !== true && activeFile !== undefined) {
         this.setState({
           showNotification: true,
         });
-        SaveMigration(
-          paths.migrations,
-          dataMigration === undefined ? [] : dataMigration,
+        SaveIntegration(
+          paths.integrations,
+          dataIntegration === undefined ? [] : dataIntegration,
           activeFile,
           true
         );
@@ -60,7 +69,7 @@ class MigrationItem extends React.PureComponent<MigrationItemProps, MigrationIte
     }, AUTOSAVE_INTERVAL);
   }
 
-  componentDidUpdate(nextProps: MigrationItemProps) {
+  componentDidUpdate(nextProps: IntegrationItemProps) {
     const { autosaveLoading } = this.props;
     if (nextProps.autosaveLoading !== autosaveLoading) {
       this.notificationID = setTimeout(() => {
@@ -79,9 +88,9 @@ class MigrationItem extends React.PureComponent<MigrationItemProps, MigrationIte
   render() {
     const {
       activeFile,
-      dataMigration,
+      dataIntegration,
       paths,
-      SaveMigration,
+      SaveIntegration,
       errorState,
       errorMessage,
     } = this.props;
@@ -107,20 +116,20 @@ class MigrationItem extends React.PureComponent<MigrationItemProps, MigrationIte
             inverted={DARK_MODE}
             floated="left"
             content={
-              activeFile === MIGRATION_AUTOSAVE_NAME ? 'New Migration +' : activeFile
+              activeFile === INTEGRATION_AUTOSAVE_NAME ? 'New Integration +' : activeFile
             }
             subheader={`${activeFile}.json`}
           />
           <Header inverted={DARK_MODE} as="h3" floated="left" style={{ marginLeft: 50 }}>
-            {activeFile === MIGRATION_AUTOSAVE_NAME ? (
+            {activeFile === INTEGRATION_AUTOSAVE_NAME ? (
               <SaveModal
                 inverted={DARK_MODE}
-                pathPrefix={paths.migrations}
-                label="Migration"
+                pathPrefix={paths.integrations}
+                label="Integration"
                 onConfirm={(fileName) => {
-                  SaveMigration(
-                    paths.migrations,
-                    dataMigration === undefined ? {} : dataMigration,
+                  SaveIntegration(
+                    paths.integrations,
+                    dataIntegration === undefined ? {} : dataIntegration,
                     fileName,
                     false
                   );
@@ -132,9 +141,9 @@ class MigrationItem extends React.PureComponent<MigrationItemProps, MigrationIte
                 color={DARK_MODE === true ? 'green' : undefined}
                 inverted={DARK_MODE}
                 onClick={() => {
-                  SaveMigration(
-                    paths.migrations,
-                    dataMigration === undefined ? {} : dataMigration,
+                  SaveIntegration(
+                    paths.integrations,
+                    dataIntegration === undefined ? {} : dataIntegration,
                     activeFile,
                     true
                   );
@@ -165,4 +174,4 @@ class MigrationItem extends React.PureComponent<MigrationItemProps, MigrationIte
   }
 }
 
-export default MigrationItem;
+export default IntegrationItem;

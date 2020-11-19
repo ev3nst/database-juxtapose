@@ -1,7 +1,7 @@
 export type SettingPathInterface = {
   userSettings: string;
   structures: string;
-  migrations: string;
+  integrations: string;
 };
 
 export type UserConfig = {

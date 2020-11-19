@@ -4,7 +4,7 @@ export type IntroErrors = {
   errors: {
     settings: PageError;
     structure: PageError;
-    migration: PageError;
+    integration: PageError;
   };
 };
 
@@ -12,7 +12,7 @@ export type IntroLoading = {
   initStates: {
     settings: PageLoading;
     structure: PageLoading;
-    migration: PageLoading;
+    integration: PageLoading;
   };
 };
 

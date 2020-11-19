@@ -76,18 +76,18 @@ class ProgressList extends React.PureComponent<IntroProgressProps> {
             </List.Item>
             <List.Item>
               <List.Icon
-                name={this.resolveIconName('migration')}
-                color={this.resolveIconColor('migration')}
-                loading={initStates.migration.loading}
+                name={this.resolveIconName('integration')}
+                color={this.resolveIconColor('integration')}
+                loading={initStates.integration.loading}
                 size="large"
                 verticalAlign="middle"
               />
               <List.Content>
-                <List.Header>Migrations</List.Header>
+                <List.Header>Integrations</List.Header>
                 <List.Description>
-                  {errors.migration.errorMessage !== ''
-                    ? errors.migration.errorMessage
-                    : 'Checking migrations folder and its contents...'}
+                  {errors.integration.errorMessage !== ''
+                    ? errors.integration.errorMessage
+                    : 'Checking integrations folder and its contents...'}
                 </List.Description>
               </List.Content>
             </List.Item>

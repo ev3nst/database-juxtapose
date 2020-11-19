@@ -4,7 +4,7 @@ import { Grid, Container, Header, Transition, Message, Button } from 'semantic-u
 import {
   initSettings,
   initStructure,
-  initMigration,
+  initIntegration,
   initAppSuccess,
 } from '../../redux/actions';
 import ProgressPercentage from './ProgressPercentage';
@@ -14,17 +14,17 @@ import { RootState } from '../../redux/store';
 import { DARK_MODE } from '../../utils/constants';
 
 // #region Redux Configuration
-const mapStateToProps = ({ settings, structure, migration, intro }: RootState) => {
+const mapStateToProps = ({ settings, structure, integration, intro }: RootState) => {
   return {
     errors: {
       settings: settings.initError,
       structure: structure.initError,
-      migration: migration.initError,
+      integration: integration.initError,
     },
     initStates: {
       settings: settings.initLoading,
       structure: structure.initLoading,
-      migration: migration.initLoading,
+      integration: integration.initLoading,
     },
     paths: settings.paths,
     introLoaded: intro.loaded,
@@ -35,7 +35,7 @@ const mapActionsToProps = {
   initAppSuccess,
   initSettings,
   initStructure,
-  initMigration,
+  initIntegration,
 };
 
 const connector = connect(mapStateToProps, mapActionsToProps);
@@ -60,10 +60,10 @@ class Intro extends Component<IProps> {
     if (
       nextProps.initStates.settings.loaded !== initStates.settings.loaded ||
       nextProps.initStates.structure.loaded !== initStates.structure.loaded ||
-      nextProps.initStates.migration.loaded !== initStates.migration.loaded ||
+      nextProps.initStates.integration.loaded !== initStates.integration.loaded ||
       nextProps.errors.settings.errorState !== errors.settings.errorState ||
       nextProps.errors.structure.errorState !== errors.structure.errorState ||
-      nextProps.errors.migration.errorState !== errors.migration.errorState
+      nextProps.errors.integration.errorState !== errors.integration.errorState
     ) {
       return true;
     }
@@ -91,12 +91,12 @@ class Intro extends Component<IProps> {
     const {
       paths,
       initStructure: InitStructure,
-      initMigration: InitMigration,
+      initIntegration: InitIntegration,
     } = this.props;
     setTimeout(() => {
       InitStructure(paths.structures);
       setTimeout(() => {
-        InitMigration(paths.migrations);
+        InitIntegration(paths.integrations);
       }, this.progressInterval);
     }, this.progressInterval);
   }
@@ -107,7 +107,7 @@ class Intro extends Component<IProps> {
     return (
       initStates.settings.loaded === true &&
       initStates.structure.loaded === true &&
-      initStates.migration.loaded === true
+      initStates.integration.loaded === true
     );
   };
 
@@ -118,7 +118,7 @@ class Intro extends Component<IProps> {
       <Transition
         visible={
           errors.settings.errorState === false &&
-          (errors.structure.errorState === true || errors.migration.errorState === true)
+          (errors.structure.errorState === true || errors.integration.errorState === true)
         }
         animation="scale"
         duration={this.transitionInterval}
@@ -129,7 +129,7 @@ class Intro extends Component<IProps> {
             floating
             header="Failed to initialize"
             list={[
-              `User settings file contains corrupted data. If you want to reset this file to default press Reset button below or retry the initialization. This action will not restore migration and structure files. Settings file can be fixed manually at ${paths.userSettings}`,
+              `User settings file contains corrupted data. If you want to reset this file to default press Reset button below or retry the initialization. This action will not restore integration and structure files. Settings file can be fixed manually at ${paths.userSettings}`,
             ]}
           />
           <Button.Group inverted={DARK_MODE}>

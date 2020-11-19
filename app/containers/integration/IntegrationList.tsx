@@ -3,22 +3,22 @@ import { ActionCreator } from 'redux';
 import { Segment, Header, List, Icon } from 'semantic-ui-react';
 import {
   DARK_MODE,
-  MIGRATION_AUTOSAVE_NAME,
-  MIGRATION_AUTOSAVE_FILE,
+  INTEGRATION_AUTOSAVE_NAME,
+  INTEGRATION_AUTOSAVE_FILE,
 } from '../../utils/constants';
-import { MigrationActionTypes } from '../../redux/migration/action.types';
+import { IntegrationActionTypes } from '../../redux/integration/action.types';
 
-type MigrationListProps = {
+type IntegrationListProps = {
   activeFile: string;
-  migrationsPath: string;
-  allMigrations: Array<string>;
-  changeMigration: ActionCreator<MigrationActionTypes>;
+  integrationsPath: string;
+  allIntegrations: Array<string>;
+  changeIntegration: ActionCreator<IntegrationActionTypes>;
 };
-class MigrationList extends React.Component<MigrationListProps> {
-  shouldComponentUpdate(nextProps: MigrationListProps): boolean {
-    const { allMigrations, activeFile } = this.props;
+class IntegrationList extends React.Component<IntegrationListProps> {
+  shouldComponentUpdate(nextProps: IntegrationListProps): boolean {
+    const { allIntegrations, activeFile } = this.props;
     if (
-      allMigrations.length !== nextProps.allMigrations.length ||
+      allIntegrations.length !== nextProps.allIntegrations.length ||
       activeFile !== nextProps.activeFile
     ) {
       return true;
@@ -27,14 +27,19 @@ class MigrationList extends React.Component<MigrationListProps> {
     return false;
   }
 
-  renderMigrationList(): JSX.Element[] {
-    const { activeFile, migrationsPath, allMigrations, changeMigration } = this.props;
-    return allMigrations.map((fileName) => (
+  renderIntegrationList(): JSX.Element[] {
+    const {
+      activeFile,
+      integrationsPath,
+      allIntegrations,
+      changeIntegration,
+    } = this.props;
+    return allIntegrations.map((fileName) => (
       <List.Item
         active={activeFile === fileName}
         key={fileName}
         onClick={() => {
-          changeMigration(migrationsPath, `${fileName}.json`);
+          changeIntegration(integrationsPath, `${fileName}.json`);
         }}
       >
         <List.Content>
@@ -47,14 +52,14 @@ class MigrationList extends React.Component<MigrationListProps> {
   }
 
   render() {
-    const { activeFile, migrationsPath, changeMigration } = this.props;
+    const { activeFile, integrationsPath, changeIntegration } = this.props;
     return (
       <Segment inverted={DARK_MODE} basic clearing>
         <Header
           as="h3"
           className="muted-subheader"
           inverted={DARK_MODE}
-          content="Migration List"
+          content="Integration List"
           subheader="Click to navigate"
           style={{
             marginTop: 1,
@@ -62,10 +67,10 @@ class MigrationList extends React.Component<MigrationListProps> {
         />
         <List selection animated verticalAlign="middle" inverted={DARK_MODE}>
           <List.Item
-            active={activeFile === MIGRATION_AUTOSAVE_NAME}
-            key={MIGRATION_AUTOSAVE_FILE}
+            active={activeFile === INTEGRATION_AUTOSAVE_NAME}
+            key={INTEGRATION_AUTOSAVE_FILE}
             onClick={() => {
-              changeMigration(migrationsPath, MIGRATION_AUTOSAVE_FILE);
+              changeIntegration(integrationsPath, INTEGRATION_AUTOSAVE_FILE);
             }}
           >
             <List.Content>
@@ -74,11 +79,11 @@ class MigrationList extends React.Component<MigrationListProps> {
               </List.Header>
             </List.Content>
           </List.Item>
-          {this.renderMigrationList()}
+          {this.renderIntegrationList()}
         </List>
       </Segment>
     );
   }
 }
 
-export default MigrationList;
+export default IntegrationList;

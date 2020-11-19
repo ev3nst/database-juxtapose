@@ -3,7 +3,13 @@ import { remote } from 'electron';
 import { SemanticCOLORS } from 'semantic-ui-react';
 import { RouteItem } from '../components/Navbar';
 import routes from './routes.json';
-import { Initializes, PageError, PageLoading, StructureObject } from '../types';
+import {
+  Initializes,
+  IntegrationObject,
+  PageError,
+  PageLoading,
+  StructureObject,
+} from '../types';
 
 export const WINDOW = remote.getCurrentWindow();
 export const APP_NAME = remote.app.getName();
@@ -16,12 +22,17 @@ export const CONFIG_PATH = `${USER_FOLDER}settings.json`;
 
 export const STRUCTURE_AUTOSAVE_NAME = 'structure_autosave';
 export const STRUCTURE_AUTOSAVE_FILE = `${STRUCTURE_AUTOSAVE_NAME}.json`;
-export const MIGRATION_AUTOSAVE_NAME = 'migration_autosave';
-export const MIGRATION_AUTOSAVE_FILE = `${MIGRATION_AUTOSAVE_NAME}.json`;
 export const EMPTY_STRUCTURE: StructureObject = {
   name: 'Autosave',
   description: 'This file is temporary.',
   structure: [],
+};
+
+export const INTEGRATION_AUTOSAVE_NAME = 'integration_autosave';
+export const INTEGRATION_AUTOSAVE_FILE = `${INTEGRATION_AUTOSAVE_NAME}.json`;
+export const EMPTY_INTEGRATION: IntegrationObject = {
+  name: 'Autosave',
+  description: 'This file is temporary.',
 };
 
 export const defaultConfig = {
@@ -29,7 +40,7 @@ export const defaultConfig = {
   paths: {
     userSettings: CONFIG_PATH,
     structures: `${USER_FOLDER}structures/`,
-    migrations: `${USER_FOLDER}migrations/`,
+    integrations: `${USER_FOLDER}integrations/`,
   },
 };
 
@@ -43,8 +54,8 @@ export const NavbarItems: Array<RouteItem> = [
     icon: 'list alternate outline',
   },
   {
-    title: 'Migrations',
-    route: routes.MIGRATION,
+    title: 'Integrations',
+    route: routes.INTEGRATION,
     icon: 'object ungroup outline',
   },
   {

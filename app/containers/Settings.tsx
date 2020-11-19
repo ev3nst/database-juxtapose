@@ -175,21 +175,23 @@ class Settings extends React.Component<IProps, IStates> {
                   label={{
                     children: (
                       <div>
-                        Migrations Path &nbsp;
+                        Integrations Path &nbsp;
                         <Popup
                           mouseEnterDelay={400}
-                          content="Folder where all migration files are stored. When changed backup zip is created at application folder before moving all contents."
+                          content="Folder where all integration files are stored. When changed backup zip is created at application folder before moving all contents."
                           trigger={<Icon name="info circle" />}
                         />
                       </div>
                     ),
                   }}
                   value={
-                    newPaths.migrations !== '' ? newPaths.migrations : paths.migrations
+                    newPaths.integrations !== ''
+                      ? newPaths.integrations
+                      : paths.integrations
                   }
                   action={{
                     ...this.pathInfoConfig,
-                    onClick: () => this.onPathChange('migrations'),
+                    onClick: () => this.onPathChange('integrations'),
                   }}
                 />
 
@@ -223,9 +225,9 @@ class Settings extends React.Component<IProps, IStates> {
                 />
                 <Message
                   color={DARK_MODE === true ? 'black' : 'teal'}
-                  header="Works on Content Structure & Database Migration"
+                  header="Works on Content Structure & Database Integration"
                   list={[
-                    'When creating a new structure or migration every minute progress is saved and will be kept until page is manually cleaned via button provided in that page or progress is saved manually by the user.',
+                    'When creating a new structure or integration every minute progress is saved and will be kept until page is manually cleaned via button provided in that page or progress is saved manually by the user.',
                   ]}
                 />
 
