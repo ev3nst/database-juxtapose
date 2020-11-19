@@ -1,6 +1,6 @@
 import React from 'react';
 import { Segment, Message, Card, Tab, List } from 'semantic-ui-react';
-import FieldData from './FieldData';
+import FieldData from './partials/FieldData';
 import {
   DARK_MODE,
   FIELD_COLORS,

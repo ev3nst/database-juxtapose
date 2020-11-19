@@ -1,7 +1,7 @@
 import React from 'react';
 import { List, Icon } from 'semantic-ui-react';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
-import { StructureFieldSortable, StructureFieldContainerType } from './types';
+import { StructureFieldSortable, StructureFieldContainerType } from '../types';
 
 export const StructureField = SortableElement(
   ({ field, header, onRemoveField, inverted }: StructureFieldSortable) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StructureHeaderContainer, StructureHeader } from './StructureHeaders';
-import { PreviewProps } from './types';
+import { PreviewProps } from '../types';
 
 class Preview extends React.Component<PreviewProps> {
   shouldComponentUpdate(nextProps: PreviewProps): boolean {

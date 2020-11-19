@@ -1,6 +1,6 @@
 import React from 'react';
 import { Message, Button, Icon, Loader } from 'semantic-ui-react';
-import SFileSegment from './SFileSegment';
+import SFileSegment from './partials/SFileSegment';
 import StructureItem from './StructureItem';
 import StructureDataTypes from './StructureDataTypes';
 import { DARK_MODE, AUTOSAVE_INTERVAL, EMPTY_STRUCTURE } from '../../utils/constants';

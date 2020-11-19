@@ -1,13 +1,13 @@
 import React from 'react';
 import { Segment, Header, Button } from 'semantic-ui-react';
-import { SaveModal, NotificationManager } from '../../components';
+import { SaveModal, NotificationManager } from '../../../components';
 import {
   DARK_MODE,
   STRUCTURE_AUTOSAVE_NAME,
   NOTIFICATION_TIMEOUT,
   EMPTY_STRUCTURE,
-} from '../../utils/constants';
-import { SFileSegmentProps } from './types';
+} from '../../../utils/constants';
+import { SFileSegmentProps } from '../types';
 
 const resetPadding: React.CSSProperties = {
   paddingLeft: 0,

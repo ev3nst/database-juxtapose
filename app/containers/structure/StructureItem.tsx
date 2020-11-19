@@ -1,8 +1,8 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
-import Preview from './Preview';
-import FieldForm from './FieldForm';
-import HeaderForm from './HeaderForm';
+import Preview from './partials/Preview';
+import FieldForm from './partials/FieldForm';
+import HeaderForm from './partials/HeaderForm';
 import { findObjectIndex } from '../../utils/functions';
 import { DARK_MODE } from '../../utils/constants';
 import { StructureItemProps } from './types';

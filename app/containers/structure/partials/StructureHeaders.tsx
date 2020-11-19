@@ -2,8 +2,8 @@ import React from 'react';
 import { Grid, Card, Divider, Icon } from 'semantic-ui-react';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import { StructureFieldContainer, StructureField } from './StructureField';
-import { COLORS } from '../../utils/constants';
-import { StructureHeaderContainerType, StructureHeaderType } from './types';
+import { COLORS } from '../../../utils/constants';
+import { StructureHeaderContainerType, StructureHeaderType } from '../types';
 
 export const StructureHeaderContainer = SortableContainer(
   ({ children, inverted }: StructureHeaderContainerType) => {

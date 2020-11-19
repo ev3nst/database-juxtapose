@@ -1,8 +1,8 @@
 import React from 'react';
 import { Card, Header, Checkbox, Form } from 'semantic-ui-react';
-import { DARK_MODE, FIELD_COLORS } from '../../utils/constants';
-import { StructureFieldDataTypes } from '../../types';
-import { FieldDataProps } from './types';
+import { DARK_MODE, FIELD_COLORS } from '../../../utils/constants';
+import { StructureFieldDataTypes } from '../../../types';
+import { FieldDataProps } from '../types';
 
 const ExtraPadding: React.CSSProperties = {
   padding: 15,
