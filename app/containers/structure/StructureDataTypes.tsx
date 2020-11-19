@@ -20,12 +20,12 @@ class StructureDataTypes extends React.PureComponent<StructureDataTypesProps> {
     const { dataStructure, manipulateFieldData } = this.props;
     const tabs: PaneItem[] = [];
 
-    for (let i = 0; i < dataStructure.length; i += 1) {
+    for (let i = 0; i < dataStructure.structure.length; i += 1) {
       const newTab = {
-        menuItem: dataStructure[i].name,
+        menuItem: dataStructure.structure[i].itemName,
         render: () => (
           <Tab.Pane
-            key={dataStructure[i].name}
+            key={dataStructure.structure[i].itemName}
             inverted={DARK_MODE}
             attached="top"
             style={PaneReset}
@@ -70,10 +70,10 @@ class StructureDataTypes extends React.PureComponent<StructureDataTypesProps> {
                 />
               </Segment>
 
-              {dataStructure[i].items.map((field) => (
+              {dataStructure.structure[i].items.map((field) => (
                 <FieldData
-                  key={field.name}
-                  header={dataStructure[i].name}
+                  key={field.fieldName}
+                  header={dataStructure.structure[i].itemName}
                   field={field}
                   manipulateFieldData={manipulateFieldData}
                 />
@@ -93,7 +93,7 @@ class StructureDataTypes extends React.PureComponent<StructureDataTypesProps> {
     const { dataStructure } = this.props;
     return (
       <div>
-        {dataStructure.length > 0 && (
+        {dataStructure.structure.length > 0 && (
           <>
             <Tab
               menu={{ secondary: DARK_MODE, inverted: DARK_MODE }}

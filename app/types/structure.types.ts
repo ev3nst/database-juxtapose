@@ -12,18 +12,20 @@ export type StructureFieldDataTypes =
   | 'Array'
   | 'Any';
 
-export type StructureFieldKeys = 'name' | 'dataType' | 'required' | 'defaultValue';
+export type StructureFieldKeys = 'fieldName' | 'dataType' | 'required' | 'defaultValue';
 
 export type StructureFieldType = {
-  name: string;
+  fieldName: string;
   dataType: StructureFieldDataTypes;
   required: boolean;
   defaultValue: any;
 };
 
-export type StructureArrayItem = {
+export type StructureObject = {
   name: string;
-  items: Array<StructureFieldType>;
+  description: string;
+  structure: {
+    itemName: string;
+    items: Array<StructureFieldType>;
+  }[];
 };
-
-export type StructureObject = Array<StructureArrayItem>;

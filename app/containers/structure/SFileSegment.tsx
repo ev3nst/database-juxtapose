@@ -5,6 +5,7 @@ import {
   DARK_MODE,
   STRUCTURE_AUTOSAVE_NAME,
   NOTIFICATION_TIMEOUT,
+  EMPTY_STRUCTURE,
 } from '../../utils/constants';
 import { SFileSegmentProps } from './types';
 
@@ -40,7 +41,7 @@ class SFileSegment extends React.PureComponent<SFileSegmentProps> {
               onConfirm={(fileName) => {
                 SaveStructure(
                   paths.structures,
-                  dataStructure === undefined ? [] : dataStructure,
+                  dataStructure === undefined ? EMPTY_STRUCTURE : dataStructure,
                   fileName,
                   false
                 );
@@ -54,7 +55,7 @@ class SFileSegment extends React.PureComponent<SFileSegmentProps> {
               onClick={() => {
                 SaveStructure(
                   paths.structures,
-                  dataStructure === undefined ? [] : dataStructure,
+                  dataStructure === undefined ? EMPTY_STRUCTURE : dataStructure,
                   activeFile,
                   true
                 );

@@ -18,7 +18,7 @@ import {
 } from '../redux.types';
 import { InteractiveResponder, StructureObject } from '../../types';
 import { StructureActionTypes } from './action.types';
-import { LOADING, ERROR, INITIALIZES } from '../../utils/constants';
+import { LOADING, ERROR, INITIALIZES, EMPTY_STRUCTURE } from '../../utils/constants';
 import { findObjectIndex } from '../../utils/functions';
 
 export interface StructureState extends InteractiveResponder {
@@ -34,7 +34,7 @@ const INIT_STATE: StructureState = {
   ...INITIALIZES,
   autosaveLoading: false,
   allStructures: [],
-  dataStructure: [],
+  dataStructure: EMPTY_STRUCTURE,
   structureFile: 'structure_autosave',
 };
 
@@ -82,19 +82,6 @@ const reducer = (
       };
 
     case SAVE_STRUCTURE_SUCCESS:
-      console.log(
-        {
-          ...state,
-          loading: false,
-          autosaveLoading: false,
-          structureFile: action.payload.fileName,
-          allStructures:
-            action.payload.isAutosave === true
-              ? state.allStructures
-              : state.allStructures.concat(action.payload.fileName),
-        },
-        'SAV?E'
-      );
       return {
         ...state,
         loading: false,
@@ -145,19 +132,33 @@ const reducer = (
       };
 
     case SORT_STRUCTURE: {
-      const { oldIndex, newIndex, whichHeader } = action.payload;
+      const { oldIndex, newIndex, itemName } = action.payload;
       let sortedArray!: StructureObject;
 
-      if (whichHeader === undefined) {
-        sortedArray = arrayMove(state.dataStructure, oldIndex, newIndex);
+      if (itemName === undefined) {
+        sortedArray = {
+          ...state.dataStructure,
+          structure: arrayMove(state.dataStructure.structure, oldIndex, newIndex),
+        };
       } else {
-        const headerIndex = findObjectIndex(state.dataStructure, 'name', whichHeader);
-        sortedArray = Object.assign([...state.dataStructure], {
-          [headerIndex]: {
-            name: whichHeader,
-            items: arrayMove(state.dataStructure[headerIndex].items, oldIndex, newIndex),
-          },
-        });
+        const headerIndex = findObjectIndex(
+          state.dataStructure.structure,
+          'itemName',
+          itemName
+        );
+        sortedArray = {
+          ...state.dataStructure,
+          structure: Object.assign([...state.dataStructure.structure], {
+            [headerIndex]: {
+              itemName,
+              items: arrayMove(
+                state.dataStructure.structure[headerIndex].items,
+                oldIndex,
+                newIndex
+              ),
+            },
+          }),
+        };
       }
 
       return {
@@ -169,106 +170,128 @@ const reducer = (
     case ADD_OR_REMOVE_S_HEADER: {
       if (action.payload.action === 'add') {
         const newItem = {
-          name: action.payload.name,
+          itemName: action.payload.itemName,
           items: [],
         };
         return {
           ...state,
-          dataStructure: state.dataStructure.concat(newItem),
+          dataStructure: {
+            ...state.dataStructure,
+            structure: state.dataStructure.structure.concat(newItem),
+          },
         };
       }
 
       const indexToRemove = findObjectIndex(
-        state.dataStructure,
-        'name',
-        action.payload.name
+        state.dataStructure.structure,
+        'itemName',
+        action.payload.itemName
       );
       return {
         ...state,
-        dataStructure: [
-          ...state.dataStructure.slice(0, indexToRemove),
-          ...state.dataStructure.slice(indexToRemove + 1),
-        ],
+        dataStructure: {
+          ...state.dataStructure,
+          structure: [
+            ...state.dataStructure.structure.slice(0, indexToRemove),
+            ...state.dataStructure.structure.slice(indexToRemove + 1),
+          ],
+        },
       };
     }
 
     case ADD_OR_REMOVE_S_FIELD: {
       if (action.payload.action === 'add') {
         const indexToAdd = findObjectIndex(
-          state.dataStructure,
-          'name',
-          action.payload.name
+          state.dataStructure.structure,
+          'itemName',
+          action.payload.itemName
         );
 
         return {
           ...state,
-          dataStructure: Object.assign([...state.dataStructure], {
-            [indexToAdd]: {
-              name: action.payload.name,
-              items: [
-                ...state.dataStructure[indexToAdd].items,
-                {
-                  name: action.payload.field,
-                  dataType: 'Any',
-                  required: false,
-                  defaultValue: null,
-                },
-              ],
-            },
-          }),
+          dataStructure: {
+            ...state.dataStructure,
+            structure: Object.assign([...state.dataStructure.structure], {
+              [indexToAdd]: {
+                itemName: action.payload.itemName,
+                items: [
+                  ...state.dataStructure.structure[indexToAdd].items,
+                  {
+                    fieldName: action.payload.fieldName,
+                    dataType: 'Any',
+                    required: false,
+                    defaultValue: null,
+                  },
+                ],
+              },
+            }),
+          },
         };
       }
 
       const indexToRemoveFrom = findObjectIndex(
-        state.dataStructure,
-        'name',
-        action.payload.name
+        state.dataStructure.structure,
+        'itemName',
+        action.payload.itemName
       );
 
       const indexToRemove = findObjectIndex(
-        state.dataStructure[indexToRemoveFrom].items,
-        'name',
-        action.payload.field
+        state.dataStructure.structure[indexToRemoveFrom].items,
+        'fieldName',
+        action.payload.fieldName
       );
 
       return {
         ...state,
-        dataStructure: Object.assign([...state.dataStructure], {
-          [indexToRemoveFrom]: {
-            name: action.payload.name,
-            items: [
-              ...state.dataStructure[indexToRemoveFrom].items.slice(0, indexToRemove),
-              ...state.dataStructure[indexToRemoveFrom].items.slice(indexToRemove + 1),
-            ],
-          },
-        }),
+        dataStructure: {
+          ...state.dataStructure,
+          structure: Object.assign([...state.dataStructure.structure], {
+            [indexToRemoveFrom]: {
+              itemName: action.payload.itemName,
+              items: [
+                ...state.dataStructure.structure[indexToRemoveFrom].items.slice(
+                  0,
+                  indexToRemove
+                ),
+                ...state.dataStructure.structure[indexToRemoveFrom].items.slice(
+                  indexToRemove + 1
+                ),
+              ],
+            },
+          }),
+        },
       };
     }
 
     case MANIPULATE_FIELD_DATA: {
       const headerToModify = findObjectIndex(
-        state.dataStructure,
-        'name',
-        action.payload.whichHeader
+        state.dataStructure.structure,
+        'itemName',
+        action.payload.itemName
       );
 
       const fieldToModify = findObjectIndex(
-        state.dataStructure[headerToModify].items,
-        'name',
-        action.payload.field
+        state.dataStructure.structure[headerToModify].items,
+        'fieldName',
+        action.payload.fieldName
       );
 
-      const rawItems = Object.assign([...state.dataStructure[headerToModify].items]);
+      const rawItems = Object.assign([
+        ...state.dataStructure.structure[headerToModify].items,
+      ]);
       rawItems[fieldToModify][action.payload.key] = action.payload.value;
 
       return {
         ...state,
-        dataStructure: Object.assign([...state.dataStructure], {
-          [headerToModify]: {
-            name: action.payload.whichHeader,
-            items: rawItems,
-          },
-        }),
+        dataStructure: {
+          ...state.dataStructure,
+          structure: Object.assign([...state.dataStructure.structure], {
+            [headerToModify]: {
+              itemName: action.payload.itemName,
+              items: rawItems,
+            },
+          }),
+        },
       };
     }
 

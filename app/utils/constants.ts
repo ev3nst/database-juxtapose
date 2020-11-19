@@ -3,7 +3,7 @@ import { remote } from 'electron';
 import { SemanticCOLORS } from 'semantic-ui-react';
 import { RouteItem } from '../components/Navbar';
 import routes from './routes.json';
-import { Initializes, PageError, PageLoading } from '../types';
+import { Initializes, PageError, PageLoading, StructureObject } from '../types';
 
 export const WINDOW = remote.getCurrentWindow();
 export const APP_NAME = remote.app.getName();
@@ -18,6 +18,11 @@ export const STRUCTURE_AUTOSAVE_NAME = 'structure_autosave';
 export const STRUCTURE_AUTOSAVE_FILE = `${STRUCTURE_AUTOSAVE_NAME}.json`;
 export const MIGRATION_AUTOSAVE_NAME = 'migration_autosave';
 export const MIGRATION_AUTOSAVE_FILE = `${MIGRATION_AUTOSAVE_NAME}.json`;
+export const EMPTY_STRUCTURE: StructureObject = {
+  name: 'Autosave',
+  description: 'This file is temporary.',
+  structure: [],
+};
 
 export const defaultConfig = {
   autoSave: true,

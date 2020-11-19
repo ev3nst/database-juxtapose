@@ -8,6 +8,7 @@ import {
 } from '../redux.types';
 import { StructureObject } from '../../types';
 import {
+  EMPTY_STRUCTURE,
   STRUCTURE_AUTOSAVE_NAME,
   STRUCTURE_AUTOSAVE_FILE,
   PAGINATION_LIMIT,
@@ -47,7 +48,16 @@ function* initStructure({
       PAGINATION_LIMIT
     );
 
-    const autosaveFile = yield call(getJsonFile, payload.path, STRUCTURE_AUTOSAVE_FILE);
+    let autosaveFile = yield call(getJsonFile, payload.path, STRUCTURE_AUTOSAVE_FILE);
+
+    if (autosaveFile.status === false) {
+      autosaveFile = yield call(
+        saveJsonFile,
+        payload.path,
+        STRUCTURE_AUTOSAVE_NAME,
+        EMPTY_STRUCTURE
+      );
+    }
 
     if (autosaveFile.status === true && structureList.status === true) {
       const autosaveIndex = structureList.files.indexOf(STRUCTURE_AUTOSAVE_NAME);
@@ -77,20 +87,20 @@ function* saveStructure({
   payload: {
     path: string;
     dataStructure: StructureObject;
+    fileName: string;
     isAutosave: boolean;
-    fileName?: string;
   };
   type: string;
 }) {
   try {
-    yield call(saveJsonFile, payload.path, payload.dataStructure, payload.fileName);
+    yield call(saveJsonFile, payload.path, payload.fileName, payload.dataStructure);
 
     // if new, reset autosave file
     if (payload.isAutosave === false) {
-      yield call(saveJsonFile, payload.path, [], STRUCTURE_AUTOSAVE_NAME);
+      yield call(saveJsonFile, payload.path, STRUCTURE_AUTOSAVE_NAME, EMPTY_STRUCTURE);
     }
 
-    yield put(saveStructureSuccess(payload.isAutosave, payload.fileName));
+    yield put(saveStructureSuccess(payload.fileName, payload.isAutosave));
   } catch (error) {
     yield put(saveStructureFailed(error));
   }

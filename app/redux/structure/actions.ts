@@ -56,8 +56,8 @@ export const saveStructure: ActionCreator<StructureActionTypes> = (
 });
 
 export const saveStructureSuccess: ActionCreator<StructureActionTypes> = (
-  isAutosave: boolean,
-  fileName: string
+  fileName: string,
+  isAutosave: boolean
 ) => ({
   type: SAVE_STRUCTURE_SUCCESS,
   payload: { isAutosave, fileName },
@@ -116,37 +116,37 @@ export const deleteStructureFailed: ActionCreator<StructureActionTypes> = (
 });
 
 export const addOrRemoveHeader: ActionCreator<StructureActionTypes> = (
-  name: string,
+  itemName: string,
   action: StructureObjectAction
 ) => ({
   type: ADD_OR_REMOVE_S_HEADER,
-  payload: { name, action },
+  payload: { itemName, action },
 });
 
 export const addOrRemoveField: ActionCreator<StructureActionTypes> = (
-  name: string,
-  field: string,
+  itemName: string,
+  fieldName: string,
   action: StructureObjectAction
 ) => ({
   type: ADD_OR_REMOVE_S_FIELD,
-  payload: { name, field, action },
+  payload: { itemName, fieldName, action },
 });
 
 export const sortStructure: ActionCreator<StructureActionTypes> = (
   oldIndex: number,
   newIndex: number,
-  whichHeader?: string
+  itemName?: string
 ) => ({
   type: SORT_STRUCTURE,
-  payload: { oldIndex, newIndex, whichHeader },
+  payload: { oldIndex, newIndex, itemName },
 });
 
 export const manipulateFieldData: ActionCreator<StructureActionTypes> = (
-  whichHeader: string,
-  field: string,
+  itemName: string,
+  fieldName: string,
   key: StructureFieldKeys,
   value: string | StructureFieldDataTypes | boolean
 ) => ({
   type: MANIPULATE_FIELD_DATA,
-  payload: { whichHeader, field, key, value },
+  payload: { itemName, fieldName, key, value },
 });

@@ -62,8 +62,8 @@ export const StructureHeader = SortableElement(
             >
               {items.map((field, index) => (
                 <StructureField
-                  key={field.name}
-                  field={field.name}
+                  key={field.fieldName}
+                  field={field.fieldName}
                   index={index}
                   header={header}
                   inverted={inverted}

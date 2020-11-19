@@ -24,45 +24,33 @@ export function replaceArray(find: string[], replace: string[], stringToReplace:
   return stringToReplace;
 }
 
-export async function saveJsonFile(path: string, data: any, fileName?: string) {
+export async function saveJsonFile(path: string, fileName: string, data: any) {
   fs.writeFileSync(`${path + fileName}.json`, JSON.stringify(data));
+  return data;
 }
 
-export async function deleteJsonFile(path: string, fileName?: string) {
+export async function deleteJsonFile(path: string, fileName: string) {
   fs.unlinkSync(`${path + fileName}.json`);
 }
 
 export async function getJsonFile(
   path: string,
-  fileName: string,
-  defaultData: string = '[]'
+  fileName: string
 ): Promise<SagaAsyncReturn> {
   try {
     if (!fs.existsSync(path + fileName)) {
-      fs.writeFileSync(path + fileName, defaultData);
       return {
-        status: true,
-        data: [],
+        status: false,
         error: '',
       };
     }
 
     const fileContents = fs.readFileSync(path + fileName, 'utf8');
-    try {
-      const data = JSON.parse(fileContents);
-      if (data !== undefined || data !== null || data !== '') {
-        return {
-          status: true,
-          data,
-          error: '',
-        };
-      }
-    } catch (error) {
-      // json error
-      fs.writeFileSync(path + fileName, defaultData);
+    const data = JSON.parse(fileContents);
+    if (data !== undefined || data !== null || data !== '') {
       return {
         status: true,
-        data: [],
+        data,
         error: '',
       };
     }

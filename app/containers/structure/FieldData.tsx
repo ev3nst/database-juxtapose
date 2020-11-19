@@ -12,7 +12,7 @@ const FieldData = ({ header, field, manipulateFieldData }: FieldDataProps) => {
   return (
     <Card className={DARK_MODE === true ? 'inverted' : undefined} style={ExtraPadding}>
       <Form.Group>
-        <Header as="h5" content={field.name.toUpperCase()} inverted={DARK_MODE} />
+        <Header as="h5" content={field.fieldName.toUpperCase()} inverted={DARK_MODE} />
         <Form.Input
           fluid
           list="datatypes"
@@ -22,11 +22,11 @@ const FieldData = ({ header, field, manipulateFieldData }: FieldDataProps) => {
           style={{ marginBottom: 10, color: FIELD_COLORS[field.dataType] }}
           onChange={(event) => {
             const value = event.target.value as StructureFieldDataTypes;
-            manipulateFieldData(header, field.name, 'dataType', value);
+            manipulateFieldData(header, field.fieldName, 'dataType', value);
           }}
           onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
             if (Object.keys(FIELD_COLORS).indexOf(event.target.value) === -1) {
-              manipulateFieldData(header, field.name, 'dataType', 'Any');
+              manipulateFieldData(header, field.fieldName, 'dataType', 'Any');
             }
           }}
         />
@@ -36,7 +36,7 @@ const FieldData = ({ header, field, manipulateFieldData }: FieldDataProps) => {
           style={{ marginBottom: 10 }}
           checked={field.required}
           onChange={() => {
-            manipulateFieldData(header, field.name, 'required', !field.required);
+            manipulateFieldData(header, field.fieldName, 'required', !field.required);
           }}
         />
         <Form.Input
@@ -46,7 +46,12 @@ const FieldData = ({ header, field, manipulateFieldData }: FieldDataProps) => {
           transparent={DARK_MODE}
           value={field.defaultValue !== null ? field.defaultValue : ''}
           onChange={(event) => {
-            manipulateFieldData(header, field.name, 'defaultValue', event.target.value);
+            manipulateFieldData(
+              header,
+              field.fieldName,
+              'defaultValue',
+              event.target.value
+            );
           }}
         />
       </Form.Group>

@@ -3,7 +3,7 @@ import { Message, Button, Icon, Loader } from 'semantic-ui-react';
 import SFileSegment from './SFileSegment';
 import StructureItem from './StructureItem';
 import StructureDataTypes from './StructureDataTypes';
-import { DARK_MODE, AUTOSAVE_INTERVAL } from '../../utils/constants';
+import { DARK_MODE, AUTOSAVE_INTERVAL, EMPTY_STRUCTURE } from '../../utils/constants';
 import { StructureDetailProps, StructureDetailStates } from './types';
 
 const itemSpace: React.CSSProperties = {
@@ -42,7 +42,7 @@ class StructureDetail extends React.PureComponent<
         });
         SaveStructure(
           paths.structures,
-          dataStructure === undefined ? [] : dataStructure,
+          dataStructure === undefined ? EMPTY_STRUCTURE : dataStructure,
           activeFile,
           true
         );

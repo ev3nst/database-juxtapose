@@ -24,12 +24,12 @@ class Preview extends React.Component<PreviewProps> {
         onSortEnd={({ oldIndex, newIndex }) => onSort(oldIndex, newIndex)}
         useDragHandle
       >
-        {dataStructure.map((_val, index) => (
+        {dataStructure.structure.map((_val, index) => (
           <StructureHeader
-            key={dataStructure[index].name}
+            key={dataStructure.structure[index].itemName}
             index={index}
-            header={dataStructure[index].name}
-            items={dataStructure[index].items}
+            header={dataStructure.structure[index].itemName}
+            items={dataStructure.structure[index].items}
             inverted={inverted}
             onRemoveHeader={onRemoveHeader}
             onRemoveField={onRemoveField}

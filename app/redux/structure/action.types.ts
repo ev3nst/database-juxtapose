@@ -101,15 +101,15 @@ export interface DeleteStructureFailed {
 export interface AddOrRemoveHeader {
   type: typeof ADD_OR_REMOVE_S_HEADER;
   payload: {
-    name: string;
+    itemName: string;
     action: StructureObjectAction;
   };
 }
-export interface AddOrRemoveContent {
+export interface AddOrRemoveField {
   type: typeof ADD_OR_REMOVE_S_FIELD;
   payload: {
-    name: string;
-    field: string;
+    itemName: string;
+    fieldName: string;
     action: StructureObjectAction;
   };
 }
@@ -120,7 +120,7 @@ export interface SortStructure {
   payload: {
     oldIndex: number;
     newIndex: number;
-    whichHeader?: string;
+    itemName?: string;
   };
 }
 
@@ -128,8 +128,8 @@ export interface SortStructure {
 export interface ManipulateFieldData {
   type: typeof MANIPULATE_FIELD_DATA;
   payload: {
-    whichHeader: string;
-    field: string;
+    itemName: string;
+    fieldName: string;
     key: StructureFieldKeys;
     value: string | StructureFieldDataTypes | boolean;
   };
@@ -149,6 +149,6 @@ export type StructureActionTypes =
   | DeleteStructureSuccess
   | DeleteStructureFailed
   | AddOrRemoveHeader
-  | AddOrRemoveContent
+  | AddOrRemoveField
   | SortStructure
   | ManipulateFieldData;

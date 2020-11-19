@@ -10,13 +10,13 @@ import { StructureItemProps } from './types';
 class StructureItem extends React.PureComponent<StructureItemProps> {
   getStructureHeaders = (): Array<string> => {
     const { dataStructure } = this.props;
-    return dataStructure.map((structure) => structure.name);
+    return dataStructure.structure.map((structure) => structure.itemName);
   };
 
   getStructureFields = (whichHeader: string): Array<string> => {
     const { dataStructure } = this.props;
-    const headerIndex = findObjectIndex(dataStructure, 'name', whichHeader);
-    return dataStructure[headerIndex].items.map((field) => field.name);
+    const headerIndex = findObjectIndex(dataStructure.structure, 'itemName', whichHeader);
+    return dataStructure.structure[headerIndex].items.map((field) => field.fieldName);
   };
 
   onNewHeader = (newHeader: string): void => {
