@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
-import { FieldInputProps, FieldInputStates } from '../types';
-import { DARK_MODE } from '../../../utils/constants';
+import { FieldInputProps, FieldInputStates } from '../../types';
+import { DARK_MODE } from '../../../../utils/constants';
 
 class FieldInput extends React.Component<FieldInputProps, FieldInputStates> {
   constructor(props: FieldInputProps) {

@@ -1,10 +1,6 @@
 import React from 'react';
 import { Segment, Header, List, Confirm, Icon } from 'semantic-ui-react';
-import {
-  DARK_MODE,
-  STRUCTURE_AUTOSAVE_NAME,
-  STRUCTURE_AUTOSAVE_FILE,
-} from '../../utils/constants';
+import { DARK_MODE, STRUCTURE_AUTOSAVE_FILE } from '../../utils/constants';
 import { StructureListProps, StructureListStates } from './types';
 
 const LessSegmentPadding: React.CSSProperties = {
@@ -12,8 +8,18 @@ const LessSegmentPadding: React.CSSProperties = {
   paddingRight: 2,
 };
 
-const ListItemMargin: React.CSSProperties = {
-  marginBottom: 7,
+const ListItemPadding: React.CSSProperties = {
+  paddingTop: 10,
+  paddingBottom: 10,
+  paddingLeft: 10,
+  marginRight: 20,
+};
+
+const DeleteButtonStyle: React.CSSProperties = {
+  position: 'absolute',
+  top: 10,
+  right: 0,
+  zIndex: 9,
 };
 
 class StructureList extends React.Component<StructureListProps, StructureListStates> {
@@ -30,11 +36,10 @@ class StructureList extends React.Component<StructureListProps, StructureListSta
     nextProps: StructureListProps,
     prevStates: StructureListStates
   ): boolean {
-    const { allStructures, activeFile } = this.props;
+    const { allStructures } = this.props;
     const { deleteStructureConfirm } = this.state;
     if (
       nextProps.allStructures.length !== allStructures.length ||
-      nextProps.activeFile !== activeFile ||
       prevStates.deleteStructureConfirm !== deleteStructureConfirm
     ) {
       return true;
@@ -44,23 +49,31 @@ class StructureList extends React.Component<StructureListProps, StructureListSta
   }
 
   renderStructureList(): JSX.Element[] {
-    const { activeFile, structuresPath, allStructures, changeStructure } = this.props;
+    const {
+      structureFile,
+      structuresPath,
+      allStructures,
+      changeStructure,
+      onNavigate,
+    } = this.props;
     return allStructures.map((fileName) => (
       <List.Item
-        active={activeFile === fileName}
+        active={structureFile === fileName}
         key={fileName}
-        onClick={() => {
-          changeStructure(structuresPath, `${fileName}.json`);
-        }}
+        style={ListItemPadding}
       >
-        <List.Content>
+        <List.Content
+          onClick={() => {
+            changeStructure(structuresPath, `${fileName}.json`);
+            onNavigate();
+          }}
+        >
           <List.Header>
             <Icon size="small" name="file alternate outline" /> {fileName}
           </List.Header>
         </List.Content>
         <Icon
-          style={{ float: 'right', marginTop: 4 }}
-          size="small"
+          style={DeleteButtonStyle}
           color="red"
           name="trash alternate outline"
           onClick={() => {
@@ -72,7 +85,13 @@ class StructureList extends React.Component<StructureListProps, StructureListSta
   }
 
   render() {
-    const { activeFile, structuresPath, changeStructure, deleteStructure } = this.props;
+    const {
+      structureFile,
+      structuresPath,
+      changeStructure,
+      deleteStructure,
+      onNavigate,
+    } = this.props;
     const { deleteStructureConfirm, whichStructure } = this.state;
     return (
       <Segment inverted={DARK_MODE} basic clearing style={LessSegmentPadding}>
@@ -84,24 +103,22 @@ class StructureList extends React.Component<StructureListProps, StructureListSta
           subheader="Click to navigate"
           style={{ marginTop: 1 }}
         />
-        <List selection animated verticalAlign="middle" inverted={DARK_MODE}>
-          <List.Item
-            key={STRUCTURE_AUTOSAVE_FILE}
-            active={activeFile === STRUCTURE_AUTOSAVE_NAME}
-            style={ListItemMargin}
-            onClick={() => {
-              changeStructure(structuresPath, STRUCTURE_AUTOSAVE_FILE);
-            }}
-          >
-            <List.Content>
+        <List divided selection relaxed inverted={DARK_MODE}>
+          <List.Item key={STRUCTURE_AUTOSAVE_FILE} active={false} style={ListItemPadding}>
+            <List.Content
+              onClick={() => {
+                changeStructure(structuresPath, STRUCTURE_AUTOSAVE_FILE);
+                onNavigate();
+              }}
+            >
               <List.Header>
                 New <Icon size="small" name="plus" />
               </List.Header>
+              Autosave file.
             </List.Content>
           </List.Item>
           {this.renderStructureList()}
         </List>
-
         <Confirm
           centered
           dimmer={DARK_MODE === true ? undefined : 'inverted'}
@@ -113,7 +130,7 @@ class StructureList extends React.Component<StructureListProps, StructureListSta
           }
           onConfirm={() => {
             deleteStructure(structuresPath, whichStructure);
-            if (activeFile === whichStructure) {
+            if (structureFile === whichStructure) {
               changeStructure(structuresPath, STRUCTURE_AUTOSAVE_FILE);
             }
             this.setState({ deleteStructureConfirm: false, whichStructure: '' });

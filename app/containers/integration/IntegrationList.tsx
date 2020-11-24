@@ -54,10 +54,9 @@ class IntegrationList extends React.Component<IntegrationListProps> {
   render() {
     const { activeFile, integrationsPath, changeIntegration } = this.props;
     return (
-      <Segment inverted={DARK_MODE} basic clearing>
+      <Segment inverted={DARK_MODE} stacked>
         <Header
           as="h3"
-          className="muted-subheader"
           inverted={DARK_MODE}
           content="Integration List"
           subheader="Click to navigate"

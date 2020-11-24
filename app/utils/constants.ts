@@ -2,7 +2,6 @@ import { CSSProperties } from 'react';
 import { remote } from 'electron';
 import { SemanticCOLORS } from 'semantic-ui-react';
 import { RouteItem } from '../components/Navbar';
-import routes from './routes.json';
 import {
   Initializes,
   IntegrationObject,
@@ -24,7 +23,7 @@ export const STRUCTURE_AUTOSAVE_NAME = 'structure_autosave';
 export const STRUCTURE_AUTOSAVE_FILE = `${STRUCTURE_AUTOSAVE_NAME}.json`;
 export const EMPTY_STRUCTURE: StructureObject = {
   name: 'Autosave',
-  description: 'This file is temporary.',
+  description: '',
   structure: [],
 };
 
@@ -32,7 +31,7 @@ export const INTEGRATION_AUTOSAVE_NAME = 'integration_autosave';
 export const INTEGRATION_AUTOSAVE_FILE = `${INTEGRATION_AUTOSAVE_NAME}.json`;
 export const EMPTY_INTEGRATION: IntegrationObject = {
   name: 'Autosave',
-  description: 'This file is temporary.',
+  description: '',
 };
 
 export const defaultConfig = {
@@ -47,25 +46,34 @@ export const defaultConfig = {
 export const AUTOSAVE_INTERVAL = 60000;
 export const NOTIFICATION_TIMEOUT = 2500;
 
+export const ROUTES = {
+  WRAPPER: '/',
+  STRUCTURE: '/structure',
+  STRUCTURE_DETAIL: '/structure-detail',
+  INTEGRATION: '/integration',
+  WIZARD: '/wizard',
+  SETTINGS: '/settings',
+};
+
 export const NavbarItems: Array<RouteItem> = [
   {
     title: 'Structures',
-    route: routes.STRUCTURE,
+    route: ROUTES.STRUCTURE,
     icon: 'list alternate outline',
   },
   {
     title: 'Integrations',
-    route: routes.INTEGRATION,
+    route: ROUTES.INTEGRATION,
     icon: 'object ungroup outline',
   },
   {
     title: 'Wizard',
-    route: routes.WIZARD,
+    route: ROUTES.WIZARD,
     icon: 'wizard',
   },
   {
     title: 'Settings',
-    route: routes.SETTINGS,
+    route: ROUTES.SETTINGS,
     icon: 'settings',
   },
 ];

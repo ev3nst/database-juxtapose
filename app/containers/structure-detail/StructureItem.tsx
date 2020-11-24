@@ -1,8 +1,9 @@
 import React from 'react';
-import { Form } from 'semantic-ui-react';
+import { Form, Message } from 'semantic-ui-react';
 import Preview from './partials/Preview';
-import FieldInput from './partials/FieldInput';
-import HeaderInput from './partials/HeaderInput';
+import FieldInput from './partials/inputs/FieldInput';
+import HeaderInput from './partials/inputs/HeaderInput';
+import DescriptionInput from './partials/inputs/DescriptionInput';
 import { findObjectIndex } from '../../utils/functions';
 import { DARK_MODE } from '../../utils/constants';
 import { StructureItemProps } from './types';
@@ -17,6 +18,11 @@ class StructureItem extends React.PureComponent<StructureItemProps> {
     const { dataStructure } = this.props;
     const headerIndex = findObjectIndex(dataStructure.structure, 'itemName', whichHeader);
     return dataStructure.structure[headerIndex].items.map((field) => field.fieldName);
+  };
+
+  onDescriptionChange = (description: string): void => {
+    const { MetaChange } = this.props;
+    MetaChange(description, 'description');
   };
 
   onNewHeader = (newHeader: string): void => {
@@ -59,16 +65,24 @@ class StructureItem extends React.PureComponent<StructureItemProps> {
     const { dataStructure, sortStructure } = this.props;
 
     return (
-      <>
-        <Form inverted={DARK_MODE}>
-          <Form.Group widths={3}>
-            <HeaderInput onNewHeader={this.onNewHeader} />
-            <FieldInput
-              onNewField={this.onNewField}
-              structureHeaders={this.getStructureHeaders()}
-            />
-          </Form.Group>
-        </Form>
+      <Form inverted={DARK_MODE}>
+        <Message
+          style={{ paddingTop: 0 }}
+          color={DARK_MODE === true ? 'black' : 'red'}
+          floating
+          list={['Press enter within inputs to add or change.']}
+        />
+        <Form.Group widths={3}>
+          <HeaderInput onNewHeader={this.onNewHeader} />
+          <FieldInput
+            onNewField={this.onNewField}
+            structureHeaders={this.getStructureHeaders()}
+          />
+        </Form.Group>
+        <DescriptionInput
+          description={dataStructure.description}
+          onDescriptionChange={this.onDescriptionChange}
+        />
         <Preview
           inverted={DARK_MODE}
           onSort={sortStructure}
@@ -76,7 +90,7 @@ class StructureItem extends React.PureComponent<StructureItemProps> {
           onRemoveField={this.onRemoveField}
           dataStructure={dataStructure}
         />
-      </>
+      </Form>
     );
   }
 }

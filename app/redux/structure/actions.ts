@@ -16,6 +16,7 @@ import {
   INITIALIZE_STRUCTURE,
   INITIALIZE_STRUCTURE_SUCCESS,
   INITIALIZE_STRUCTURE_FAILED,
+  META_CHANGE,
 } from '../redux.types';
 import {
   StructureObjectAction,
@@ -23,7 +24,7 @@ import {
   StructureFieldDataTypes,
   StructureFieldKeys,
 } from '../../types';
-import { StructureActionTypes } from './action.types';
+import { StructureActionTypes, MetaNames } from './action.types';
 
 export const initStructure: ActionCreator<StructureActionTypes> = (path: string) => ({
   type: INITIALIZE_STRUCTURE,
@@ -149,4 +150,12 @@ export const manipulateFieldData: ActionCreator<StructureActionTypes> = (
 ) => ({
   type: MANIPULATE_FIELD_DATA,
   payload: { itemName, fieldName, key, value },
+});
+
+export const metaChange: ActionCreator<StructureActionTypes> = (
+  value: string,
+  metaName: MetaNames
+) => ({
+  type: META_CHANGE,
+  payload: { value, metaName },
 });

@@ -4,18 +4,18 @@ import { Switch, Route, HashRouter as Router } from 'react-router-dom';
 import { Ref } from 'semantic-ui-react';
 import { initApp } from './redux/actions';
 import { RootState } from './redux/store';
-import routes from './utils/routes.json';
 import {
   Intro,
   StickyNavigation,
   Structure,
+  StructureDetail,
   Integration,
   Wizard,
   Settings,
 } from './containers';
 
 import { NotificationContainer } from './components/Notification';
-import { DARK_MODE } from './utils/constants';
+import { ROUTES, DARK_MODE } from './utils/constants';
 
 // #region Redux Configuration
 const mapStateToProps = ({ intro }: RootState) => {
@@ -66,12 +66,13 @@ class Routes extends React.Component<IProps> {
           >
             <NotificationContainer transitionDuration={200} />
             <Router>
-              <Route path={routes.WRAPPER} component={StickyNavigation} />
+              <Route path={ROUTES.WRAPPER} component={StickyNavigation} />
               <Switch>
-                <Route path={routes.STRUCTURE} component={Structure} />
-                <Route path={routes.INTEGRATION} component={Integration} />
-                <Route path={routes.WIZARD} component={Wizard} />
-                <Route path={routes.SETTINGS} component={Settings} />
+                <Route path={ROUTES.STRUCTURE} component={Structure} />
+                <Route path={ROUTES.STRUCTURE_DETAIL} component={StructureDetail} />
+                <Route path={ROUTES.INTEGRATION} component={Integration} />
+                <Route path={ROUTES.WIZARD} component={Wizard} />
+                <Route path={ROUTES.SETTINGS} component={Settings} />
               </Switch>
             </Router>
           </div>

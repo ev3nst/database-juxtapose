@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
-import { HeaderInputProps, HeaderInputStates } from '../types';
-import { DARK_MODE } from '../../../utils/constants';
+import { HeaderInputProps, HeaderInputStates } from '../../types';
+import { DARK_MODE } from '../../../../utils/constants';
 
 class HeaderInput extends React.Component<HeaderInputProps, HeaderInputStates> {
   constructor(props: HeaderInputProps) {

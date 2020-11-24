@@ -2,54 +2,26 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Grid } from 'semantic-ui-react';
-import {
-  sortStructure,
-  saveStructure,
-  changeStructure,
-  deleteStructure,
-  addOrRemoveHeader,
-  addOrRemoveField,
-  manipulateFieldData,
-} from '../../redux/actions';
+import { saveStructure, changeStructure, deleteStructure } from '../../redux/actions';
 import { RootState } from '../../redux/store';
-import { DARK_MODE } from '../../utils/constants';
+import { ROUTES, DARK_MODE } from '../../utils/constants';
 import StructureList from './StructureList';
-import StructureDetail from './StructureDetail';
 
 // #region Redux Configuration
 const mapStateToProps = ({ structure, settings }: RootState) => {
-  const {
-    structureFile,
-    allStructures,
-    autosaveLoading,
-    loading,
-    loaded,
-    dataStructure,
-    errorState,
-    errorMessage,
-  } = structure;
+  const { structureFile, allStructures } = structure;
   const { paths } = settings;
   return {
     paths,
     structureFile,
     allStructures,
-    autosaveLoading,
-    loading,
-    loaded,
-    dataStructure,
-    errorState,
-    errorMessage,
   };
 };
 
 const mapActionsToProps = {
-  sortStructure,
   saveStructure,
   changeStructure,
   deleteStructure,
-  addOrRemoveHeader,
-  addOrRemoveField,
-  manipulateFieldData,
 };
 
 const connector = connect(mapStateToProps, mapActionsToProps);
@@ -57,56 +29,32 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type IProps = PropsFromRedux & RouteComponentProps;
 // #endregion
 
-const listBorder: React.CSSProperties = {
-  borderRightWidth: 1,
-  borderRightColor: DARK_MODE === true ? '#333333' : '#eeeeee',
-  borderRightStyle: 'solid',
-};
-
 class Structure extends React.PureComponent<IProps> {
+  navigate = () => {
+    const { history } = this.props;
+    history.push(ROUTES.STRUCTURE_DETAIL);
+  };
+
   render() {
     const {
       paths,
       structureFile,
       allStructures,
-      autosaveLoading,
-      dataStructure,
       changeStructure: ChangeStructure,
       deleteStructure: DeleteStructure,
-      saveStructure: SaveStructure,
-      addOrRemoveHeader: AddOrRemoveHeader,
-      addOrRemoveField: AddOrRemoveField,
-      sortStructure: SortStructure,
-      manipulateFieldData: ManipulateFieldData,
-      errorState,
-      errorMessage,
     } = this.props;
 
     return (
       <Grid inverted={DARK_MODE} padded className="maximize-height-with-nav">
         <Grid.Row color={DARK_MODE === true ? 'black' : undefined}>
-          <Grid.Column width={3} style={listBorder}>
+          <Grid.Column>
             <StructureList
-              activeFile={structureFile}
+              onNavigate={this.navigate}
+              structureFile={structureFile}
               structuresPath={paths.structures}
               allStructures={allStructures}
               changeStructure={ChangeStructure}
               deleteStructure={DeleteStructure}
-            />
-          </Grid.Column>
-          <Grid.Column width={13}>
-            <StructureDetail
-              paths={paths}
-              activeFile={structureFile}
-              autosaveLoading={autosaveLoading}
-              dataStructure={dataStructure}
-              SaveStructure={SaveStructure}
-              SortStructure={SortStructure}
-              AddOrRemoveHeader={AddOrRemoveHeader}
-              AddOrRemoveField={AddOrRemoveField}
-              ManipulateFieldData={ManipulateFieldData}
-              errorState={errorState}
-              errorMessage={errorMessage}
             />
           </Grid.Column>
         </Grid.Row>

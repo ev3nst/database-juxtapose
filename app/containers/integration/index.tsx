@@ -68,27 +68,12 @@ class Integration extends React.PureComponent<IProps, IStates> {
     return (
       <Grid inverted={DARK_MODE} padded className="maximize-height-with-nav">
         <Grid.Row color={DARK_MODE === true ? 'black' : undefined}>
-          <Grid.Column width={3} style={listBorder}>
-            <IntegrationList
-              activeFile={integrationFile}
-              integrationsPath={paths.integrations}
-              allIntegrations={allIntegrations}
-              changeIntegration={ChangeIntegration}
-            />
-          </Grid.Column>
-          <Grid.Column width={13}>
-            <div style={itemSpace}>
-              <IntegrationItem
-                activeFile={integrationFile}
-                errorState={errorState}
-                errorMessage={errorMessage}
-                paths={paths}
-                autosaveLoading={autosaveLoading}
-                dataIntegration={dataIntegration}
-                SaveIntegration={SaveIntegration}
-              />
-            </div>
-          </Grid.Column>
+          <IntegrationList
+            activeFile={integrationFile}
+            integrationsPath={paths.integrations}
+            allIntegrations={allIntegrations}
+            changeIntegration={ChangeIntegration}
+          />
         </Grid.Row>
       </Grid>
     );

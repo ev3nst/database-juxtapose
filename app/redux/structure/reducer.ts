@@ -15,6 +15,7 @@ import {
   INITIALIZE_STRUCTURE,
   INITIALIZE_STRUCTURE_SUCCESS,
   INITIALIZE_STRUCTURE_FAILED,
+  META_CHANGE,
 } from '../redux.types';
 import { InteractiveResponder, StructureObject } from '../../types';
 import { StructureActionTypes } from './action.types';
@@ -166,6 +167,15 @@ const reducer = (
         dataStructure: sortedArray,
       };
     }
+
+    case META_CHANGE:
+      return {
+        ...state,
+        dataStructure: {
+          ...state.dataStructure,
+          [action.payload.metaName]: action.payload.value,
+        },
+      };
 
     case ADD_OR_REMOVE_S_HEADER: {
       if (action.payload.action === 'add') {

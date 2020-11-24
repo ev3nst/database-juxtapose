@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Sticky } from 'semantic-ui-react';
-import routes from '../utils/routes.json';
-import { DARK_MODE, NavbarItems } from '../utils/constants';
+import { ROUTES, DARK_MODE, NavbarItems } from '../utils/constants';
 import { Navbar, AppActions } from '../components';
 
 // #region Redux Configuration
@@ -22,7 +21,7 @@ class StickyNavigation extends React.Component<IProps, IStates> {
     super(props);
 
     this.state = {
-      activeContainer: routes.STRUCTURE,
+      activeContainer: ROUTES.STRUCTURE,
     };
   }
 
@@ -32,12 +31,12 @@ class StickyNavigation extends React.Component<IProps, IStates> {
 
     if (
       location.pathname === '/' ||
-      Object.values(routes).indexOf(location.pathname) === -1
+      Object.values(ROUTES).indexOf(location.pathname) === -1
     ) {
       this.setState({
-        activeContainer: routes.STRUCTURE,
+        activeContainer: ROUTES.STRUCTURE,
       });
-      history.push(routes.STRUCTURE);
+      history.push(ROUTES.STRUCTURE);
     } else if (activeContainer !== location.pathname) {
       this.setState({
         activeContainer: location.pathname,

@@ -157,6 +157,17 @@ body .ui.three.cards.field-data-card-group {
 }
 
 /* Semantic Fixes */
+/* List item description does not show up at bottom of header */
+.ui.inverted.list .list > .item > .content,
+.ui.inverted.list > .item > .content {
+  display: block;
+}
+
+.ui.divided.selection.list .list > .item,
+.ui.divided.selection.list > .item {
+  position: relative;
+}
+
 /* Inputs doesnt respect parent color */
 .ui.fluid.input > input {
   color: inherit;

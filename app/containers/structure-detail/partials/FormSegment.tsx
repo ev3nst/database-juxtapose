@@ -17,7 +17,7 @@ const resetPadding: React.CSSProperties = {
 
 class FormSegment extends React.PureComponent<FormSegmentProps> {
   render() {
-    const { paths, activeFile, dataStructure, SaveStructure } = this.props;
+    const { paths, structureFile, dataStructure, SaveStructure, children } = this.props;
     return (
       <Segment inverted={DARK_MODE} style={resetPadding} basic clearing>
         <Header
@@ -26,14 +26,14 @@ class FormSegment extends React.PureComponent<FormSegmentProps> {
           inverted={DARK_MODE}
           floated="left"
           content={
-            activeFile === STRUCTURE_AUTOSAVE_NAME
+            structureFile === STRUCTURE_AUTOSAVE_NAME
               ? 'New Structure +'
-              : activeFile.toUpperCase()
+              : structureFile.toUpperCase()
           }
-          subheader={`${activeFile}.json`}
+          subheader={`${structureFile}.json`}
         />
         <Header inverted={DARK_MODE} as="h3" floated="left" style={{ marginLeft: 50 }}>
-          {activeFile === STRUCTURE_AUTOSAVE_NAME ? (
+          {structureFile === STRUCTURE_AUTOSAVE_NAME ? (
             <SaveModal
               inverted={DARK_MODE}
               pathPrefix={paths.structures}
@@ -56,7 +56,7 @@ class FormSegment extends React.PureComponent<FormSegmentProps> {
                 SaveStructure(
                   paths.structures,
                   dataStructure === undefined ? EMPTY_STRUCTURE : dataStructure,
-                  activeFile,
+                  structureFile,
                   true
                 );
 
@@ -72,6 +72,7 @@ class FormSegment extends React.PureComponent<FormSegmentProps> {
             </Button>
           )}
         </Header>
+        {children}
       </Segment>
     );
   }

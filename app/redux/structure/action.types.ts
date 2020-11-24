@@ -12,6 +12,7 @@ import {
   ADD_OR_REMOVE_S_HEADER,
   ADD_OR_REMOVE_S_FIELD,
   MANIPULATE_FIELD_DATA,
+  META_CHANGE,
   INITIALIZE_STRUCTURE,
   INITIALIZE_STRUCTURE_SUCCESS,
   INITIALIZE_STRUCTURE_FAILED,
@@ -135,6 +136,16 @@ export interface ManipulateFieldData {
   };
 }
 
+// change structure meta data
+export type MetaNames = 'name' | 'description';
+export interface MetaChange {
+  type: typeof META_CHANGE;
+  payload: {
+    value: string;
+    metaName: MetaNames;
+  };
+}
+
 export type StructureActionTypes =
   | InitStructure
   | InitStructureSuccess
@@ -151,4 +162,5 @@ export type StructureActionTypes =
   | AddOrRemoveHeader
   | AddOrRemoveField
   | SortStructure
-  | ManipulateFieldData;
+  | ManipulateFieldData
+  | MetaChange;
