@@ -51,6 +51,7 @@ export const ROUTES = {
   STRUCTURE: '/structure',
   STRUCTURE_DETAIL: '/structure-detail',
   INTEGRATION: '/integration',
+  INTEGRATION_DETAIL: '/integration-detail',
   WIZARD: '/wizard',
   SETTINGS: '/settings',
 };

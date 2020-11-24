@@ -5,6 +5,9 @@ import {
   CHANGE_INTEGRATION,
   CHANGE_INTEGRATION_SUCCESS,
   CHANGE_INTEGRATION_FAILED,
+  DELETE_INTEGRATION,
+  DELETE_INTEGRATION_SUCCESS,
+  DELETE_INTEGRATION_FAILED,
   INITIALIZE_INTEGRATION,
   INITIALIZE_INTEGRATION_SUCCESS,
   INITIALIZE_INTEGRATION_FAILED,
@@ -67,6 +70,25 @@ export interface ChangeIntegrationFailed {
   payload: { message: string };
 }
 
+// delete file
+export interface DeleteIntegration {
+  type: typeof DELETE_INTEGRATION;
+  payload: {
+    path: string;
+    integrationFile: string;
+  };
+}
+
+export interface DeleteIntegrationSuccess {
+  type: typeof DELETE_INTEGRATION_SUCCESS;
+  payload: { integrationFile: string };
+}
+
+export interface DeleteIntegrationFailed {
+  type: typeof DELETE_INTEGRATION_FAILED;
+  payload: { message: string };
+}
+
 export type IntegrationActionTypes =
   | InitIntegration
   | InitIntegrationSuccess
@@ -76,4 +98,7 @@ export type IntegrationActionTypes =
   | SaveIntegrationFailed
   | ChangeIntegration
   | ChangeIntegrationSuccess
-  | ChangeIntegrationFailed;
+  | ChangeIntegrationFailed
+  | DeleteIntegration
+  | DeleteIntegrationSuccess
+  | DeleteIntegrationFailed;

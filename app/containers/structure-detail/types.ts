@@ -10,11 +10,23 @@ export type PreviewProps = {
   inverted: boolean;
 };
 
+// #region Data Types Component
+export type PaneItem = {
+  menuItem?: any;
+  render?: (() => React.ReactNode) | undefined;
+};
+
 export type FieldDataProps = {
   header: string;
   field: StructureFieldType;
   manipulateFieldData: ActionCreator<StructureActionTypes>;
 };
+
+export type StructureDataTypesProps = {
+  dataStructure: StructureObject;
+  manipulateFieldData: ActionCreator<StructureActionTypes>;
+};
+// #endregion
 
 // #region Field Inputs
 export type FieldInputProps = {

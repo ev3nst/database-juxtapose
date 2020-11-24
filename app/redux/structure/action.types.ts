@@ -80,6 +80,7 @@ export interface ChangeStructureFailed {
   payload: { message: string };
 }
 
+// delete file
 export interface DeleteStructure {
   type: typeof DELETE_STRUCTURE;
   payload: {

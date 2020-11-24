@@ -9,17 +9,20 @@ import {
 import { IntegrationActionTypes } from '../../redux/integration/action.types';
 
 type IntegrationListProps = {
-  activeFile: string;
+  integrationFile: string;
   integrationsPath: string;
   allIntegrations: Array<string>;
   changeIntegration: ActionCreator<IntegrationActionTypes>;
+  deleteIntegration: ActionCreator<IntegrationActionTypes>;
+  onNavigate: () => void;
 };
+
 class IntegrationList extends React.Component<IntegrationListProps> {
   shouldComponentUpdate(nextProps: IntegrationListProps): boolean {
-    const { allIntegrations, activeFile } = this.props;
+    const { allIntegrations, integrationFile } = this.props;
     if (
       allIntegrations.length !== nextProps.allIntegrations.length ||
-      activeFile !== nextProps.activeFile
+      integrationFile !== nextProps.integrationFile
     ) {
       return true;
     }
@@ -29,14 +32,14 @@ class IntegrationList extends React.Component<IntegrationListProps> {
 
   renderIntegrationList(): JSX.Element[] {
     const {
-      activeFile,
+      integrationFile,
       integrationsPath,
       allIntegrations,
       changeIntegration,
     } = this.props;
     return allIntegrations.map((fileName) => (
       <List.Item
-        active={activeFile === fileName}
+        active={integrationFile === fileName}
         key={fileName}
         onClick={() => {
           changeIntegration(integrationsPath, `${fileName}.json`);
@@ -52,7 +55,7 @@ class IntegrationList extends React.Component<IntegrationListProps> {
   }
 
   render() {
-    const { activeFile, integrationsPath, changeIntegration } = this.props;
+    const { integrationFile, integrationsPath, changeIntegration } = this.props;
     return (
       <Segment inverted={DARK_MODE} stacked>
         <Header
@@ -66,7 +69,7 @@ class IntegrationList extends React.Component<IntegrationListProps> {
         />
         <List selection animated verticalAlign="middle" inverted={DARK_MODE}>
           <List.Item
-            active={activeFile === INTEGRATION_AUTOSAVE_NAME}
+            active={integrationFile === INTEGRATION_AUTOSAVE_NAME}
             key={INTEGRATION_AUTOSAVE_FILE}
             onClick={() => {
               changeIntegration(integrationsPath, INTEGRATION_AUTOSAVE_FILE);

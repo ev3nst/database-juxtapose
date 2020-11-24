@@ -163,9 +163,14 @@ body .ui.three.cards.field-data-card-group {
   display: block;
 }
 
-.ui.divided.selection.list .list > .item,
-.ui.divided.selection.list > .item {
+.ui.divided.list .list > .item,
+.ui.divided.list > .item {
   position: relative;
+  cursor: pointer;
+}
+
+.ui.divided.list.inverted > .item:hover {
+  background-color: #222;
 }
 
 /* Inputs doesnt respect parent color */
