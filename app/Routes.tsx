@@ -7,9 +7,10 @@ import { RootState } from './redux/store';
 import {
   Intro,
   StickyNavigation,
-  Structure,
+  Structures,
   StructureDetail,
-  Integration,
+  Integrations,
+  IntegrationDetail,
   Wizard,
   Settings,
 } from './containers';
@@ -68,9 +69,10 @@ class Routes extends React.Component<IProps> {
             <Router>
               <Route path={ROUTES.WRAPPER} component={StickyNavigation} />
               <Switch>
-                <Route path={ROUTES.STRUCTURE} component={Structure} />
+                <Route path={ROUTES.STRUCTURE} component={Structures} />
                 <Route path={ROUTES.STRUCTURE_DETAIL} component={StructureDetail} />
-                <Route path={ROUTES.INTEGRATION} component={Integration} />
+                <Route path={ROUTES.INTEGRATION} component={Integrations} />
+                <Route path={ROUTES.INTEGRATION_DETAIL} component={IntegrationDetail} />
                 <Route path={ROUTES.WIZARD} component={Wizard} />
                 <Route path={ROUTES.SETTINGS} component={Settings} />
               </Switch>

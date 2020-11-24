@@ -29,7 +29,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type IProps = PropsFromRedux & RouteComponentProps;
 // #endregion
 
-class Structure extends React.PureComponent<IProps> {
+class Structures extends React.PureComponent<IProps> {
   navigate = () => {
     const { history } = this.props;
     history.push(ROUTES.STRUCTURE_DETAIL);
@@ -64,4 +64,4 @@ class Structure extends React.PureComponent<IProps> {
     );
   }
 }
-export default connector(Structure);
+export default connector(Structures);
