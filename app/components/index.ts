@@ -3,3 +3,4 @@ export { default as Navbar } from './Navbar';
 export { default as SaveModal } from './SaveModal';
 export { default as NotificationManager } from './Notification';
 export { default as NavigationFilelist } from './NavigationFilelist';
+export { default as FormFileSegment } from './FormFileSegment';

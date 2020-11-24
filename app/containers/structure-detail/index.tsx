@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Grid, Message, Button, Icon, Loader } from 'semantic-ui-react';
-import FormSegment from './partials/FormSegment';
+import { FormFileSegment } from '../../components';
 import StructureItem from './StructureItem';
 import StructureDataTypes from './StructureDataTypes';
 import {
@@ -20,6 +20,7 @@ import {
   DARK_MODE,
   AUTOSAVE_INTERVAL,
   EMPTY_STRUCTURE,
+  STRUCTURE_AUTOSAVE_NAME,
 } from '../../utils/constants';
 
 const GridPadding: React.CSSProperties = {
@@ -123,10 +124,10 @@ class StructureDetail extends React.PureComponent<IProps, IStates> {
     clearInterval(this.notificationID);
   }
 
-  goBack() {
+  onGoBack = () => {
     const { history } = this.props;
     history.push(ROUTES.STRUCTURE);
-  }
+  };
 
   render() {
     const {
@@ -159,37 +160,31 @@ class StructureDetail extends React.PureComponent<IProps, IStates> {
       <Grid inverted={DARK_MODE} padded className="maximize-height-with-nav">
         <Grid.Row color={DARK_MODE === true ? 'black' : undefined}>
           <Grid.Column style={GridPadding}>
-            <FormSegment
-              paths={paths}
-              structureFile={structureFile}
-              dataStructure={dataStructure}
-              SaveStructure={SaveStructure}
-            >
-              <Button
-                icon
-                color="teal"
-                size="tiny"
-                inverted={DARK_MODE}
-                onClick={() => this.setState({ showDataTypes: !showDataTypes })}
-                active={false}
-              >
-                <span style={{ marginRight: 5 }}>
-                  Switch to {showDataTypes === false ? 'Data Types' : 'Structure'}
-                </span>
-                <Icon name={showDataTypes === false ? 'clone outline' : 'sitemap'} />
-              </Button>
-              <Button
-                icon
-                color="red"
-                size="tiny"
-                inverted={DARK_MODE}
-                floated="right"
-                onClick={() => this.goBack()}
-              >
-                Go Back
-                <Icon name="arrow right" />
-              </Button>
-            </FormSegment>
+            <FormFileSegment
+              title="Structure"
+              defaultFileName={STRUCTURE_AUTOSAVE_NAME}
+              savePath={paths.structures}
+              emptyData={EMPTY_STRUCTURE}
+              activeFile={structureFile}
+              dataToSave={dataStructure}
+              SaveFile={SaveStructure}
+              onGoBack={this.onGoBack}
+              extraButtons={
+                <Button
+                  icon
+                  color="teal"
+                  size="tiny"
+                  inverted={DARK_MODE}
+                  onClick={() => this.setState({ showDataTypes: !showDataTypes })}
+                  active={false}
+                >
+                  <span style={{ marginRight: 5 }}>
+                    Switch to {showDataTypes === false ? 'Data Types' : 'Structure'}
+                  </span>
+                  <Icon name={showDataTypes === false ? 'clone outline' : 'sitemap'} />
+                </Button>
+              }
+            />
 
             {showDataTypes === false ? (
               <StructureItem

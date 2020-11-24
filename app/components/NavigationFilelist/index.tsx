@@ -83,7 +83,8 @@ class NavigationFilelist extends React.Component<FileListProps, FileListStates> 
               }}
             >
               <List.Header>
-                New <Icon size="small" name="plus" />
+                <Icon size="small" name="plus" />
+                Create New
               </List.Header>
             </List.Content>
           </List.Item>

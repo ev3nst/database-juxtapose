@@ -86,13 +86,6 @@ export type SortableHeaderType = {
 };
 // #endregion
 
-export type FormSegmentProps = {
-  paths: SettingPathInterface;
-  structureFile: string;
-  dataStructure: StructureObject;
-  SaveStructure: ActionCreator<StructureActionTypes>;
-};
-
 export type StructureItemProps = {
   dataStructure: StructureObject;
   sortStructure: ActionCreator<StructureActionTypes>;
