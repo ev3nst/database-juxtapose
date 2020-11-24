@@ -13,8 +13,6 @@ import {
   manipulateFieldData,
   metaChange,
 } from '../../redux/actions';
-
-import { RootState } from '../../redux/store';
 import {
   ROUTES,
   DARK_MODE,
@@ -22,6 +20,7 @@ import {
   EMPTY_STRUCTURE,
   STRUCTURE_AUTOSAVE_NAME,
 } from '../../utils/constants';
+import { RootState } from '../../redux/store';
 
 const GridPadding: React.CSSProperties = {
   paddingLeft: 25,
@@ -126,7 +125,7 @@ class StructureDetail extends React.PureComponent<IProps, IStates> {
 
   onGoBack = () => {
     const { history } = this.props;
-    history.push(ROUTES.STRUCTURE);
+    history.push(ROUTES.STRUCTURES);
   };
 
   render() {

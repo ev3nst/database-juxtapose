@@ -21,7 +21,7 @@ class StickyNavigation extends React.Component<IProps, IStates> {
     super(props);
 
     this.state = {
-      activeContainer: ROUTES.STRUCTURE,
+      activeContainer: ROUTES.STRUCTURES,
     };
   }
 
@@ -34,9 +34,9 @@ class StickyNavigation extends React.Component<IProps, IStates> {
       Object.values(ROUTES).indexOf(location.pathname) === -1
     ) {
       this.setState({
-        activeContainer: ROUTES.STRUCTURE,
+        activeContainer: ROUTES.STRUCTURES,
       });
-      history.push(ROUTES.STRUCTURE);
+      history.push(ROUTES.STRUCTURES);
     } else if (activeContainer !== location.pathname) {
       this.setState({
         activeContainer: location.pathname,

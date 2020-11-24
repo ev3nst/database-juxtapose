@@ -69,9 +69,9 @@ class Routes extends React.Component<IProps> {
             <Router>
               <Route path={ROUTES.WRAPPER} component={StickyNavigation} />
               <Switch>
-                <Route path={ROUTES.STRUCTURE} component={Structures} />
+                <Route path={ROUTES.STRUCTURES} component={Structures} />
                 <Route path={ROUTES.STRUCTURE_DETAIL} component={StructureDetail} />
-                <Route path={ROUTES.INTEGRATION} component={Integrations} />
+                <Route path={ROUTES.INTEGRATIONS} component={Integrations} />
                 <Route path={ROUTES.INTEGRATION_DETAIL} component={IntegrationDetail} />
                 <Route path={ROUTES.WIZARD} component={Wizard} />
                 <Route path={ROUTES.SETTINGS} component={Settings} />

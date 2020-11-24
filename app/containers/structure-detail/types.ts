@@ -1,5 +1,5 @@
 import { ActionCreator } from 'redux';
-import { SettingPathInterface, StructureObject, StructureFieldType } from '../../types';
+import { StructureObject, StructureFieldType } from '../../types';
 import { StructureActionTypes } from '../../redux/structure/action.types';
 
 export type PreviewProps = {

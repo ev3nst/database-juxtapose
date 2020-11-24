@@ -48,9 +48,9 @@ export const NOTIFICATION_TIMEOUT = 2500;
 
 export const ROUTES = {
   WRAPPER: '/',
-  STRUCTURE: '/structure',
+  STRUCTURES: '/structures',
   STRUCTURE_DETAIL: '/structure-detail',
-  INTEGRATION: '/integration',
+  INTEGRATIONS: '/integrations',
   INTEGRATION_DETAIL: '/integration-detail',
   WIZARD: '/wizard',
   SETTINGS: '/settings',
@@ -59,12 +59,12 @@ export const ROUTES = {
 export const NavbarItems: Array<RouteItem> = [
   {
     title: 'Structures',
-    route: ROUTES.STRUCTURE,
+    route: ROUTES.STRUCTURES,
     icon: 'list alternate outline',
   },
   {
     title: 'Integrations',
-    route: ROUTES.INTEGRATION,
+    route: ROUTES.INTEGRATIONS,
     icon: 'object ungroup outline',
   },
   {
