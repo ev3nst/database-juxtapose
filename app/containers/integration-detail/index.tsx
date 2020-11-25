@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { Grid, Loader } from 'semantic-ui-react';
+import { Form, Button, Grid, Loader } from 'semantic-ui-react';
 import { FormFileSegment } from '../../components';
 import { saveIntegration, metaChange } from '../../redux/actions';
 import {
@@ -10,8 +10,14 @@ import {
   AUTOSAVE_INTERVAL,
   EMPTY_INTEGRATION,
   INTEGRATION_AUTOSAVE_NAME,
+  SUPPORTED_DATABASES,
 } from '../../utils/constants';
 import { RootState } from '../../redux/store';
+
+const GridPadding: React.CSSProperties = {
+  paddingLeft: 25,
+  paddingRight: 25,
+};
 
 // #region Redux Configuration
 const mapStateToProps = ({ integration, settings }: RootState) => {
@@ -103,7 +109,7 @@ class IntegrationDetail extends Component<IProps, IStates> {
     return (
       <Grid inverted={DARK_MODE} padded className="maximize-height-with-nav">
         <Grid.Row color={DARK_MODE === true ? 'black' : undefined}>
-          <Grid.Column>
+          <Grid.Column style={GridPadding}>
             <FormFileSegment
               title="Integration"
               defaultFileName={INTEGRATION_AUTOSAVE_NAME}
@@ -114,6 +120,53 @@ class IntegrationDetail extends Component<IProps, IStates> {
               SaveFile={SaveIntegration}
               onGoBack={this.onGoBack}
             />
+
+            <Form inverted={DARK_MODE}>
+              <Form.Group widths={2}>
+                <Form.Select
+                  fluid
+                  label="Database Type"
+                  defaultValue={SUPPORTED_DATABASES[0].value}
+                  options={SUPPORTED_DATABASES}
+                  className={DARK_MODE === true ? 'inverted' : undefined}
+                />
+                <Form.Input
+                  label="Database"
+                  placeholder=""
+                  transparent={DARK_MODE}
+                  className={DARK_MODE === true ? 'inverted-bordered' : undefined}
+                />
+              </Form.Group>
+              <Form.Group widths={4}>
+                <Form.Input
+                  label="Host"
+                  placeholder="localhost"
+                  transparent={DARK_MODE}
+                  className={DARK_MODE === true ? 'inverted-bordered' : undefined}
+                />
+                <Form.Input
+                  label="Port"
+                  placeholder="3306"
+                  transparent={DARK_MODE}
+                  className={DARK_MODE === true ? 'inverted-bordered' : undefined}
+                />
+                <Form.Input
+                  label="Username"
+                  placeholder="root"
+                  transparent={DARK_MODE}
+                  className={DARK_MODE === true ? 'inverted-bordered' : undefined}
+                />
+                <Form.Input
+                  label="Password"
+                  placeholder=""
+                  transparent={DARK_MODE}
+                  className={DARK_MODE === true ? 'inverted-bordered' : undefined}
+                />
+              </Form.Group>
+              <Form.Checkbox label="I agree to the Terms and Conditions" />
+              <Button type="submit">Submit</Button>
+            </Form>
+
             <Loader
               className="loading-notification"
               inverted={DARK_MODE}

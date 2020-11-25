@@ -56,7 +56,7 @@ class FieldInput extends React.Component<FieldInputProps, FieldInputStates> {
           label="Select Header"
           options={this.getHeaderOptions()}
           placeholder="Select Header"
-          className="inverted"
+          className={DARK_MODE === true ? 'inverted' : undefined}
           onChange={(_e, { value }) => {
             this.setState({
               selectedHeader: String(value),

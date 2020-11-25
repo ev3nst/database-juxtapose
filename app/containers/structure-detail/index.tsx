@@ -175,7 +175,6 @@ class StructureDetail extends React.PureComponent<IProps, IStates> {
                   size="tiny"
                   inverted={DARK_MODE}
                   onClick={() => this.setState({ showDataTypes: !showDataTypes })}
-                  active={false}
                 >
                   <span style={{ marginRight: 5 }}>
                     Switch to {showDataTypes === false ? 'Data Types' : 'Structure'}

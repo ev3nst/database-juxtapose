@@ -130,3 +130,8 @@ export const HorizontalPaddingReset: CSSProperties = {
   paddingRight: 0,
   paddingLeft: 0,
 };
+
+export const SUPPORTED_DATABASES = [
+  { key: 'mysql', value: 'mysql', text: 'MySQL' },
+  { key: 'mongodb', value: 'mongodb', text: 'MongoDB' },
+];

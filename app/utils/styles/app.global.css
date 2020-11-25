@@ -186,6 +186,10 @@ body .ui.three.cards.field-data-card-group {
   color: #fff;
 }
 
+.ui.form .field.inverted > .ui.selection.visible.dropdown > .text:not(.default) {
+  color: #fff;
+}
+
 /* Sortable HOC Overrides */
 body .item[role='listitem']:not(.data-types .item) {
   display: flex;

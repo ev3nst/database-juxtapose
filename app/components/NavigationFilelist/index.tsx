@@ -75,7 +75,7 @@ class NavigationFilelist extends React.Component<FileListProps, FileListStates> 
           style={{ marginTop: 1 }}
         />
         <List divided relaxed inverted={DARK_MODE}>
-          <List.Item key={newFile} active={false} style={ListItemPadding}>
+          <List.Item key={newFile} style={ListItemPadding}>
             <List.Content
               onClick={() => {
                 changeFile(filesPath, newFile);
