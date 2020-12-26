@@ -18,6 +18,7 @@ export const SortableField = SortableElement(
                 style={{
                   marginRight: 0,
                   marginLeft: 15,
+                  paddingLeft: 12,
                 }}
                 name="close"
                 onClick={() => onRemoveField(field, header)}
